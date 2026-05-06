@@ -1,6 +1,6 @@
 ---
 name: aec-compliance-checklist
-description: "Use this skill whenever the user needs to generate, apply, or review a building design compliance checklist — covering fire safety (建筑设计防火 / 防火分区 / 疏散), accessibility (无障碍设计), civil defense (人防 / 人民防空), and green building (绿色建筑评价). Trigger on phrases like '帮我做一份消防审查清单', '检查这个方案的疏散距离是否合规', '生成绿建评分自评表', 'is this design code-compliant', '出一份施工图自审清单', or whenever the user mentions 合规审查 / 规范审查 / 设计审查 / code compliance for building design. Also trigger when the user uploads a design document (DWG, PDF, model summary) and asks whether it meets a specific code. Do NOT use this skill for construction quality acceptance (use a separate quality-acceptance skill) or HSE site inspections."
+description: "Building design compliance checklist generator and reviewer. USE WHEN the user needs to generate, apply, or review a building design compliance checklist — covering fire safety (建筑设计防火 / 防火分区 / 疏散), accessibility (无障碍设计), civil defense (人防 / 人民防空), and green building (绿色建筑评价). Trigger on phrases like '帮我做一份消防审查清单', '检查这个方案的疏散距离是否合规', '生成绿建评分自评表', 'is this design code-compliant', '出一份施工图自审清单', or whenever the user mentions 合规审查 / 规范审查 / 设计审查 / code compliance for building design. Also trigger when the user uploads a design document (DWG, PDF, model summary) and asks whether it meets a specific code. DO NOT USE this skill for construction quality acceptance (use a separate quality-acceptance skill) or HSE site inspections."
 ---
 
 # 建筑设计合规审查清单

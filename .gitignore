@@ -57,6 +57,7 @@ logs/
 .claude/cache/
 .copilot/
 .cursor/
+.vscode/
 
 # Per-pack output (each pack may add more in its own .gitignore)
 packs/*/output/

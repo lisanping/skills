@@ -9,18 +9,17 @@
 | **`aec-project-docs`**         | AEC 项目通信文档         | RFI / 设计变更单 / 工程联系单 / 会议纪要 / 施工日报周报                                  |
 | `docx`（基础设施）             | Word 文档生成            | 被 `aec-project-docs` 等委托使用，本身不直接面向用户                                     |
 
-详细路由见 [CLAUDE.md](CLAUDE.md) 与 [.github/copilot-instructions.md](.github/copilot-instructions.md)。
+详细路由见 [CLAUDE.md](CLAUDE.md)。
 
 ---
 
 ## 项目结构
 
 ```text
-aec.generation.skills/
+aec-generation/
 ├── environment.yml                       # Conda 环境（name: aec-generation）
 ├── pyproject.toml                        # Python 项目配置
 ├── CLAUDE.md                             # SKILL 路由（顶层）
-├── .github/copilot-instructions.md       # GitHub Copilot 路由（同步内容）
 ├── .claude/skills/
 │   ├── aec-building/                     # BREP 几何 SKILL
 │   ├── aec-compliance-checklist/         # 合规审查 SKILL（含 6 份 references）
@@ -40,9 +39,66 @@ aec.generation.skills/
 │   ├── *.evals.json                      # 文档类 SKILL 评测集（3 份）
 │   ├── results/                          # 各轮测试报告（6 份）
 │   └── test_*.py                         # BREP 引擎 Python 单元测试
-├── examples/                             # BREP 用例脚本
 └── output/                               # 模型输出（STEP / DXF / viewer.html）
 ```
+
+---
+
+## `aec_building` Python 包
+
+`src/aec_building/` 是 **`aec-building` SKILL 的运行时支撑包**。其余几个 SKILL（compliance-checklist / project-docs / spec-writer / dwg-dxf / ifc-parser）都是**纯文档 + 小脚本**，不依赖此包。
+
+通过 `pip install -e ".[dev]"` 安装到 pack 的 conda 环境后即可 `import aec_building...`。
+
+### 子模块一览
+
+| 子包            | 角色                                                |
+| --------------- | --------------------------------------------------- |
+| `core/`         | OCCT 内核底层封装（primitives, booleans, shapes …） |
+| `aec/`          | 领域对象：`Building` / 墙 / 楼板 / 柱 / 楼梯        |
+| `constraints/`  | 参数约束的提取与求解                                |
+| `compliance/`   | 几何层合规检查（GB 50016 / JGJ/T 67）               |
+| `export/`       | IFC / STEP / STL / GLB 导出                         |
+| `mcp/`          | `GeometryKernelMCP` —— 19 个粗粒度 MCP 工具         |
+| `orchestrator/` | planner → executor → reporter 多步建筑工作流        |
+| `utils/verify/` | 通用工具与拓扑/可视化验证                           |
+
+### 两种使用方式
+
+**1. 通过 MCP 服务端被 Agent 调用（推荐，也是 `aec-building` SKILL 的默认路径）**
+
+```bash
+python -m aec_building.mcp.transport     # 启动 JSON-RPC over stdio
+```
+
+Agent 端连上后调用粗粒度工具（`place_columns`、`add_curtain_wall` 等），由 [`GeometryKernelMCP`](src/aec_building/mcp/server.py) 路由到下层模块。完整工作流见 [aec-building/SKILL.md](aec-building/SKILL.md)。
+
+**2. 作为普通 Python 包直接调用（脚本 / Notebook）**
+
+```python
+from aec_building.aec.building import Building
+from aec_building.aec.grid import GridSystem
+from aec_building.export.step_export import export_step
+
+building = Building(grid=GridSystem.from_spans(x=[8, 8, 8], y=[6, 6]))
+building.add_floor_slab(level="L1", thickness=0.15)
+building.add_columns(grid_range="A1:C2", section=(0.6, 0.6))
+
+solids = building.generate_brep()
+export_step(solids, "output/demo.stp")
+print(building.summary())              # < 2KB，便于 Agent 上下文压缩
+```
+
+### 关键入口
+
+| 入口                                                               | 何时使用                            |
+| ------------------------------------------------------------------ | ----------------------------------- |
+| [`GeometryKernelMCP`](src/aec_building/mcp/server.py)              | 通过 MCP 协议被 Agent 调用          |
+| `python -m aec_building.mcp.transport`                             | 在 stdio 上启动 MCP 服务端          |
+| [`Building.generate_brep()`](src/aec_building/aec/building.py)     | 一次性生成所有 CadQuery BREP solids |
+| [`run_l_office_plan()`](src/aec_building/orchestrator/executor.py) | 跑完整 14 步 L 形办公楼示范流程     |
+
+> 上述代码示例只是最小骨架，端到端的工作流（含合规检查、IFC 导出、MCP 工具粒度等）请以 [aec-building/SKILL.md](aec-building/SKILL.md) 为准。
 
 ---
 
@@ -76,10 +132,9 @@ pytest tests/ -k "not BREP"          # 跳过 CadQuery 依赖项
 
 # 6. 启动 MCP 服务端
 python -m aec_building.mcp.transport
-
-# 7. 跑示例
-python examples/l_office_building.py
 ```
+
+上手代码示例见上文「[`aec_building` Python 包](#aec_building-python-%E5%8C%85)」一节。
 
 ---
 
@@ -196,8 +251,7 @@ cq.exporters.export(result, "l_floor.step")
 
 ## 编码约定
 
-- BREP 引擎源代码在 `src/aec_building/`
-- 示例脚本在 `examples/`
+- BREP 引擎源代码在 `src/aec_building/`（详见上文「[`aec_building` Python 包](#aec_building-python-%E5%8C%85)」）
 - 模型输出导出到 `output/`
 - Python 单元测试在 `tests/`，命名 `test_*.py`；CadQuery 依赖项以 `BREP` 命名（可用 `-k "not BREP"` 跳过）
 - 文档类 SKILL 测试在 `tests/*.evals.json`（手工跑），结果在 `tests/results/`

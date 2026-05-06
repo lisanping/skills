@@ -23,5 +23,5 @@ jobs:
       - name: Check naming conventions
         run: python scripts/check_naming.py
 
-      - name: Lint SKILL.md frontmatter
-        run: python scripts/lint_skill.py
+      - name: Lint SKILL.md frontmatter (strict)
+        run: python scripts/lint_skill.py --strict

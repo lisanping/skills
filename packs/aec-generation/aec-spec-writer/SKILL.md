@@ -1,6 +1,6 @@
 ---
 name: aec-spec-writer
-description: "Use this skill whenever the user needs to draft, review, or standardize 施工说明书 / 技术规格书 (construction specifications / technical specifications) for AEC building projects — including 建筑施工图设计说明、结构施工图说明、装修做法说明、CSI MasterFormat / SectionFormat 三段式技术规格书. Trigger on phrases like '写一份建筑设计说明', '生成装修做法表', 'draft a Division 09 spec', '帮我整理施工说明书', '出一份技术规格书章节', or whenever the user references a specification document by name. Also trigger when the user uploads design drawings / model summary and asks to generate the corresponding 设计说明 or 做法表. Do NOT use this skill for project-communication documents (use aec-project-docs), compliance checklists (use aec-compliance-checklist), or tender documents (招投标文件)."
+description: "AEC construction / technical specification writer (施工说明书 / 技术规格书). USE WHEN the user needs to draft, review, or standardize specifications for AEC building projects — including 建筑施工图设计说明、结构施工图说明、装修做法说明、CSI MasterFormat / SectionFormat 三段式技术规格书. Trigger on phrases like '写一份建筑设计说明', '生成装修做法表', 'draft a Division 09 spec', '帮我整理施工说明书', '出一份技术规格书章节', or whenever the user references a specification document by name. Also trigger when the user uploads design drawings / model summary and asks to generate the corresponding 设计说明 or 做法表. DO NOT USE this skill for project-communication documents (use aec-project-docs), compliance checklists (use aec-compliance-checklist), or tender documents (招投标文件)."
 ---
 
 # AEC 施工说明书 / 技术规格书生成

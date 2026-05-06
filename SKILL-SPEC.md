@@ -1,32 +1,32 @@
-# SKILL 写作规范
+# SKILL Authoring Specification
 
-本文件定义本仓库**所有** SKILL 必须遵守的格式与质量规范。CI 通过 [scripts/lint_skill.py](scripts/lint_skill.py) 强制执行其中可机器校验的部分。
+This document defines the format and quality rules that **every** SKILL in this repository must follow. The machine-checkable subset is enforced in CI via [scripts/lint_skill.py](scripts/lint_skill.py).
 
-> 本规范参考 Anthropic Agent Skills 约定，并在其基础上加入仓库自有约束。
+> The spec extends the Anthropic Agent Skills convention with a few repository-specific constraints.
 
 ---
 
-## 1. 文件位置
+## 1. File location
 
 ```text
 packs/<pack-name>/.claude/skills/<skill-name>/
-├── SKILL.md            # 必需
-├── references/         # 可选——长篇知识，按需加载
+├── SKILL.md            # required
+├── references/         # optional — long-form knowledge, loaded on demand
 │   └── *.md / *.yaml / *.json
-└── scripts/            # 可选——可执行脚本，由 SKILL.md 显式调用
+└── scripts/            # optional — executable scripts, invoked explicitly by SKILL.md
     └── *.py
 ```
 
-- `<skill-name>` 必须 kebab-case，且**等于** `SKILL.md` frontmatter 的 `name`。
-- `references/` 与 `scripts/` 都是可选的；很多文档类 SKILL 只有 `references/`。
+- `<skill-name>` must be kebab-case and **equal to** the `name` field in the SKILL.md frontmatter.
+- `references/` and `scripts/` are both optional; many document-oriented SKILLs only have `references/`.
 
-> **兼容布局**：已有 pack 也允许把 SKILL 直接放在 pack 根目录（`packs/<pack>/<skill>/SKILL.md`）。新 pack **推荐** `.claude/skills/` 布局以便与 Claude Code 默认约定对齐；校验脚本对两者都接受。
+> **Compatibility layout.** Existing packs are also allowed to place SKILLs at the pack root (`packs/<pack>/<skill>/SKILL.md`). New packs **should prefer** the `.claude/skills/` layout to align with the Claude Code default; the linter accepts both.
 
 ---
 
-## 2. SKILL.md 结构
+## 2. SKILL.md structure
 
-### 2.1 YAML frontmatter（必需）
+### 2.1 YAML frontmatter (required)
 
 ```yaml
 ---
@@ -39,109 +39,109 @@ argument-hint: 'one-line description of expected user input'
 ---
 ```
 
-| 字段            | 必填 | 规则                                                                |
-| --------------- | ---- | ------------------------------------------------------------------- |
-| `name`          | ✅    | `^[a-z0-9-]+$`，且等于目录名                                        |
-| `description`   | ✅    | 必须包含 **USE WHEN** 与 **DO NOT USE**；建议 2–5 句，不超过 200 字 |
-| `argument-hint` | 推荐 | 一行说明用户该提供什么；用单引号包裹                                |
-| `version`       | 可选 | semver，例如 `1.0.0`                                                |
+| Field           | Required    | Rule                                                                                               |
+| --------------- | ----------- | -------------------------------------------------------------------------------------------------- |
+| `name`          | ✅           | `^[a-z0-9-]+$`, equal to the directory name                                                        |
+| `description`   | ✅           | Must contain **USE WHEN** and **DO NOT USE**; aim for 2–5 sentences, under 200 characters of prose |
+| `argument-hint` | recommended | One-line description of what the user should provide; wrap in single quotes                        |
+| `version`       | optional    | semver, e.g. `1.0.0`                                                                               |
 
-> ❗ `description` 是 agent 路由的**唯一依据**——写得越具体，被错误触发的概率越低。
+> ❗ `description` is the **only** signal an agent uses to route to a SKILL — the more specific it is, the lower the risk of false triggers.
 >
-> 当前 lint 把 `USE WHEN` / `DO NOT USE` 缺失记为 **warning**（兼容旧 SKILL）；用 `python scripts/lint_skill.py --strict` 升级为 error。仓库稳定后 CI 会切到 `--strict`。
+> CI runs `python scripts/lint_skill.py --strict` by default: missing `USE WHEN` / `DO NOT USE` will fail the PR. Local quick checks can omit `--strict`, in which case those become warnings.
 
-### 2.2 正文结构（推荐）
+### 2.2 Body structure (recommended)
 
 ```markdown
 # <skill-name> SKILL
 
 ## What this skill does
-一段说明此 SKILL 的输入、输出与边界。
+A short paragraph stating the inputs, outputs, and boundaries of this SKILL.
 
 ## When to use / When NOT to use
-重申 frontmatter 的触发条件，可补例子。
+Restate the trigger conditions from the frontmatter; add 1–2 examples if helpful.
 
 ## Workflow
-分步骤说明 agent 应如何执行：
-1. 先读 references/<file>.md
-2. 调用 scripts/<script>.py
-3. 验证产物并报告
+Step-by-step description of how the agent should execute:
+1. Read references/<file>.md
+2. Invoke scripts/<script>.py
+3. Validate the artifact and report
 
 ## Key entry points
 | Entry | When to use |
 | ----- | ----------- |
 
 ## Constraints
-不可违反的硬性约束（如"必须输出 UTF-8"、"必须保留原文件"）。
+Hard rules that must not be violated (e.g. "output must be UTF-8", "never overwrite the input file").
 
 ## References
-- references/<file>.md —— 何时按需读取
+- references/<file>.md — when to read it on demand
 ```
 
 ---
 
-## 3. references/ 写作原则
+## 3. references/ authoring rules
 
-- **按需加载**：把不一定每次都用的长篇资料放进 `references/`，由 `SKILL.md` 用相对链接 `[xxx](references/xxx.md)` 引用，agent 读到链接才取。
-- **单文件聚焦一个主题**：避免一个 reference 同时讲规范 + 模板 + 示例。
-- **长文档拆分阈值**：超过约 500 行就考虑拆。
-- **引用规范要写清版本**：例如 `GB 50016—2014（2018 年版）`；并在 reference 顶部声明"使用前核查现行有效版本"。
-
----
-
-## 4. scripts/ 写作原则
-
-- **可独立运行**：`python scripts/foo.py --help` 必须给出有效用法。
-- **CLI 参数化**：路径、参数走命令行，不硬编码。
-- **失败可诊断**：异常消息含可操作建议（"check_action: 改为 ..."）。
-- **零隐藏副作用**：除非用户传入 `--write`，否则不修改输入文件。
-- **禁止网络访问**，除非 SKILL 明确说明并征得用户同意。
+- **Load on demand.** Put long-form material that is not always needed into `references/`. Link from `SKILL.md` with a relative link `[xxx](references/xxx.md)`; the agent will only fetch it when it sees the link.
+- **One topic per file.** Avoid mixing spec text + templates + examples in a single reference.
+- **Split threshold.** Consider splitting a reference once it exceeds roughly 500 lines.
+- **State the version of any cited standard.** For example `GB 50016—2014 (2018 revision)`. At the top of the reference, declare "verify the currently effective version before use."
 
 ---
 
-## 5. 描述模板（粘贴即用）
+## 4. scripts/ authoring rules
+
+- **Runnable standalone.** `python scripts/foo.py --help` must produce valid usage.
+- **CLI parameterized.** Paths and parameters go through the command line; nothing hardcoded.
+- **Diagnosable failures.** Exception messages include actionable suggestions (e.g. `fix_action: ...`).
+- **No hidden side effects.** Do not modify input files unless the caller passes `--write`.
+- **No network access** unless the SKILL explicitly states it and obtains user consent.
+
+---
+
+## 5. Description template (paste-ready)
 
 ```yaml
 description: |
-  <One sentence what this skill does>.
+  <One sentence describing what this skill does>.
   USE WHEN the user wants to <action 1> / <action 2> / <action 3>.
   DO NOT USE for <out-of-scope 1> / <out-of-scope 2>.
 ```
 
-**好例子**（来自 [aec-building](packs/aec-generation/.claude/skills/aec-building/SKILL.md)）：
+**Good example** (from [aec-building](packs/aec-generation/aec-building/SKILL.md)):
 
 > AEC building modeling skill — parametric architectural geometry for Agent harness.
 > USE when the task involves creating building geometry (floors, columns, walls, curtain walls, stairs), running code compliance checks (GB 50016, JGJ/T 67), exporting to STEP/IFC/GLB, or orchestrating multi-step building design workflows via MCP tools.
-> DO NOT USE for MEP/structural calculation/rendering/site design.
+> DO NOT USE for MEP / structural calculation / rendering / site design.
 
-**坏例子**：
+**Bad example**:
 
-> "A skill for buildings."  ← 过于笼统，agent 无法判定何时触发。
-
----
-
-## 6. 修改流程（重述）
-
-详见 [CONTRIBUTING.md](CONTRIBUTING.md) "修改流程"。要点：
-
-1. 改前先跑测试，记下基线
-2. 一次只改一处
-3. 改后整轮重跑，通过率不降才合入
-4. `tests/results/` 追加新报告，不覆盖
+> "A skill for buildings." ← too generic; the agent has no basis for deciding when to trigger.
 
 ---
 
-## 7. 校验命令
+## 6. Modification workflow (recap)
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) "Modification workflow". Key points:
+
+1. Run tests first; record the baseline.
+2. One change at a time.
+3. Re-run the full suite after each change — only merge when the pass rate does not drop.
+4. Append new reports under `tests/results/`; never overwrite.
+
+---
+
+## 7. Validation commands
 
 ```bash
-# 校验所有 SKILL
+# Validate every SKILL
 python scripts/lint_skill.py
 
-# 校验单个 SKILL
-python scripts/lint_skill.py packs/aec-generation/.claude/skills/aec-building
+# Validate a single SKILL
+python scripts/lint_skill.py packs/aec-generation/aec-building
 
-# 检查命名
+# Check naming
 python scripts/check_naming.py
 ```
 
-CI 会在每个 PR 自动跑这两个脚本。
+CI runs these two scripts automatically on every PR.

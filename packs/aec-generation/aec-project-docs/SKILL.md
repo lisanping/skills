@@ -1,6 +1,6 @@
 ---
 name: aec-project-docs
-description: "Use this skill whenever the user needs to draft, review, or standardize AEC project communication documents — including RFI (信息请求 / 工程询问), design change orders (设计变更单), engineering correspondence (工程联系单 / 工作联系单), submittal logs, meeting minutes (设计例会 / 工地例会纪要), and daily / weekly construction reports (施工日报 / 周报 / 监理日志). Trigger this skill on phrases like '写一份变更单', '帮我整理今天的工地例会纪要', 'draft an RFI about ...', '生成施工日报', or whenever the user references one of these document types by name, even casually. Also trigger when the user asks to standardize, review, or extract information from an existing document of these types. Do NOT use this skill for technical specifications (use a separate spec-writing skill) or for tender documents (招投标文件)."
+description: "AEC project communication documents drafter. USE WHEN the user needs to draft, review, or standardize AEC project communication documents — including RFI (信息请求 / 工程询问), design change orders (设计变更单), engineering correspondence (工程联系单 / 工作联系单), submittal logs, meeting minutes (设计例会 / 工地例会纪要), and daily / weekly construction reports (施工日报 / 周报 / 监理日志). Trigger on phrases like '写一份变更单', '帮我整理今天的工地例会纪要', 'draft an RFI about ...', '生成施工日报', or whenever the user references one of these document types by name, even casually. Also trigger when the user asks to standardize, review, or extract information from an existing document of these types. DO NOT USE this skill for technical specifications (use aec-spec-writer) or for tender documents (招投标文件)."
 ---
 
 # AEC 项目通信文档生成

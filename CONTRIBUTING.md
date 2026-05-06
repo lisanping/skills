@@ -1,121 +1,122 @@
 # Contributing
 
-欢迎为本仓库贡献新的 *skill pack* 或在已有 pack 内新增 SKILL。本文件描述两种贡献的标准流程。
+Welcome to contribute a new *skill pack* or add a SKILL inside an existing pack. This document describes the standard workflow for both.
 
 ---
 
-## 三种贡献类型
+## Three contribution types
 
-| 类型                               | 改动范围                                   | 必读                                       |
-| ---------------------------------- | ------------------------------------------ | ------------------------------------------ |
-| 新增**单个 SKILL**（已有 pack 内） | `packs/<pack>/.claude/skills/<new-skill>/` | [SKILL-SPEC.md](SKILL-SPEC.md)             |
-| 新增**整个 pack**（新领域）        | `packs/<new-pack>/` 全部                   | 本文件 §2                                  |
-| 修复 / 完善已有 SKILL              | 单个 SKILL.md 或 reference                 | [SKILL-SPEC.md](SKILL-SPEC.md) §"修改流程" |
+| Type                                             | Scope of change                            | Required reading                                        |
+| ------------------------------------------------ | ------------------------------------------ | ------------------------------------------------------- |
+| Add a **single SKILL** (inside an existing pack) | `packs/<pack>/.claude/skills/<new-skill>/` | [SKILL-SPEC.md](SKILL-SPEC.md)                          |
+| Add an **entire pack** (new domain)              | All of `packs/<new-pack>/`                 | §2 of this file                                         |
+| Fix / improve an existing SKILL                  | A single SKILL.md or reference             | [SKILL-SPEC.md](SKILL-SPEC.md) §"Modification workflow" |
 
 ---
 
-## 1. 在已有 pack 内新增 SKILL
+## 1. Add a SKILL inside an existing pack
 
 ```bash
-# 1. 复制单 SKILL 模板
+# 1. Copy the single-SKILL template
 cp -r templates/skill packs/<pack-name>/.claude/skills/<new-skill-name>
 
-# 2. 编辑 SKILL.md 的 frontmatter 与正文
-#    - name: 必须等于目录名
-#    - description: 必含 USE WHEN... / DO NOT USE...
-#    - 详见 SKILL-SPEC.md
+# 2. Edit the SKILL.md frontmatter and body
+#    - name: must equal the directory name
+#    - description: must contain USE WHEN... / DO NOT USE...
+#    - see SKILL-SPEC.md for details
 
-# 3. 校验
+# 3. Validate
 python scripts/lint_skill.py packs/<pack-name>/.claude/skills/<new-skill-name>
 python scripts/check_naming.py
 
-# 4. 在该 pack 的 README.md / AGENTS.md 路由表中追加一行
+# 4. Append a row to the routing table in the pack's README.md / AGENTS.md
 ```
 
 ---
 
-## 2. 新增一个 pack
+## 2. Add a new pack
 
 ```bash
-# 1. 复制 pack 模板
+# 1. Copy the pack template
 cp -r templates/skill-pack packs/<new-pack-name>
 
-# 2. 编辑以下文件
-#    - README.md：领域定位、SKILL 列表、安装命令
-#    - AGENTS.md：内部 agent 路由
-#    - environment.yml：把 name 改为 <new-pack-name>
-#    - pyproject.toml：可选，如果 pack 含 Python 包
+# 2. Edit the following files
+#    - README.md       : domain purpose, SKILL list, install commands
+#    - AGENTS.md       : internal agent routing
+#    - environment.yml : set name to <new-pack-name>
+#    - pyproject.toml  : optional, only if the pack ships a Python package
 
-# 3. 创建至少一个 SKILL（见 §1）
+# 3. Create at least one SKILL (see §1)
 
-# 4. 在仓库根的 README.md / AGENTS.md 路由表中追加一行
+# 4. Append a row to the routing table in the repo-root README.md / AGENTS.md
 
-# 5. 校验
+# 5. Validate
 python scripts/lint_skill.py
 python scripts/check_naming.py
 ```
 
-### Pack 必备文件清单
+### Required files for a pack
 
-- [ ] `README.md` —— 面向人类的首页
-- [ ] `AGENTS.md` 或 `CLAUDE.md` —— 给 agent 的内部路由
-- [ ] `environment.yml` —— Conda 环境定义，`name` 与 pack 同名
-- [ ] `.claude/skills/<skill>/SKILL.md` —— 至少一个 SKILL
-- [ ] `.gitignore` —— 如果 pack 产生大型输出，单独忽略
+- [ ] `README.md` — the human-facing front page
+- [ ] `AGENTS.md` or `CLAUDE.md` — internal routing for agents
+- [ ] `environment.yml` — Conda environment definition; `name` must equal the pack name
+- [ ] `.claude/skills/<skill>/SKILL.md` — at least one SKILL
+- [ ] `.gitignore` — if the pack produces large outputs, ignore them locally
 
-### Pack 可选文件
+### Optional files
 
-- `pyproject.toml` —— 如果 pack 内含 Python 源码
-- `tests/` —— 单元测试或 prompt-eval 测试集
-- `examples/` —— 用例脚本
-- `output/`（git-ignored）—— 模型/文档输出
-
----
-
-## 命名规范（强制）
-
-| 对象           | 规则                                   | 例                                           |
-| -------------- | -------------------------------------- | -------------------------------------------- |
-| Pack 目录      | kebab-case                             | `aec-generation` ✓ &nbsp; `aec.generation` ✗ |
-| SKILL 目录     | kebab-case，与 SKILL.md `name` 一致    | `aec-building` ✓                             |
-| reference 文件 | kebab-case + `.md` / `.yaml` / `.json` | `code-versions.md` ✓                         |
-| Python 文件    | snake_case + `.py`                     | `lint_skill.py` ✓                            |
-
-[scripts/check_naming.py](scripts/check_naming.py) 会在 CI 强制执行。
+- `pyproject.toml` — if the pack contains Python source code
+- `tests/` — unit tests or prompt-eval test suites
+- `examples/` — example scripts
+- `output/` (git-ignored) — model / document output
 
 ---
 
-## SKILL.md frontmatter 必填字段
+## Naming rules (enforced)
+
+| Object          | Rule                                   | Example                                      |
+| --------------- | -------------------------------------- | -------------------------------------------- |
+| Pack directory  | kebab-case                             | `aec-generation` ✓ &nbsp; `aec.generation` ✗ |
+| SKILL directory | kebab-case, equal to SKILL.md `name`   | `aec-building` ✓                             |
+| Reference file  | kebab-case + `.md` / `.yaml` / `.json` | `code-versions.md` ✓                         |
+| Python file     | snake_case + `.py`                     | `lint_skill.py` ✓                            |
+
+Enforced in CI by [scripts/check_naming.py](scripts/check_naming.py).
+
+---
+
+## Required SKILL.md frontmatter fields
 
 ```yaml
 ---
-name: my-skill                    # 必须等于目录名
-description: |                    # 必含 USE WHEN... 与 DO NOT USE...
+name: my-skill                    # must equal the directory name
+description: |                    # must contain USE WHEN... and DO NOT USE...
   USE WHEN the user wants to ...
   DO NOT USE for ...
-argument-hint: 'one-line input hint'   # 可选
+argument-hint: 'one-line input hint'   # optional
 ---
 ```
 
-详细字段语义见 [SKILL-SPEC.md](SKILL-SPEC.md)。
+Field semantics: see [SKILL-SPEC.md](SKILL-SPEC.md).
 
 ---
 
-## 修改流程（已有 SKILL）
+## Modification workflow (existing SKILL)
 
-1. **改前先跑测试**：在该 pack 当前基线下执行 `pytest` 或人工 eval；记下当前通过率。
-2. **小步改动**：一次只改 `SKILL.md` / `references/` / `scripts/` / `evals.json` 中**一处**。
-3. **整轮重跑**：通过率必须 ≥ 改前；下降时先评估是 SKILL 退化还是测试用例需更新。
-4. **追加报告**：在 `tests/results/` 下追加新报告，**不覆盖**原报告。
-5. **更新基线**：通过率提升或测试集扩充后，更新 `tests/BASELINE-vX.Y.md` 并打 git tag。
+1. **Run tests before changing anything.** Execute `pytest` or the manual eval against the pack's current baseline; record the pass rate.
+2. **One change at a time.** Touch only one of `SKILL.md` / `references/` / `scripts/` / `evals.json` per iteration.
+3. **Re-run the full suite.** Pass rate must be ≥ the baseline before merging.
+4. **If the pass rate drops**, decide whether the SKILL regressed or the test cases need updating.
+5. **Append, don't overwrite.** Add a new report under `tests/results/`; never edit the old ones.
+6. **Bump the baseline.** When the pass rate improves or the test set grows, update `tests/BASELINE-vX.Y.md` and tag the commit in git.
 
 ---
 
-## Pull Request 检查清单
+## Pull request checklist
 
-- [ ] 遵循 kebab-case 命名
-- [ ] `python scripts/lint_skill.py` 通过
-- [ ] `python scripts/check_naming.py` 通过
-- [ ] 涉及的 SKILL 测试通过率 ≥ 改前
-- [ ] 更新了对应的 README.md / AGENTS.md 路由表
-- [ ] 没有提交大型二进制文件（CAD / IFC / docx 等，请 git-ignore）
+- [ ] Naming follows kebab-case
+- [ ] `python scripts/lint_skill.py` passes
+- [ ] `python scripts/check_naming.py` passes
+- [ ] Pass rate of affected SKILL tests ≥ the previous baseline
+- [ ] Updated the relevant README.md / AGENTS.md routing table
+- [ ] No large binary files committed (CAD / IFC / docx / etc. — add to `.gitignore`)

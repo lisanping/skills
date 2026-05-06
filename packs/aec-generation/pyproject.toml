@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "aec-generation-skills"
+name = "aec-generation"
 version = "0.1.0"
 description = "BREP generation skill for AEC Agent Harness"
 requires-python = ">=3.10"
