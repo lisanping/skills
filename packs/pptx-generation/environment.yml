@@ -1,0 +1,32 @@
+name: pptx-generation
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  # --- Core OOXML / PPTX ---
+  - python-pptx              # Read/write PPTX via python-pptx
+  - lxml                     # XML manipulation (used directly + as python-pptx backend)
+  - defusedxml               # Safe XML parsing (pack/unpack/validate scripts)
+  # --- Imaging ---
+  - pillow                   # Thumbnails, layout placeholders, image inspection
+  # --- Validation ---
+  - jsonschema               # Schema validation for plans / briefs / step artifacts
+  # --- Optional, used only by narrative-pptx-composer/s07_slide_helpers.py ---
+  - matplotlib               # Math text rendering for equation slides
+  # --- Async HTTP (image-generator) ---
+  - httpx                    # Azure OpenAI / FLUX backends (async)
+  - python-dotenv            # Load .env at project root
+  # --- Dev ---
+  - pytest
+  - pytest-cov
+  - ruff
+  - pyyaml                   # Required by repo-level scripts/lint_skill.py
+  - pip
+  - pip:
+      # markitdown is the canonical text-extraction tool referenced by
+      # pptx/SKILL.md and narrative-pptx-composer/SKILL.md.
+      - markitdown
+      # Optional: Azure AD auth path for image-generator. Skip if you only
+      # use API-key auth via .env.
+      - azure-identity

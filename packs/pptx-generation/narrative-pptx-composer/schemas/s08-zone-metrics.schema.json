@@ -1,0 +1,419 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "s08-zone-metrics.schema.json",
+    "title": "Per-slide precomputed zone metrics",
+    "description": "Output of s08_precompute_metrics.py. Contains raw measurements only — NO pass/fail judgments, NO threshold-derived booleans. The VLM consumes these metrics together with the rendered JPEGs and the dimension grading criteria to assign grades. See workflow-step8.md § 8b.",
+    "type": "object",
+    "required": [
+        "slideDimensions",
+        "slides",
+        "generatedAt",
+        "sourcePptx"
+    ],
+    "properties": {
+        "slideDimensions": {
+            "type": "object",
+            "required": [
+                "widthIn",
+                "heightIn"
+            ],
+            "properties": {
+                "widthIn": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "heightIn": {
+                    "type": "number",
+                    "minimum": 0
+                }
+            },
+            "additionalProperties": false
+        },
+        "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "sourcePptx": {
+            "type": "string",
+            "description": "Path to the .pptx the metrics were computed from."
+        },
+        "slides": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/SlideMetrics"
+            }
+        }
+    },
+    "additionalProperties": false,
+    "definitions": {
+        "SlideMetrics": {
+            "type": "object",
+            "required": [
+                "slideId",
+                "slideIndex",
+                "zones"
+            ],
+            "properties": {
+                "slideId": {
+                    "type": "string",
+                    "description": "Stable id, format 'sNN' (1-indexed, zero-padded to 2 digits, e.g. 's03')."
+                },
+                "slideIndex": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "background": {
+                    "type": "object",
+                    "description": "Effective slide background after master/layout fallback.",
+                    "properties": {
+                        "fillColor": {
+                            "type": "string",
+                            "pattern": "^#[0-9A-Fa-f]{6}$"
+                        },
+                        "source": {
+                            "type": "string",
+                            "enum": [
+                                "slide",
+                                "layout",
+                                "master",
+                                "none"
+                            ]
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "zones": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ZoneMetrics"
+                    }
+                },
+                "outOfCanvas": {
+                    "type": "array",
+                    "description": "Zones whose bbox extends beyond slide bounds. Each entry is a fact, not a judgment — VLM uses this for the spatialContainment dimension.",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "zoneId",
+                            "overhangIn"
+                        ],
+                        "properties": {
+                            "zoneId": {
+                                "type": "string"
+                            },
+                            "overhangIn": {
+                                "type": "object",
+                                "description": "Inches by which the bbox extends past each slide edge. Edges with no overhang are omitted.",
+                                "properties": {
+                                    "left": {
+                                        "type": "number",
+                                        "minimum": 0
+                                    },
+                                    "right": {
+                                        "type": "number",
+                                        "minimum": 0
+                                    },
+                                    "top": {
+                                        "type": "number",
+                                        "minimum": 0
+                                    },
+                                    "bottom": {
+                                        "type": "number",
+                                        "minimum": 0
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                "placeholderHits": {
+                    "type": "array",
+                    "description": "Substring matches against placeholder/template-residue dictionary. Each entry is a fact (location + matched string), not a judgment.",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "zoneId",
+                            "match",
+                            "snippet"
+                        ],
+                        "properties": {
+                            "zoneId": {
+                                "type": "string"
+                            },
+                            "match": {
+                                "type": "string",
+                                "description": "The literal placeholder token matched (e.g. 'lorem', 'click to')."
+                            },
+                            "snippet": {
+                                "type": "string",
+                                "description": "Surrounding text snippet (≤ 80 chars) for VLM context."
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "ZoneMetrics": {
+            "type": "object",
+            "required": [
+                "zoneId",
+                "shapeType",
+                "bboxIn",
+                "marginsIn"
+            ],
+            "properties": {
+                "zoneId": {
+                    "type": "string",
+                    "description": "Stable id within the slide. Derived from shape name when meaningful, else 'shape-N' fallback."
+                },
+                "shapeType": {
+                    "type": "string",
+                    "enum": [
+                        "text",
+                        "image",
+                        "shape",
+                        "group",
+                        "table",
+                        "chart",
+                        "placeholder",
+                        "code",
+                        "other"
+                    ]
+                },
+                "bboxIn": {
+                    "type": "object",
+                    "required": [
+                        "x",
+                        "y",
+                        "w",
+                        "h"
+                    ],
+                    "properties": {
+                        "x": {
+                            "type": "number"
+                        },
+                        "y": {
+                            "type": "number"
+                        },
+                        "w": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "h": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "marginsIn": {
+                    "type": "object",
+                    "description": "Distance from each slide edge to the bbox. Negative values mean the bbox crosses that edge (also recorded in slide.outOfCanvas).",
+                    "required": [
+                        "left",
+                        "right",
+                        "top",
+                        "bottom"
+                    ],
+                    "properties": {
+                        "left": {
+                            "type": "number"
+                        },
+                        "right": {
+                            "type": "number"
+                        },
+                        "top": {
+                            "type": "number"
+                        },
+                        "bottom": {
+                            "type": "number"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "fill": {
+                    "type": [
+                        "object",
+                        "null"
+                    ],
+                    "description": "Effective fill of the shape, after solid/gradient/none resolution. null when shape has no fill.",
+                    "properties": {
+                        "fillColor": {
+                            "type": "string",
+                            "pattern": "^#[0-9A-Fa-f]{6}$"
+                        },
+                        "fillType": {
+                            "type": "string",
+                            "enum": [
+                                "solid",
+                                "gradient",
+                                "picture",
+                                "pattern",
+                                "none"
+                            ]
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "textRuns": {
+                    "type": "array",
+                    "description": "Per-run measurements for text shapes. Empty for non-text shapes.",
+                    "items": {
+                        "$ref": "#/definitions/TextRunMetrics"
+                    }
+                },
+                "wcagContrast": {
+                    "type": [
+                        "object",
+                        "null"
+                    ],
+                    "description": "Computed WCAG contrast ratios. Present only on text zones with at least one resolvable color pair.",
+                    "properties": {
+                        "fgVsBg": {
+                            "type": "number",
+                            "minimum": 1,
+                            "description": "Foreground (dominant text run) vs effective background. Range 1.0 – 21.0."
+                        },
+                        "fgRgb": {
+                            "type": "string",
+                            "pattern": "^#[0-9A-Fa-f]{6}$"
+                        },
+                        "bgRgb": {
+                            "type": "string",
+                            "pattern": "^#[0-9A-Fa-f]{6}$"
+                        },
+                        "bgSource": {
+                            "type": "string",
+                            "enum": [
+                                "zone-fill",
+                                "slide-bg",
+                                "layout-bg",
+                                "master-bg",
+                                "unknown"
+                            ]
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "image": {
+                    "type": [
+                        "object",
+                        "null"
+                    ],
+                    "description": "Present only for image shapes.",
+                    "required": [
+                        "path",
+                        "fileAspectRatio",
+                        "zoneAspectRatio",
+                        "aspectDelta"
+                    ],
+                    "properties": {
+                        "path": {
+                            "type": "string"
+                        },
+                        "fileWidthPx": {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "fileHeightPx": {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "fileAspectRatio": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "fileWidthPx / fileHeightPx."
+                        },
+                        "zoneAspectRatio": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "bbox.w / bbox.h."
+                        },
+                        "aspectDelta": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "abs(zoneAspect - fileAspect) / fileAspect."
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "isCodeZone": {
+                    "type": "boolean",
+                    "description": "True when the zone is identified as code/terminal (e.g. shape name contains 'code'/'term'). VLM applies CODE_FONT_VIOLATION rule using textRuns[].fontFamily."
+                },
+                "zOrder": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "roleHint": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Per-cohort join key. Resolved from s05-slide-visual-design.json by aligning zones in shape order. Null when no design JSON sibling found or zone count mismatches. Cohort aggregation script falls back to positional alignment when null. Added in v2 (2026-05-02)."
+                }
+            },
+            "additionalProperties": false
+        },
+        "TextRunMetrics": {
+            "type": "object",
+            "required": [
+                "text",
+                "fontPt",
+                "fontFamily"
+            ],
+            "properties": {
+                "text": {
+                    "type": "string"
+                },
+                "fontPt": {
+                    "type": [
+                        "number",
+                        "null"
+                    ],
+                    "description": "Declared font size in points. Null when inherited from layout/master and unresolvable."
+                },
+                "fontFamily": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "bold": {
+                    "type": "boolean"
+                },
+                "italic": {
+                    "type": "boolean"
+                },
+                "color": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "pattern": "^#[0-9A-Fa-f]{6}$"
+                },
+                "estimatedWidthIn": {
+                    "type": [
+                        "number",
+                        "null"
+                    ],
+                    "minimum": 0,
+                    "description": "Estimated rendered width in inches: len(longest source line) × fontPt × charWidthEm / 72. charWidthEm = 0.65 (heading: fontPt ≥ 24 or roleHint matches title/numeral/heading/headline/act-), 0.50 (body), 0.60 (mono). Heading em is calibrated against bold display digits at 280 pt. Null when fontPt unresolvable. Added in v2 for UNINTENDED_LINE_WRAP detection."
+                },
+                "estimatedRenderedLines": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ],
+                    "minimum": 1,
+                    "description": "Estimated rendered line count: ceil(estimatedWidthIn / usableWidthIn) for the longest source line, where usableWidthIn = bboxIn.w - 2 × 0.1 inset. Null when fontPt unresolvable or zone bbox unavailable. When this exceeds the source-text line count, VLM should flag UNINTENDED_LINE_WRAP. Added in v2."
+                }
+            },
+            "additionalProperties": false
+        }
+    }
+}

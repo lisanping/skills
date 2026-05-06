@@ -1,0 +1,58 @@
+{
+    "_comment": "Thin-brief example. User input was a single sentence: 'Make a PPT about butterflies for kids'. No content documents. Most fields are inferred; every inference is logged in `inferences[]` with confidence. `slideCountConstraint` is recorded in s01b (not here); `imageryDemand` is derived in Step 5b (not here).",
+    "presentationPurpose": "inform",
+    "purposeStatement": "Introduce young children to butterflies in a way that sparks curiosity and basic recognition.",
+    "audience": {
+        "who": "Young children (ages ~5–8) in a classroom or family setting",
+        "priorKnowledge": "Novice — may recognize a butterfly visually but unfamiliar with terminology like 'metamorphosis'",
+        "concerns": "Short attention span; needs strong visuals and simple language"
+    },
+    "communicationObjectives": {
+        "think": "Butterflies are fascinating insects that grow through clear life-cycle stages",
+        "feel": "Curious and delighted; nature is wonderful",
+        "do": "Point out butterflies and their stages when they see them in the world"
+    },
+    "keyMessages": [
+        {
+            "rank": 1,
+            "message": "A butterfly transforms through four life stages: egg → caterpillar → chrysalis → butterfly",
+            "evidence": "generated"
+        },
+        {
+            "rank": 2,
+            "message": "Butterflies come in many beautiful colors and live almost everywhere",
+            "evidence": "generated"
+        }
+    ],
+    "constraints": {
+        "timeMinutes": null,
+        "language": "en",
+        "formalityLevel": "casual"
+    },
+    "inferences": [
+        {
+            "field": "presentationPurpose",
+            "value": "inform",
+            "basis": "topic is educational and audience is children; inform grants more design latitude than report/propose",
+            "confidence": "medium"
+        },
+        {
+            "field": "audience.who",
+            "value": "young children ages 5–8",
+            "basis": "user said 'kids'; specific age band inferred from typical classroom/family use",
+            "confidence": "medium"
+        },
+        {
+            "field": "communicationObjectives.feel",
+            "value": "curious and delighted",
+            "basis": "default emotional outcome for educational content aimed at children",
+            "confidence": "low"
+        },
+        {
+            "field": "constraints.language",
+            "value": "en",
+            "basis": "user's request was in English",
+            "confidence": "high"
+        }
+    ]
+}

@@ -1,0 +1,205 @@
+{
+  "architecture": {
+    "coreArgument": "Q2 execution validates the three-pillar strategy and earns the H2 acceleration ask before the competitive window closes in Q3",
+    "storytellingPattern": {
+      "name": "evidence → opportunity → urgency → ask",
+      "origin": "composed",
+      "rationale": "Executive audience responds to data-backed proposals with explicit ROI; urgency framing accelerates decision-making"
+    },
+    "actStructure": [
+      {
+        "act": 1,
+        "title": "Establishing Credibility",
+        "goal": "Anchor the audience in Q2 success data — build trust before making the ask",
+        "emotionalArc": "confidence-building",
+        "sections": [
+          "cover",
+          "executive-summary",
+          "q2-financials"
+        ],
+        "informationDensity": "light → medium"
+      },
+      {
+        "act": 2,
+        "title": "Deepening the Argument",
+        "goal": "Show each pillar's progress with enough detail to be convincing, not overwhelming",
+        "emotionalArc": "analytical engagement",
+        "sections": [
+          "pillar-1-digital",
+          "pillar-2-market",
+          "pillar-3-ops"
+        ],
+        "informationDensity": "medium → dense"
+      },
+      {
+        "act": 3,
+        "title": "Creating Urgency & Making the Ask",
+        "goal": "Transition from what we've done to what we need",
+        "emotionalArc": "urgency → resolution",
+        "sections": [
+          "h2-roadmap",
+          "resource-ask",
+          "closing"
+        ],
+        "informationDensity": "medium → light"
+      }
+    ],
+    "openingHook": "Q2 wasn't just a good quarter — it was proof the strategy works. Now we need to accelerate.",
+    "closingAnchor": "The data says the strategy works. The market says the window is closing. The ask is $XM for H2.",
+    "informationHierarchy": {
+      "essential": [
+        "Q2 revenue vs target",
+        "Pillar-by-pillar ROI",
+        "H2 resource amount",
+        "Competitive timeline"
+      ],
+      "supporting": [
+        "YoY trends",
+        "Customer wins",
+        "Team growth metrics"
+      ],
+      "cut": [
+        {
+          "item": "Detailed project timelines",
+          "reason": "Too granular for executive audience; available in appendix if requested"
+        },
+        {
+          "item": "Individual team metrics",
+          "reason": "Pillar-level aggregation is sufficient for this audience"
+        }
+      ]
+    },
+    "interActHandoffs": [
+      {
+        "from": 1,
+        "to": 2,
+        "strategy": "progressive-disclosure"
+      },
+      {
+        "from": 2,
+        "to": 3,
+        "strategy": "pivot"
+      }
+    ],
+    "structuralScaffold": {
+      "executiveSummary": true,
+      "agenda": false,
+      "sectionDividers": true,
+      "midDeckRecap": false,
+      "appendix": false,
+      "rationale": "Executive audience benefits from a conclusion-first exec summary; 3 acts with ≥2 body slides each warrant section dividers; no backup data warrants an appendix"
+    }
+  },
+  "totalSlides": 11,
+  "slides": [
+    {
+      "slideId": "s01",
+      "title": "Q2 Strategy Review",
+      "headlineMessage": null,
+      "supportingPoints": [],
+      "narrativeRole": "opening",
+      "slideType": "cover",
+      "narrativeIntent": "title-card",
+      "transitionIn": null,
+      "transitionOut": "Sets the frame — next slide previews the full story",
+      "informationDensity": "minimal",
+      "contentSource": "generated",
+      "sourceRef": null
+    },
+    {
+      "slideId": "s02",
+      "title": "Executive Summary",
+      "headlineMessage": "Q2 execution validates our strategy; H2 acceleration requires $XM investment",
+      "supportingPoints": [
+        "Revenue +3% vs target ($16.2B)",
+        "All three pillars on or ahead of plan",
+        "Competitive window closes Q3 — early mover advantage at stake"
+      ],
+      "narrativeRole": "setup",
+      "slideType": "executive-summary",
+      "narrativeIntent": "text-narrative",
+      "transitionIn": "From cover — here's the story in 60 seconds",
+      "transitionOut": "Into Act 1 detail — let me show you the numbers behind this",
+      "informationDensity": "medium",
+      "contentSource": "hybrid",
+      "sourceRef": null
+    },
+    {
+      "slideId": "s03",
+      "title": "Q2 Performance",
+      "headlineMessage": null,
+      "supportingPoints": [],
+      "narrativeRole": null,
+      "slideType": "divider",
+      "narrativeIntent": "title-card",
+      "transitionIn": "Preview done — now the evidence",
+      "transitionOut": "Into the financial proof",
+      "informationDensity": "minimal",
+      "contentSource": "generated",
+      "sourceRef": null
+    },
+    {
+      "slideId": "s04",
+      "title": "Financial Highlights",
+      "headlineMessage": "Revenue exceeded targets by 3% — the strategy is paying off",
+      "supportingPoints": [
+        {
+          "point": "$16.2B revenue",
+          "sourceRef": "report.md#Q2 Revenue"
+        },
+        {
+          "point": "+8.4% YoY growth",
+          "sourceRef": "report.md#Q2 Revenue"
+        },
+        {
+          "point": "EBITDA $2.8B (margin expansion)",
+          "sourceRef": "report.md#Q2 Revenue"
+        }
+      ],
+      "narrativeRole": "evidence",
+      "slideType": "content_data",
+      "narrativeIntent": "data-visualization",
+      "transitionIn": "Act 1 opened — now the proof",
+      "transitionOut": "Numbers established → pivot to what drove them",
+      "informationDensity": "dense",
+      "contentSource": "document",
+      "sourceRef": "report.md#Q2 Revenue",
+      "mediaAttachments": [
+        {
+          "ref": "images/revenue-chart.png",
+          "type": "image",
+          "alt": "Q2 revenue breakdown by segment",
+          "placement": "supporting-visual",
+          "rationale": "Chart directly visualizes the revenue figures cited in supportingPoints"
+        }
+      ]
+    },
+    {
+      "slideId": "s05",
+      "title": "Market Position",
+      "headlineMessage": "Our platform shift mirrors the industry's move from on-prem to cloud-native",
+      "supportingPoints": [
+        "Industry cloud adoption curve shows inflection at 2024",
+        "Three competitor platforms already completed migration",
+        "Customer expectation gap widening quarterly"
+      ],
+      "narrativeRole": "analysis",
+      "slideType": "content_mixed",
+      "narrativeIntent": "metaphor",
+      "transitionIn": "Financial proof established → now the strategic context",
+      "transitionOut": "Market position understood → into our strategic response",
+      "informationDensity": "medium",
+      "contentSource": "hybrid",
+      "sourceRef": "report.md#Market Analysis",
+      "mediaAttachments": [],
+      "illustrationIntent": {
+        "needed": true,
+        "subject": "Visual metaphor of an industry-wide migration: old infrastructure giving way to modern cloud architecture",
+        "narrativePurpose": "The concept of an industry inflection point is abstract — a visual metaphor makes the strategic urgency tangible",
+        "placement": "supporting-visual",
+        "imageCount": 1,
+        "perImageSubject": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+    "_comment": "Example shows a path-1+2 mix: user named the heading/body fonts and dimensions, a reference image supplied the palette and contrast. style.motif/iconStyle and secondaryFont were not supplied by either source, so they are null with provenance 'deferred-step5b'. Step 5b is responsible for resolving every deferred-step5b leaf. For a path-3 (no user signals) example, see workflow-step1.md § 1d.",
+    "source": "user-explicit",
+    "dimensions": {
+        "width": 13.333,
+        "height": 7.5,
+        "unit": "inches"
+    },
+    "palette": {
+        "primary": "1E2761",
+        "secondary": "CADCFC",
+        "accent": "408EC6",
+        "accent2": "E97132",
+        "background": "FFFFFF",
+        "backgroundAlt": "F5F5F5",
+        "surface": "EEF2FF",
+        "text": "1E293B",
+        "textMuted": "64748B",
+        "divider": "E2E8F0"
+    },
+    "typography": {
+        "headingFont": "DM Sans",
+        "bodyFont": "DM Sans",
+        "monoFont": "JetBrains Mono",
+        "secondaryFont": null,
+        "titleSize": 36,
+        "headingSize": 24,
+        "bodySize": 14,
+        "captionSize": 10
+    },
+    "style": {
+        "contrast": "dark-bookends",
+        "motif": null,
+        "iconStyle": null
+    },
+    "sourceProvenance": {
+        "dimensions": "user-explicit",
+        "palette": "reference-image",
+        "typography.headingFont": "user-explicit",
+        "typography.bodyFont": "user-explicit",
+        "typography.monoFont": "system-default",
+        "typography.secondaryFont": "deferred-step5b",
+        "style.contrast": "reference-image",
+        "style.motif": "deferred-step5b",
+        "style.iconStyle": "deferred-step5b"
+    }
+}

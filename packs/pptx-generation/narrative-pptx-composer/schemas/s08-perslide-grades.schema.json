@@ -1,0 +1,154 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Per-Slide Grades",
+    "description": "VLM detection output: 7 dimension grades + anomalies per slide.",
+    "type": "object",
+    "required": [
+        "batchId",
+        "timestamp",
+        "slidesInspected",
+        "slides"
+    ],
+    "properties": {
+        "batchId": {
+            "type": "integer"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "slidesInspected": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^s\\d{2,3}$"
+            }
+        },
+        "previewDir": {
+            "type": "string"
+        },
+        "metricsRef": {
+            "type": "string"
+        },
+        "slides": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "slideId",
+                    "dimensions",
+                    "anomalies"
+                ],
+                "properties": {
+                    "slideId": {
+                        "type": "string",
+                        "pattern": "^s\\d{2,3}$"
+                    },
+                    "dimensions": {
+                        "type": "object",
+                        "required": [
+                            "spatialContainment",
+                            "textRendering",
+                            "imageIntegrity",
+                            "contentCompleteness",
+                            "visualHierarchy",
+                            "spatialOrganization",
+                            "intentAlignment"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                            "spatialContainment": {
+                                "$ref": "#/$defs/dimensionGrade"
+                            },
+                            "textRendering": {
+                                "$ref": "#/$defs/dimensionGrade"
+                            },
+                            "imageIntegrity": {
+                                "$ref": "#/$defs/dimensionGrade"
+                            },
+                            "contentCompleteness": {
+                                "$ref": "#/$defs/dimensionGrade"
+                            },
+                            "visualHierarchy": {
+                                "$ref": "#/$defs/dimensionGrade"
+                            },
+                            "spatialOrganization": {
+                                "$ref": "#/$defs/dimensionGrade"
+                            },
+                            "intentAlignment": {
+                                "$ref": "#/$defs/dimensionGrade"
+                            }
+                        }
+                    },
+                    "anomalies": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/$defs/anomaly"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "$defs": {
+        "dimensionGrade": {
+            "type": "object",
+            "required": [
+                "grade"
+            ],
+            "properties": {
+                "grade": {
+                    "type": "string",
+                    "enum": [
+                        "pass",
+                        "acceptable",
+                        "marginal",
+                        "fail"
+                    ]
+                },
+                "evidence": {
+                    "type": "string"
+                }
+            }
+        },
+        "anomaly": {
+            "type": "object",
+            "required": [
+                "what",
+                "severity",
+                "confidence",
+                "evidence",
+                "fixDirection"
+            ],
+            "properties": {
+                "what": {
+                    "type": "string"
+                },
+                "severity": {
+                    "type": "string",
+                    "enum": [
+                        "critical",
+                        "minor"
+                    ]
+                },
+                "confidence": {
+                    "type": "string",
+                    "enum": [
+                        "high",
+                        "medium",
+                        "low"
+                    ]
+                },
+                "evidence": {
+                    "type": "string"
+                },
+                "suggestedDimension": {
+                    "type": "string"
+                },
+                "fixDirection": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,326 @@
+{
+  "structuralFamily": {
+    "sharedMotif": "thin-accent-bar-under-title",
+    "coverTreatment": "gradient bg (primary→accent), display title centered, thin accent bar beneath title block",
+    "closingTreatment": "same gradient + display title + accent bar, no subtitle, reduced padding",
+    "dividerPattern": "left-stripe-section-title",
+    "motifRationale": "Progressive-disclosure arc with restrained-to-bold accent strategy. The thin accent bar under the title is a recurring 'new argument' signal that scales — narrow on cover/dividers, wider on the closing — without competing with body data content.",
+    "coverBackgroundType": "gradient",
+    "closingBackgroundType": "gradient",
+    "dividerBackgroundType": "motif-shape",
+    "recapBackgroundType": "image-generated",
+    "agendaDecorationFromMotif": true,
+    "bookendSignature": {
+      "rhyme": "scaled-accent-bar",
+      "coverExpression": "Thin accent bar (0.05in) sits 0.2in beneath the cover's display title, anchored left.",
+      "closingExpression": "Same accent bar widened to 0.12in and run along the slide's bottom edge — visually 'lands' the deck the way the cover bar 'launches' it.",
+      "designIntent": "The accent bar is the deck's recurring 'new argument' marker; growing and lowering it on the closing makes the resolution feel earned rather than tacked on."
+    }
+  },
+  "slides": [
+    {
+      "taskId": "s01",
+      "title": "Q2 Strategy Review",
+      "slideType": "cover",
+      "narrativeRole": "opening",
+      "narrativeIntent": "title-card",
+      "layoutPattern": "centered-cover-gradient-with-accent-bar",
+      "emphasis": "high",
+      "designRationale": "Cover slide, high-impact opening. Diagonal gradient for visual drama; display-scale title for poster presence; thin accent bar carries the deck's recurring motif into the very first frame.",
+      "layoutSpec": {
+        "isHero": true,
+        "background": {
+          "type": "gradient",
+          "colors": [
+            "primary",
+            "accent"
+          ],
+          "direction": "to-bottom-right"
+        },
+        "zones": [
+          {
+            "role": "title",
+            "type": "text",
+            "x": 1.0,
+            "y": 1.4,
+            "w": 8.0,
+            "h": 1.4,
+            "font": "heading",
+            "size": "display",
+            "color": "background",
+            "align": "center",
+            "valign": "bottom",
+            "bold": true
+          },
+          {
+            "role": "accent-bar",
+            "type": "shape",
+            "x": 4.0,
+            "y": 2.95,
+            "w": 2.0,
+            "h": 0.06,
+            "shape": "rectangle",
+            "fill": "background"
+          },
+          {
+            "role": "subtitle",
+            "type": "text",
+            "x": 1.5,
+            "y": 3.2,
+            "w": 7.0,
+            "h": 0.8,
+            "font": "body",
+            "size": "body",
+            "color": "secondary",
+            "align": "center",
+            "valign": "top"
+          }
+        ]
+      },
+      "contentBrief": "Deck title + subtitle + date"
+    },
+    {
+      "taskId": "s04",
+      "title": "Financial Highlights",
+      "slideType": "content_data",
+      "narrativeRole": "evidence",
+      "narrativeIntent": "stat-callout",
+      "layoutPattern": "asymmetric-stat-band-three-up",
+      "emphasis": "standard",
+      "designRationale": {
+        "narrative": "Evidence slide in Act 2 (accentIntensity: medium) — three KPIs prove the headline claim about Q2 momentum. Hero treatment marks this as the act's data anchor.",
+        "narrativeLink": "These three KPIs are the evidence the executive audience needs to accept the Q2 momentum claim — the slide's whole purpose is to land them as one cohesive proof.",
+        "focalPoint": "primary-fill band carrying three display-scale numerals",
+        "eyePath": [
+          "title",
+          "primary band with three KPIs",
+          "footnote source"
+        ],
+        "aestheticMove": {
+          "move": "Full-width primary-fill band at mid-height carrying display-scale numerals in white over a near-empty tinted canvas",
+          "axes": [
+            "scale",
+            "color",
+            "layout"
+          ],
+          "reason": "The scale jump from heading1 title to display KPIs inside the band creates a 3-tier hierarchy that lets the proof land before the eye reaches the source footnote."
+        }
+      },
+      "layoutSpec": {
+        "isHero": true,
+        "background": {
+          "type": "tinted",
+          "base": "background",
+          "tint": "accent",
+          "tintOpacity": 0.05
+        },
+        "zones": [
+          {
+            "role": "title",
+            "type": "text",
+            "x": 0.5,
+            "y": 0.3,
+            "w": 9.0,
+            "h": 0.6,
+            "font": "heading",
+            "size": "heading1",
+            "color": "text",
+            "align": "left",
+            "bold": true
+          },
+          {
+            "role": "band",
+            "type": "shape",
+            "x": 0.0,
+            "y": 1.2,
+            "w": 10.0,
+            "h": 2.6,
+            "shape": "rectangle",
+            "fill": "primary"
+          },
+          {
+            "role": "stat-1-num",
+            "type": "text",
+            "x": 0.5,
+            "y": 1.4,
+            "w": 2.7,
+            "h": 1.0,
+            "font": "heading",
+            "size": "display",
+            "color": "background",
+            "align": "center",
+            "bold": true
+          },
+          {
+            "role": "stat-1-label",
+            "type": "text",
+            "x": 0.5,
+            "y": 2.5,
+            "w": 2.7,
+            "h": 0.6,
+            "font": "body",
+            "size": "body",
+            "color": "secondary",
+            "align": "center"
+          },
+          {
+            "role": "stat-2-num",
+            "type": "text",
+            "x": 3.65,
+            "y": 1.4,
+            "w": 2.7,
+            "h": 1.0,
+            "font": "heading",
+            "size": "display",
+            "color": "background",
+            "align": "center",
+            "bold": true
+          },
+          {
+            "role": "stat-2-label",
+            "type": "text",
+            "x": 3.65,
+            "y": 2.5,
+            "w": 2.7,
+            "h": 0.6,
+            "font": "body",
+            "size": "body",
+            "color": "secondary",
+            "align": "center"
+          },
+          {
+            "role": "stat-3-num",
+            "type": "text",
+            "x": 6.8,
+            "y": 1.4,
+            "w": 2.7,
+            "h": 1.0,
+            "font": "heading",
+            "size": "display",
+            "color": "background",
+            "align": "center",
+            "bold": true
+          },
+          {
+            "role": "stat-3-label",
+            "type": "text",
+            "x": 6.8,
+            "y": 2.5,
+            "w": 2.7,
+            "h": 0.6,
+            "font": "body",
+            "size": "body",
+            "color": "secondary",
+            "align": "center"
+          },
+          {
+            "role": "footnote",
+            "type": "text",
+            "x": 0.5,
+            "y": 4.2,
+            "w": 9.0,
+            "h": 0.5,
+            "font": "body",
+            "size": "caption",
+            "color": "textMuted",
+            "align": "left"
+          }
+        ]
+      },
+      "contentBrief": "KPI callout: revenue, growth, EBITDA"
+    },
+    {
+      "taskId": "s05",
+      "slideId": "scaled-dot-product-attention",
+      "slideType": "body",
+      "layoutPattern": "headline-formula",
+      "designRationale": {
+        "narrative": "Frame the formula as the only durable thing the audience must remember; surround it with breathing room so it reads as a definition.",
+        "narrativeLink": "Builds on s04's claim that attention is a weighted sum.",
+        "focalPoint": "The formula occupies the centerline; everything else demotes.",
+        "eyePath": [
+          "title",
+          "lead",
+          "formula-attention",
+          "caption"
+        ],
+        "aestheticMove": {
+          "move": "centered-display-formula",
+          "axes": [
+            "typography"
+          ],
+          "reason": "A single hero equation paired with a one-line lead reads as a definition slide and earns its whitespace."
+        }
+      },
+      "background": {
+        "type": "solid",
+        "color": "background"
+      },
+      "layoutSpec": {
+        "isHero": false,
+        "zones": [
+          {
+            "role": "title",
+            "type": "text",
+            "x": 0.5,
+            "y": 0.5,
+            "w": 12.5,
+            "h": 1.0,
+            "font": "heading",
+            "size": "heading1",
+            "color": "ink",
+            "align": "center",
+            "valign": "middle",
+            "bold": true
+          },
+          {
+            "role": "lead",
+            "type": "text",
+            "x": 1.5,
+            "y": 1.7,
+            "w": 10.5,
+            "h": 0.7,
+            "font": "body",
+            "size": "heading2",
+            "color": "secondary",
+            "align": "center",
+            "valign": "middle"
+          },
+          {
+            "role": "formula-attention",
+            "type": "formula",
+            "x": 1.5,
+            "y": 2.7,
+            "w": 10.5,
+            "h": 2.4,
+            "notation": "mathtext",
+            "source": "authored",
+            "fitMode": "scale-to-zone",
+            "alignment": "center",
+            "verticalAlign": "middle",
+            "colorToken": "ink",
+            "fontPt": 36,
+            "fallback": {
+              "kind": "text",
+              "text": "Attention(Q,K,V) = softmax(QK\u1d40 / \u221ad_k) V"
+            }
+          },
+          {
+            "role": "caption",
+            "type": "text",
+            "x": 1.5,
+            "y": 5.4,
+            "w": 10.5,
+            "h": 0.6,
+            "font": "body",
+            "size": "caption",
+            "color": "textMuted",
+            "align": "center",
+            "valign": "top"
+          }
+        ]
+      },
+      "contentBrief": "Attention as weighted sum \u2014 anchor with the canonical formula"
+    }
+  ]
+}

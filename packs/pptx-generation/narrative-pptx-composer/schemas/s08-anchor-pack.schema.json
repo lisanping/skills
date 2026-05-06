@@ -1,0 +1,160 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "s08-anchor-pack.schema.json",
+    "title": "Step 8 Anchor Pack (v2 Phase 4)",
+    "description": "Deterministic per-slide and per-cohort anchors derived from s05-slide-visual-design.json + s08-zone-metrics.json + (optional) s05b-style-policy.json. Generated at Step 8a by s08_anchor_pack.py. Both per-slide and per-cohort detection prompts pull anchors from this file. See workflow-step8.md § 8a.",
+    "type": "object",
+    "required": [
+        "generatedAt",
+        "perSlide",
+        "perCohort"
+    ],
+    "properties": {
+        "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "sourceDesignFile": {
+            "type": "string"
+        },
+        "sourceMetricsFile": {
+            "type": "string"
+        },
+        "sourceCohortDefinitionsFile": {
+            "type": "string"
+        },
+        "slideDimensions": {
+            "type": "object",
+            "required": [
+                "widthIn",
+                "heightIn"
+            ],
+            "properties": {
+                "widthIn": {
+                    "type": "number"
+                },
+                "heightIn": {
+                    "type": "number"
+                }
+            },
+            "additionalProperties": false
+        },
+        "perSlide": {
+            "type": "object",
+            "description": "Anchor bundle per slideId. Per-slide detection prompt receives slide.<slideId> verbatim.",
+            "additionalProperties": {
+                "$ref": "#/definitions/PerSlideAnchor"
+            }
+        },
+        "perCohort": {
+            "type": "object",
+            "description": "Anchor bundle per cohortId. Per-cohort detection prompt receives cohort.<cohortId> verbatim.",
+            "additionalProperties": {
+                "$ref": "#/definitions/PerCohortAnchor"
+            }
+        }
+    },
+    "additionalProperties": false,
+    "definitions": {
+        "PerSlideAnchor": {
+            "type": "object",
+            "required": [
+                "slideId",
+                "narrativeIntent",
+                "metricsSubset"
+            ],
+            "properties": {
+                "slideId": {
+                    "type": "string",
+                    "pattern": "^s\\d{2}$"
+                },
+                "title": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "slideType": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "narrativeRole": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "narrativeIntent": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "ONE-SENTENCE intent string for this slide. Used by dimensions 5-7 (visualHierarchy, spatialOrganization, intentAlignment). The prompt tells VLM to ignore intent for dimensions 1-4."
+                },
+                "layoutPattern": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "contentText": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Concatenated title + body text (truncated to ~600 chars) for dimensions 5-7 content-fit grading."
+                },
+                "metricsSubset": {
+                    "type": "object",
+                    "description": "The slide's entry from s08-zone-metrics.json verbatim — zones[], outOfCanvas[], placeholderHits[], background. Source of truth for dimensions 1-4 metrics-based grading."
+                }
+            },
+            "additionalProperties": false
+        },
+        "PerCohortAnchor": {
+            "type": "object",
+            "required": [
+                "cohortId",
+                "cohortType",
+                "members",
+                "rationale"
+            ],
+            "properties": {
+                "cohortId": {
+                    "type": "string"
+                },
+                "cohortType": {
+                    "type": "string",
+                    "enum": [
+                        "semantic-pair",
+                        "role-series",
+                        "layout-repetition"
+                    ]
+                },
+                "members": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 2
+                },
+                "rationale": {
+                    "type": "string"
+                },
+                "sharedSpec": {
+                    "type": [
+                        "object",
+                        "null"
+                    ]
+                },
+                "comparisonTable": {
+                    "type": "object",
+                    "description": "Per-role cross-member metric table copied from s08-cohort-definitions.json."
+                }
+            },
+            "additionalProperties": false
+        }
+    }
+}

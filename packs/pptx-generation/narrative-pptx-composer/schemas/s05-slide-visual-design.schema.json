@@ -1,0 +1,887 @@
+{
+  "$ref": "#/definitions/SlideVisualDesign",
+  "definitions": {
+    "SlideVisualDesign": {
+      "type": "object",
+      "description": "Layout and visual design produced by Step 5. The LLM designs every slide's layoutSpec from first principles based on its specific content, narrative role, and audience — there is no pattern catalog to select from. Consumed by Step 6 (content fitting) and Step 7 (PPTX generation).",
+      "properties": {
+        "structuralFamily": {
+          "$ref": "#/definitions/StructuralFamily",
+          "description": "Visual family declaration for structural slides (cover, closing, dividers). The LLM designs one shared visual treatment per deck and every cover/closing/divider must match it, so structural slides share visual DNA."
+        },
+        "slides": {
+          "type": "array",
+          "description": "Ordered list of slide tasks. One entry per slide in the deck, matching s03-presentation-blueprint.json order.",
+          "items": {
+            "$ref": "#/definitions/SlideTask"
+          },
+          "minItems": 2
+        },
+        "imageryDemandRefinedAt": {
+          "type": "object",
+          "description": "Optional Step 5b override of the s02.imageryDemand value. Written when the resolved contentDomain/register strongly contradicts the brief's value (typically when the brief defaulted to medium with low confidence). The Step 5 validator reads newValue before falling back to s02.imageryDemand.",
+          "properties": {
+            "step": {
+              "type": "string",
+              "enum": [
+                "step5b"
+              ]
+            },
+            "previousValue": {
+              "type": "string",
+              "enum": [
+                "high",
+                "medium",
+                "low",
+                "none"
+              ]
+            },
+            "newValue": {
+              "type": "string",
+              "enum": [
+                "high",
+                "medium",
+                "low",
+                "none"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 20
+            }
+          },
+          "required": [
+            "step",
+            "previousValue",
+            "newValue",
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        "imageryFloorWaiver": {
+          "type": "object",
+          "description": "Optional deck-level waiver of the Imagery Floor (visual-tone-mapping.md § Imagery Floor). When present with reason >= 20 chars, the validator skips the floor check.",
+          "properties": {
+            "reason": {
+              "type": "string",
+              "minLength": 20
+            }
+          },
+          "required": [
+            "reason"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "structuralFamily",
+        "slides"
+      ],
+      "additionalProperties": false
+    },
+    "StructuralFamily": {
+      "type": "object",
+      "description": "Visual family declaration for structural slides. The LLM designs this family once per deck (in Step 5a) so cover, closing, and dividers share visual DNA. All fields below are LLM-authored descriptive specifications — none is a lookup into a pattern catalog.",
+      "properties": {
+        "sharedMotif": {
+          "type": "string",
+          "description": "Short descriptive name for the recurring decorative motif the LLM designed for this deck's structural slides (e.g. 'thin-accent-bar-under-title', 'left-side-stripe', 'corner-block-tr'). Inline shape definitions for the motif live in each structural slide's layoutSpec.zones."
+        },
+        "coverTreatment": {
+          "type": "string",
+          "description": "Brief description of cover visual treatment (e.g. 'gradient bg + display title + wide accent bar')."
+        },
+        "closingTreatment": {
+          "type": "string",
+          "description": "Brief description of closing visual treatment (e.g. 'gradient bg + display title + same accent bar, reduced decoration')."
+        },
+        "dividerPattern": {
+          "type": "string",
+          "description": "Descriptive name for the LLM-designed divider layout used across this deck (e.g. 'left-stripe-section-title'). Every divider slide's layoutPattern must match this name; their layoutSpec.zones must encode the same composition."
+        },
+        "motifRationale": {
+          "type": "string",
+          "description": "Why this motif was chosen — must reference narrative architecture signals (storytelling pattern, transition strategy, audience), not aesthetic preferences."
+        },
+        "coverBackgroundType": {
+          "type": "string",
+          "enum": [
+            "solid",
+            "gradient",
+            "tinted",
+            "image-generated"
+          ],
+          "description": "Declared background type for the cover slide. The cover's layoutSpec.background.type must match this declaration. Driven by s02.imageryDemand (with optional Step 5b override via imageryDemandRefinedAt) and the Imagery Floor (visual-tone-mapping.md § Dimension 6 Imagery Floor): demand=high → image-generated; demand=medium → image-generated or gradient; demand=low/none → any."
+        },
+        "closingBackgroundType": {
+          "type": "string",
+          "enum": [
+            "solid",
+            "gradient",
+            "tinted",
+            "image-generated"
+          ],
+          "description": "Declared background type for the closing slide. The closing's layoutSpec.background.type must match this declaration. Same demand-driven defaults as coverBackgroundType."
+        },
+        "dividerBackgroundType": {
+          "type": "string",
+          "enum": [
+            "solid",
+            "gradient",
+            "tinted",
+            "image-generated",
+            "motif-shape"
+          ],
+          "description": "Declared background type for divider slides. Every divider slide's layoutSpec.background must match. 'motif-shape' means the divider relies on strong shape decoration over a solid/tinted base (no image generation). Imagery Floor: demand=high → image-generated; demand=medium → image-generated or motif-shape; demand=low → motif-shape acceptable."
+        },
+        "recapBackgroundType": {
+          "type": "string",
+          "enum": [
+            "solid",
+            "gradient",
+            "tinted",
+            "image-generated",
+            "motif-shape"
+          ],
+          "description": "Declared background type for recap slides. Every recap slide's layoutSpec.background must match. Recap slides serve a rhythmic-pause role like dividers; the Imagery Floor treats them on the divider row. Omit when the deck has no recap slide. Under the structural-slide imagery uplift at imageryDemand=medium, every recap MUST be image-generated."
+        },
+        "agendaDecorationFromMotif": {
+          "type": "boolean",
+          "description": "When true, every agenda slide must include at least one shape zone whose role derives from sharedMotif (e.g. accent-bar, side-stripe, corner-block) so the agenda inherits the deck's visual DNA instead of presenting as bare text on a solid background. Recommended (and validator-enforced) for technical/analytical decks under the structural-slide imagery uplift."
+        },
+        "bookendSignature": {
+          "$ref": "#/definitions/BookendSignature",
+          "description": "Optional but recommended. Declares an explicit visual 'rhyme' between the cover and the closing slide so the two highest-impact frames in the deck answer each other. Validator emits a warning when absent and enforces field shape + a structural cover↔closing zone-role overlap when present."
+        }
+      },
+      "required": [
+        "sharedMotif",
+        "coverTreatment",
+        "closingTreatment",
+        "dividerPattern",
+        "motifRationale"
+      ],
+      "additionalProperties": false
+    },
+    "BookendSignature": {
+      "type": "object",
+      "description": "Declares the visual rhyme between the cover and the closing slide (workflow-step5.md § Bookend signature).",
+      "properties": {
+        "rhyme": {
+          "type": "string",
+          "minLength": 3,
+          "description": "Short descriptive name for the visual rhyme (e.g. 'mirrored-light-source', 'inverted-stripe', 'warm-to-cool-flip')."
+        },
+        "coverExpression": {
+          "type": "string",
+          "minLength": 10,
+          "description": "One sentence describing how the rhyme manifests on the cover slide."
+        },
+        "closingExpression": {
+          "type": "string",
+          "minLength": 10,
+          "description": "One sentence describing how the rhyme manifests on the closing slide — the visual answer to the cover."
+        },
+        "designIntent": {
+          "type": "string",
+          "minLength": 20,
+          "description": "Why this rhyme reinforces the deck's coreArgument / closingAnchor. Aesthetic taste alone is not a sufficient reason."
+        }
+      },
+      "required": [
+        "rhyme",
+        "coverExpression",
+        "closingExpression",
+        "designIntent"
+      ],
+      "additionalProperties": false
+    },
+    "SlideTask": {
+      "type": "object",
+      "description": "A single slide's LLM-designed layout and visual specification.",
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "pattern": "^s\\d{2,}$",
+          "description": "Matches slideId from s03-presentation-blueprint.json."
+        },
+        "title": {
+          "type": "string",
+          "description": "Working title carried forward from blueprint."
+        },
+        "slideType": {
+          "type": "string",
+          "enum": [
+            "cover",
+            "executive-summary",
+            "agenda",
+            "divider",
+            "content_text",
+            "content_data",
+            "content_mixed",
+            "recap",
+            "closing",
+            "appendix"
+          ],
+          "description": "Structural type carried forward from blueprint."
+        },
+        "narrativeRole": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            null,
+            "opening",
+            "setup",
+            "evidence",
+            "analysis",
+            "pivot",
+            "climax",
+            "resolution",
+            "callback"
+          ],
+          "description": "Narrative function carried forward from blueprint. Null for divider and similar non-narrative slides."
+        },
+        "narrativeIntent": {
+          "type": "string",
+          "enum": [
+            "title-card",
+            "text-narrative",
+            "data-visualization",
+            "comparison",
+            "process",
+            "timeline",
+            "matrix",
+            "metaphor",
+            "stat-callout",
+            "quote",
+            "full-bleed-image",
+            "architecture",
+            "system",
+            "code-walkthrough",
+            "data-flow"
+          ],
+          "description": "Narrative-level delivery mode carried forward from blueprint. Informs the LLM's design but does not select a template."
+        },
+        "layoutPattern": {
+          "type": "string",
+          "description": "Descriptive name the LLM assigns after designing the layout (e.g. 'asymmetric-stat-hero-band', 'five-step-flow-icons'). Every layout is designed from content first, then named for traceability. The name serves cross-slide consistency checks (e.g. divider sharing) and human readability. Slides with similar content structures may intentionally share a name when justified in designRationale."
+        },
+        "emphasis": {
+          "type": "string",
+          "enum": [
+            "high",
+            "standard",
+            "low"
+          ],
+          "description": "Visual emphasis level derived from narrativeRole + slideType. high=climax/cover/closing, standard=evidence/analysis/setup, low=divider."
+        },
+        "designRationale": {
+          "oneOf": [
+            {
+              "type": "string",
+              "maxLength": 300,
+              "description": "Combined rationale (allowed only for cover, divider, and closing slides). Body slides MUST use the dual-track object form."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "narrative": {
+                  "type": "string",
+                  "maxLength": 300,
+                  "description": "What about the content/narrative drove this layout. References act, narrativeRole, headlineMessage, accentIntensity, informationDensity."
+                },
+                "narrativeLink": {
+                  "type": "string",
+                  "maxLength": 200,
+                  "description": "How this slide's design serves the slide's narrative purpose. MUST contain either the slide's narrativeRole token (e.g. 'climax', 'pivot', 'evidence') or a content word (>=4 chars) from the blueprint headlineMessage. Generic phrasing like 'supports the message' is rejected by the validator."
+                },
+                "focalPoint": {
+                  "type": "string",
+                  "maxLength": 80,
+                  "description": "The single visual element the eye lands on first. Name a concrete element ('central architecture diagram', 'left-side stat block', 'full-width quote'). Generic adjectives like 'clean', 'professional', 'balanced', 'modern' are rejected."
+                },
+                "eyePath": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 4,
+                  "items": {
+                    "type": "string",
+                    "maxLength": 60
+                  },
+                  "description": "Ordered list of 2–4 visual stops describing how the eye moves across the slide (e.g. ['title', 'central diagram', 'right-side implications'])."
+                },
+                "aestheticMove": {
+                  "type": "object",
+                  "description": "The specific deliberate visual gesture this slide makes. Replaces the legacy free-form 'aesthetic' string with a structured triple.",
+                  "properties": {
+                    "move": {
+                      "type": "string",
+                      "maxLength": 120,
+                      "description": "The concrete visual gesture (e.g. '60/40 asymmetric split with display-weight stat dominating left', 'full-height dark code frame against light explanation panel', 'display title in accent color over near-empty page'). Avoid functional restatements like 'two-column for clarity' — the validator only enforces non-empty; quality of this string is a Step 8b QA concern."
+                    },
+                    "axes": {
+                      "type": "array",
+                      "minItems": 1,
+                      "maxItems": 3,
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "layout",
+                          "color",
+                          "form",
+                          "scale",
+                          "contrast",
+                          "type",
+                          "motion-implied"
+                        ]
+                      },
+                      "description": "Which of the design-philosophy reasoning axes the move engages. At least 1, at most 3."
+                    },
+                    "reason": {
+                      "type": "string",
+                      "maxLength": 200,
+                      "description": "Why this specific move serves the slide's headlineMessage and narrativeRole. Generic reasons like 'visual variety' or 'looks better' are rejected."
+                    }
+                  },
+                  "required": [
+                    "move",
+                    "axes",
+                    "reason"
+                  ],
+                  "additionalProperties": false
+                },
+                "quotaWaiver": {
+                  "type": "string",
+                  "maxLength": 200,
+                  "description": "Optional. Records which Universal Design Floor quota was waived for this slide and the user-approved reason."
+                },
+                "transitionDeviation": {
+                  "type": "object",
+                  "description": "Optional. Records when this slide intentionally departs from the deck's transitionStrategy default visual contrast (visual-tone-mapping.md § Dimension 4 Earned exceptions). Required when the slide's contrast pattern does not match the strategy's default — never block to ask the user, just log it.",
+                  "properties": {
+                    "from": {
+                      "type": "string",
+                      "enum": [
+                        "progressive-disclosure",
+                        "contrast",
+                        "callback",
+                        "parallel"
+                      ],
+                      "description": "The deck-level transitionStrategy this slide deviates from."
+                    },
+                    "appliedInstead": {
+                      "type": "string",
+                      "maxLength": 80,
+                      "description": "Short label for the contrast move actually applied (e.g. 'asymmetric-callback', 'snap-to-contrast', 'motif-break')."
+                    },
+                    "narrativeJustification": {
+                      "type": "string",
+                      "maxLength": 240,
+                      "description": "Why the deviation reinforces the slide's narrativeRole or storytelling beat. Generic reasons like 'visual variety' are rejected — must reference the specific narrative moment that demands the break."
+                    }
+                  },
+                  "required": [
+                    "from",
+                    "appliedInstead",
+                    "narrativeJustification"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "narrative",
+                "narrativeLink",
+                "focalPoint",
+                "eyePath",
+                "aestheticMove"
+              ],
+              "additionalProperties": false
+            }
+          ],
+          "description": "Why this layout was chosen. Body slides MUST use the structured object form (narrative + narrativeLink + focalPoint + eyePath + aestheticMove). The legacy 'aesthetic' string field is accepted for backward compatibility but emits a deprecation warning when used without aestheticMove."
+        },
+        "layoutSpec": {
+          "$ref": "#/definitions/LayoutSpec",
+          "description": "Required. Precise visual specification for this slide: background and content/decorative zones with coordinates. The LLM designs this from content structure, narrative role, and aesthetic signals, guided by layout-principles.md. Decorative elements (accent bars, side stripes, card backgrounds, etc.) are encoded as inline shape zones — there is no separate decoration catalog to reference."
+        },
+        "contentBrief": {
+          "type": "string",
+          "description": "Short description of what this slide should contain, guiding content fitting in Step 6."
+        }
+      },
+      "required": [
+        "taskId",
+        "title",
+        "slideType",
+        "narrativeRole",
+        "narrativeIntent",
+        "layoutPattern",
+        "emphasis",
+        "designRationale",
+        "layoutSpec",
+        "contentBrief"
+      ],
+      "additionalProperties": false
+    },
+    "LayoutSpec": {
+      "type": "object",
+      "description": "LLM-designed visual layout specification for a single slide. Every visual element — content text, decorative shapes, images, charts — is expressed as a typed zone with explicit coordinates.",
+      "properties": {
+        "background": {
+          "oneOf": [
+            {
+              "type": "string",
+              "description": "Palette key for solid background (backward compat, e.g. 'primary', 'background')."
+            },
+            {
+              "$ref": "#/definitions/BackgroundSpec",
+              "description": "Typed background specification: solid, gradient, or tinted."
+            }
+          ],
+          "description": "Slide background. String = solid fill (legacy). Object = typed spec with solid/gradient/tinted."
+        },
+        "zones": {
+          "type": "array",
+          "description": "Content and decorative zones with precise positioning. Decorative elements (accent bars, stripes, card backgrounds, dividers, corner blocks, etc.) are zones with type='shape' and a fill — there is no separate decorations field, no reference into a decoration catalog.",
+          "items": {
+            "$ref": "#/definitions/Zone"
+          },
+          "minItems": 1
+        },
+        "isHero": {
+          "type": "boolean",
+          "description": "Required for any slide intended to function as a hero (dramatic background, display typography, large media zone, full-canvas chart, etc.). The Universal Design Floor Quota 2 (hero cadence) reads this flag directly — there is no pattern-name fallback. If the LLM intends a slide to be hero-level, it MUST set isHero=true."
+        }
+      },
+      "required": [
+        "background",
+        "zones"
+      ],
+      "additionalProperties": false
+    },
+    "Zone": {
+      "type": "object",
+      "description": "A positioned content or decorative zone within a slide.",
+      "properties": {
+        "role": {
+          "type": "string",
+          "description": "Content slot identifier. Maps to zone name in s06-slide-content.json slots."
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "text",
+            "shape",
+            "chart",
+            "image",
+            "icon",
+            "formula"
+          ],
+          "description": "Zone type determining which python-pptx API is used: text→add_textbox, shape→add_shape, chart→add_chart, image→add_picture/add_image_safe, icon→add_textbox with icon font, formula→add_formula (mathtext→PNG; see sessions/formula-svg-design-2026-05-01.md)."
+        },
+        "x": {
+          "type": [
+            "number",
+            "string"
+          ],
+          "minimum": 0,
+          "description": "Horizontal position in inches from left edge. Bare numbers are inches; '<N>in' strings are inches (explicit); '<N>%' strings are percent of slide width."
+        },
+        "y": {
+          "type": [
+            "number",
+            "string"
+          ],
+          "minimum": 0,
+          "description": "Vertical position in inches from top edge. Bare numbers are inches; '<N>in' strings are inches (explicit); '<N>%' strings are percent of slide height."
+        },
+        "w": {
+          "type": [
+            "number",
+            "string"
+          ],
+          "exclusiveMinimum": 0,
+          "description": "Width in inches. Bare numbers are inches; '<N>in' / '<N>%' supported per the same convention as x."
+        },
+        "h": {
+          "type": [
+            "number",
+            "string"
+          ],
+          "exclusiveMinimum": 0,
+          "description": "Height in inches. Bare numbers are inches; '<N>in' / '<N>%' supported per the same convention as y."
+        },
+        "font": {
+          "type": "string",
+          "enum": [
+            "heading",
+            "body"
+          ],
+          "description": "Font family key resolved from style-policy typography."
+        },
+        "size": {
+          "type": "number",
+          "description": "Font size in points."
+        },
+        "color": {
+          "type": "string",
+          "description": "Palette key or direct hex color for text."
+        },
+        "align": {
+          "type": "string",
+          "enum": [
+            "left",
+            "center",
+            "right"
+          ],
+          "description": "Horizontal text alignment."
+        },
+        "valign": {
+          "type": "string",
+          "enum": [
+            "top",
+            "middle",
+            "bottom"
+          ],
+          "description": "Vertical text alignment."
+        },
+        "bold": {
+          "type": "boolean",
+          "description": "Whether text is bold."
+        },
+        "shape": {
+          "type": "string",
+          "description": "Shape type for shape zones (e.g. 'rectangle', 'ellipse', 'roundedRectangle')."
+        },
+        "fill": {
+          "type": "string",
+          "description": "Palette key for shape fill color."
+        },
+        "rectRadius": {
+          "type": "number",
+          "description": "Corner radius for roundedRectangle shapes."
+        },
+        "transparency": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Transparency percentage (0=opaque, 100=invisible)."
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "user-media",
+            "generated",
+            "authored"
+          ],
+          "description": "Resource source. For type='image': 'user-media'=existing file from mediaAttachments; 'generated'=LLM-authored image created in Step 5f. For type='formula' (Phase 1): 'authored'=expression body comes from the matching s06 slot's formulaSource. Required for type='image' and type='formula' zones."
+        },
+        "imageRequest": {
+          "type": "object",
+          "description": "For source='generated' image zones: generation request consumed by image-generator skill. See workflow-step5.md § 6f Prompt authoring rules.",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "prompt": {
+              "type": "string",
+              "minLength": 30
+            },
+            "style_reference": {
+              "type": "string"
+            },
+            "negative_prompt": {
+              "type": "string"
+            },
+            "backend": {
+              "type": "string",
+              "enum": [
+                "gpt-image",
+                "flux"
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "prompt"
+          ],
+          "additionalProperties": true
+        },
+        "fallback": {
+          "type": "object",
+          "description": "Required for source='generated' image zones. Declarative degradation path when generation fails. Either text-reflow (expand adjacent text zone) or shape replacement (decorative fill).",
+          "additionalProperties": true
+        },
+        "path": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Resolved image path (relative to session). For user-media: set at design time. For generated: null pre-Step-6f, populated by s05f_patch_image_paths.py after VLM selection."
+        },
+        "fallbackApplied": {
+          "type": "boolean",
+          "description": "True when generation failed and s07-build.py should render the declared fallback instead of attempting to load `path`."
+        },
+        "vlmSelectionApplied": {
+          "type": "boolean",
+          "description": "True when the resolved `path` came from a VLM-curated s05f-image-selection.json group; False when s05f_patch_image_paths.py auto-picked the lowest-numbered variation. Step 8 QA should visually verify zones marked false."
+        },
+        "alt": {
+          "type": "string",
+          "description": "Alt-text for image zones, used as the image's alt-text attribute in the PPTX."
+        },
+        "imageRole": {
+          "type": "string",
+          "enum": [
+            "atmospheric",
+            "narrative",
+            "accent"
+          ],
+          "description": "Decorative weight class for image zones (Phase B accent-imagery model). 'atmospheric' = full-bleed background image (>= 90% canvas, requires scrim per Imagery Floor); 'narrative' = main subject image carrying meaning (35-70% canvas); 'accent' = small decorative motif/texture/wash (5-30% canvas, must clear title zone, prompt must be abstract/non-representational). When omitted on a generated image zone, the validator infers from area: >= 90% -> atmospheric, 35-90% -> narrative, < 35% -> accent."
+        },
+        "runs": {
+          "type": "array",
+          "description": "For text zones implementing the 'mixed-weight-run' title-choreography move. When present, the renderer should call s07_slide_helpers.add_textbox_runs() instead of add_textbox(). Each run renders as a separate <a:r> in the same paragraph; use {\"text\": \"\\n\"} as a run to start a new paragraph. Mutually exclusive with the slot's plain `text` for that zone.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "bold": {
+                "type": "boolean"
+              },
+              "italic": {
+                "type": "boolean"
+              },
+              "color": {
+                "type": "string",
+                "description": "Palette token or hex."
+              },
+              "font": {
+                "type": "string",
+                "description": "Palette typography key ('heading'/'body'/'mono') or explicit font name."
+              },
+              "size": {
+                "type": "number",
+                "description": "Optional per-run point size override."
+              }
+            },
+            "required": [
+              "text"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "rotation": {
+          "type": "number",
+          "description": "For text zones implementing 'vertical-act-label'. Common values: 270 (text reads bottom-to-top, left edge); 90 (top-to-bottom, right edge). Mapped at render time to the bodyPr `vert` attribute, not a shape rotation, so the zone's x/y/w/h describe the rotated visual footprint."
+        },
+        "clipShape": {
+          "type": "string",
+          "enum": [
+            "none",
+            "circle",
+            "hexagon"
+          ],
+          "description": "Shape to clip the image to. 'circle'=oval clip via MSO_AUTO_SHAPE_TYPE.OVAL picture fill; 'hexagon'=hexagonal clip. 'none' or omitted = rectangular (no clipping)."
+        },
+        "notation": {
+          "type": "string",
+          "enum": [
+            "mathtext"
+          ],
+          "description": "For type='formula' zones: math notation system. Phase 1: only 'mathtext' (matplotlib's LaTeX subset — fractions, roots, sub/sup, Greek, sums/integrals; no \\begin{matrix}). Reserved for 'latex' / 'latex-omml' in later phases."
+        },
+        "fitMode": {
+          "type": "string",
+          "enum": [
+            "scale-to-zone",
+            "natural"
+          ],
+          "description": "For type='formula' zones: how the rendered formula sizes inside the zone. 'scale-to-zone' (default) preserves aspect and fills the zone. 'natural' keeps the rendered point size; helper auto-promotes to scale-to-zone when natural extent < 40% of zone (logged in build report)."
+        },
+        "verticalAlign": {
+          "type": "string",
+          "enum": [
+            "top",
+            "middle",
+            "bottom"
+          ],
+          "description": "For type='formula' zones: vertical alignment of the rendered artifact within the zone (default 'middle'). For text zones use 'valign' instead."
+        },
+        "alignment": {
+          "type": "string",
+          "enum": [
+            "left",
+            "center",
+            "right"
+          ],
+          "description": "For type='formula' zones: horizontal alignment of the rendered artifact within the zone (default 'center'). For text zones use 'align' instead."
+        },
+        "colorToken": {
+          "type": "string",
+          "description": "For type='formula' zones: palette token to bake as the formula color (e.g. 'ink', 'accent'). When omitted, the helper inherits the body-text color via the chain palette.body → palette.ink → #222222 so the formula reads as part of the surrounding prose."
+        },
+        "fontPt": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "For type='formula' zones: rendering font size in points (default 24). Affects only the rasterized glyph density; final on-slide size is governed by fitMode."
+        }
+      },
+      "required": [
+        "role",
+        "type",
+        "x",
+        "y",
+        "w",
+        "h"
+      ],
+      "additionalProperties": false
+    },
+    "BackgroundSpec": {
+      "type": "object",
+      "description": "Typed background specification supporting solid, gradient, tinted, and image-generated backgrounds.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "solid",
+            "gradient",
+            "tinted",
+            "image-generated"
+          ],
+          "description": "Background type. solid=flat fill, gradient=two-color directional blend, tinted=subtle color wash over a base, image-generated=full-bleed LLM-authored image (requires imageRequest + fallback per workflow-step5.md § 6f)."
+        },
+        "color": {
+          "type": "string",
+          "description": "Palette key for solid backgrounds (e.g. 'primary', 'background')."
+        },
+        "colors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "Two palette keys for gradient backgrounds (e.g. ['primary', 'accent'])."
+        },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "to-right",
+            "to-bottom",
+            "to-bottom-right",
+            "to-bottom-left"
+          ],
+          "description": "Gradient direction."
+        },
+        "base": {
+          "type": "string",
+          "description": "Base palette key for tinted backgrounds (e.g. 'background')."
+        },
+        "tint": {
+          "type": "string",
+          "description": "Tint palette key overlaid on base (e.g. 'accent')."
+        },
+        "tintOpacity": {
+          "type": "number",
+          "minimum": 0.01,
+          "maximum": 0.20,
+          "description": "Tint opacity (0.01-0.20). Subtle wash, not a color fill."
+        },
+        "imageRequest": {
+          "type": "object",
+          "description": "Required for type='image-generated'. Authored in Step 5f and consumed by the image-generator skill. See workflow-step5.md § 6f Prompt authoring rules.",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "prompt": {
+              "type": "string",
+              "minLength": 30
+            },
+            "style_reference": {
+              "type": "string"
+            },
+            "negative_prompt": {
+              "type": "string"
+            },
+            "backend": {
+              "type": "string",
+              "enum": [
+                "gpt-image",
+                "flux"
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "prompt"
+          ],
+          "additionalProperties": true
+        },
+        "fallback": {
+          "type": "object",
+          "description": "Required for type='image-generated'. Declarative degradation path so s07-build.py can render a coherent slide when generation fails. Typically a gradient or solid background spec.",
+          "additionalProperties": true
+        },
+        "path": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Resolved image path (relative to session). Null pre-Step-6f; populated by s05f_patch_image_paths.py after VLM selection."
+        },
+        "fallbackApplied": {
+          "type": "boolean",
+          "description": "True when generation failed and s07-build.py should render the declared fallback instead of attempting to load `path`."
+        },
+        "vlmSelectionApplied": {
+          "type": "boolean",
+          "description": "True when the background's resolved `path` came from a VLM-curated selection; False when auto-picked from raw generation output."
+        },
+        "fit": {
+          "type": "string",
+          "enum": [
+            "cover",
+            "contain"
+          ],
+          "description": "Optional, applies to type='image-generated'. 'cover' (default, recommended for full-bleed) fills the canvas and may crop overflow. 'contain' fits the entire image and may letterbox — only when preserving the whole image is required."
+        },
+        "scrim": {
+          "type": "object",
+          "description": "Optional full-bleed legibility overlay painted on top of an image-generated background. Decide per slide based on overlaid text color, image luminance, and visual register — do not hardcode for the deck. Omit for no scrim.",
+          "properties": {
+            "color": {
+              "type": "string",
+              "description": "Palette key or hex string. Black-family for darkening under light text; white-family for lightening under dark text."
+            },
+            "alpha": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 0.85,
+              "description": "Opacity 0.0–0.85. Typical legibility values: 0.25–0.45 editorial; 0.55–0.75 hero with bold text over busy imagery."
+            },
+            "rationale": {
+              "type": "string",
+              "description": "Short note on why this scrim choice — references text color, image luminance, or register."
+            }
+          },
+          "required": [
+            "color",
+            "alpha"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

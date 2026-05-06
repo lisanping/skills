@@ -1,0 +1,134 @@
+{
+    "slides": [
+        {
+            "taskId": "s01",
+            "title": "Q2 Strategy Review",
+            "slideType": "cover",
+            "narrativeRole": "opening",
+            "contentSource": "generated",
+            "headlineMessage": null,
+            "contentBody": null,
+            "contentForm": {
+                "type": "cover"
+            },
+            "contentMetrics": {
+                "wordCount": 8,
+                "dataPointCount": 0,
+                "bulletCount": 0,
+                "hasImage": false
+            },
+            "mediaAttachments": [],
+            "speakerNotes": "Welcome everyone to the Q2 strategy review. Today we'll walk through our progress and chart the path forward."
+        },
+        {
+            "taskId": "s02",
+            "title": "Where We Stand",
+            "slideType": "content_data",
+            "narrativeRole": "setup",
+            "contentSource": "document",
+            "headlineMessage": "Revenue grew 23% YoY but margin compression signals pricing pressure",
+            "contentBody": "Q2 revenue reached $4.2B, up 23% year-over-year. However, gross margin declined 180bp to 61.2%, driven by increased cloud infrastructure costs and aggressive promotional pricing in the SMB segment. Operating expenses grew 28% YoY, outpacing revenue growth for the second consecutive quarter.",
+            "supportingPoints": [
+                {
+                    "text": "Revenue: $4.2B, +23% YoY",
+                    "sourceRef": "q2-financials.md#Revenue"
+                },
+                {
+                    "text": "Gross margin: 61.2% (-180bp)",
+                    "sourceRef": "q2-financials.md#Margin"
+                },
+                {
+                    "text": "OpEx grew 28% YoY",
+                    "sourceRef": "q2-financials.md#OperatingExpenses"
+                }
+            ],
+            "contentForm": {
+                "type": "stat-callout",
+                "stats": 3
+            },
+            "contentMetrics": {
+                "wordCount": 52,
+                "dataPointCount": 5,
+                "bulletCount": 0,
+                "hasImage": false
+            },
+            "mediaAttachments": [],
+            "speakerNotes": "Let me set the stage with our Q2 numbers. The topline story looks strong — 23% growth is above our guidance range. But look beneath that headline: margins are compressing. We're spending more to grow, and the 180 basis point margin decline tells us our current trajectory isn't sustainable."
+        },
+        {
+            "taskId": "s03",
+            "title": "The Growth-Margin Trade-off",
+            "slideType": "content_mixed",
+            "narrativeRole": "evidence",
+            "contentSource": "hybrid",
+            "headlineMessage": "Three forces are driving margin compression — only one is within our control",
+            "contentBody": "Force 1: Cloud infrastructure costs rose 34% as we scaled to meet demand. Force 2: Competitive pricing pressure in SMB forced 15% average discount increases. Force 3: R&D headcount grew 40% to support the platform rewrite. The infrastructure costs are market-driven, pricing pressure is competitive, but R&D investment cadence is our strategic choice.",
+            "contentForm": {
+                "type": "card-grid",
+                "cards": 3,
+                "hasIcons": true
+            },
+            "contentMetrics": {
+                "wordCount": 68,
+                "dataPointCount": 4,
+                "bulletCount": 3,
+                "hasImage": false
+            },
+            "mediaAttachments": [],
+            "speakerNotes": "Three distinct forces are squeezing our margins. Infrastructure costs are largely market-driven — cloud prices haven't come down as fast as we hoped. The SMB pricing pressure is a competitive reality we have to navigate. But the third force — our R&D investment pace — is entirely our strategic choice. That's where our leverage is."
+        },
+        {
+            "taskId": "s04",
+            "title": "Platform Migration Timeline",
+            "slideType": "content_mixed",
+            "narrativeRole": "analysis",
+            "contentSource": "document",
+            "headlineMessage": "The platform rewrite is 60% complete — Q4 delivery unlocks $180M in annual savings",
+            "contentBody": "Phase 1 (Auth + Core API): Complete. Phase 2 (Data pipeline migration): 80% complete, on track for August. Phase 3 (Frontend rewrite): Started June, targeting October. Phase 4 (Legacy decommission): November–December. Phase 5 (Full cutover + monitoring): January target. Projected annual savings: $180M from infrastructure consolidation and reduced maintenance burden.",
+            "sourceRef": "platform-migration-plan.md#PhaseTimeline",
+            "contentForm": {
+                "type": "timeline",
+                "milestones": 5,
+                "hasDescriptions": true
+            },
+            "contentMetrics": {
+                "wordCount": 72,
+                "dataPointCount": 3,
+                "bulletCount": 5,
+                "hasImage": false
+            },
+            "mediaAttachments": [],
+            "speakerNotes": "Here's where the R&D investment pays off. Our platform rewrite has five phases, and we're solidly through the first two. The critical path runs through Phase 3 — the frontend rewrite — which is our biggest risk. If we hit the October target, we unlock $180M in annual savings starting Q1 next year."
+        },
+        {
+            "taskId": "s05",
+            "title": "Market Position",
+            "slideType": "content_mixed",
+            "narrativeRole": "analysis",
+            "contentSource": "hybrid",
+            "headlineMessage": "Our platform shift mirrors the industry's move from on-prem to cloud-native",
+            "contentBody": "The industry inflection point arrived in 2024: cloud-native adoption crossed 60% in our segment. Three direct competitors completed their platform migrations 6–18 months ahead of us. Customer expectations are shifting faster than our delivery — the expectation gap widens each quarter we delay.",
+            "contentForm": {
+                "type": "text-narrative",
+                "paragraphs": 2
+            },
+            "illustrationSpec": {
+                "source": "to-generate",
+                "imageCount": 1,
+                "placement": "supporting-visual",
+                "subject": "Visual metaphor of industry migration: old server racks dissolving into modern cloud architecture, transition flowing left to right",
+                "perImageSubject": null,
+                "compositionNote": "Left-to-right transition from dark/heavy (on-prem) to light/airy (cloud). Generous negative space on the right side where text will sit",
+                "contentInteraction": "Illustration fills the left 55% of the slide; body text sits in the right 40% alongside the illustration"
+            },
+            "contentMetrics": {
+                "wordCount": 58,
+                "dataPointCount": 2,
+                "bulletCount": 0,
+                "hasImage": true
+            },
+            "mediaAttachments": [],
+            "speakerNotes": "This isn't just our story — it's the entire industry's. The inflection point hit last year, and our competitors moved fast. Every quarter we delay the migration, the gap between what customers expect and what we deliver gets wider. This is the strategic urgency behind the investment we're asking for."
+        }
+    ]
+}

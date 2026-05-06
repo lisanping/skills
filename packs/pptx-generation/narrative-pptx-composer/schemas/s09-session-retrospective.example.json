@@ -1,0 +1,232 @@
+{
+    "sessionId": "20260415_143136_White_Blue_Simple_Business_Pitch_Deck_Presentation_creative",
+    "deckTopic": "Q2 Product Strategy Review",
+    "totalSlides": 10,
+    "workflowPath": "standard",
+    "executionSummary": {
+        "stepsExecuted": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "5f",
+            "6",
+            "7",
+            "8",
+            "9"
+        ],
+        "checkpointsPassed": [
+            "step3",
+            "step5",
+            "step6"
+        ],
+        "checkpointsFailed": [],
+        "qaRounds": 2,
+        "totalIssuesFound": 5,
+        "totalIssuesFixed": 4
+    },
+    "stepMetrics": [
+        {
+            "step": "1",
+            "minutesSpent": 6,
+            "retryCount": 0,
+            "rootCauseCategory": null
+        },
+        {
+            "step": "2",
+            "minutesSpent": 4,
+            "retryCount": 0,
+            "rootCauseCategory": null
+        },
+        {
+            "step": "3",
+            "minutesSpent": 20,
+            "retryCount": 0,
+            "rootCauseCategory": null
+        },
+        {
+            "step": "4",
+            "minutesSpent": 14,
+            "retryCount": 1,
+            "rootCauseCategory": "spec-ambiguity",
+            "note": "first registry write used the wrong shape for namedEntities"
+        },
+        {
+            "step": "5",
+            "minutesSpent": 32,
+            "retryCount": 2,
+            "rootCauseCategory": "validation-miss"
+        },
+        {
+            "step": "5f",
+            "minutesSpent": 9,
+            "retryCount": 0,
+            "rootCauseCategory": null
+        },
+        {
+            "step": "6",
+            "minutesSpent": 8,
+            "retryCount": 0,
+            "rootCauseCategory": null
+        },
+        {
+            "step": "7",
+            "minutesSpent": 18,
+            "retryCount": 3,
+            "rootCauseCategory": "code-quality",
+            "note": "Inches/Pt confusion in three builders"
+        },
+        {
+            "step": "8",
+            "minutesSpent": 16,
+            "retryCount": 1,
+            "rootCauseCategory": "design-judgment"
+        },
+        {
+            "step": "9",
+            "minutesSpent": 6,
+            "retryCount": 0,
+            "rootCauseCategory": null
+        }
+    ],
+    "issues": [
+        {
+            "id": "issue-01",
+            "step": "7",
+            "category": "code-quality",
+            "severity": "critical",
+            "description": "build_s05() used Pt(0.7) for the title zone x-coordinate instead of Inches(0.7), placing the title off the visible slide area",
+            "rootCause": "code-quality",
+            "fix": "Changed Pt(0.7) to Inches(0.7) in build_s05() title zone positioning",
+            "preventable": true,
+            "preventionMethod": "Add runtime assertion in add_textbox() that rejects Pt values > 72 for positional arguments"
+        },
+        {
+            "id": "issue-02",
+            "step": "5",
+            "category": "design-judgment",
+            "severity": "minor",
+            "description": "Three consecutive body slides (s04–s06) all used symmetric two-column layouts, creating visual monotony despite different content forms",
+            "rootCause": "design-judgment",
+            "fix": "Redesigned s05 to use an asymmetric 60/40 split with a side-stripe decoration to break the pattern",
+            "preventable": true,
+            "preventionMethod": "s05_validate_plan.py already checks layout variety quota — threshold may need tightening for runs of identical patterns"
+        },
+        {
+            "id": "issue-03",
+            "step": "7",
+            "category": "code-quality",
+            "severity": "critical",
+            "description": "Card background rounded rectangles in build_s07() used RGBColor('CADCFC') without the 0x prefix, causing a ValueError at runtime",
+            "rootCause": "code-quality",
+            "fix": "Changed to RGBColor(0xCA, 0xDC, 0xFC) using the three-integer form",
+            "preventable": true,
+            "preventionMethod": "Include a RGBColor usage reminder in build-script-template.md and add a hex-string lint check"
+        },
+        {
+            "id": "issue-04",
+            "step": "7",
+            "category": "code-quality",
+            "severity": "minor",
+            "description": "Hero stat number on s03 used Inches(44) for font size instead of Pt(44), resulting in an enormous invisible text frame",
+            "rootCause": "code-quality",
+            "fix": "Changed Inches(44) to Pt(44) in the stat display font size assignment",
+            "preventable": true,
+            "preventionMethod": "Same unit validation helper as issue-01"
+        },
+        {
+            "id": "issue-05",
+            "step": "8",
+            "category": "tooling-limitation",
+            "severity": "minor",
+            "description": "LibreOffice headless render produced slightly different gradient fills compared to PowerPoint, making the QA subagent flag false-positive color contrast issues on s01 cover",
+            "rootCause": "tooling-limitation",
+            "fix": "Not fixed — documented as known limitation. Gradient rendering is a known LibreOffice fidelity gap",
+            "preventable": false,
+            "preventionMethod": null
+        }
+    ],
+    "issueDistribution": {
+        "byStep": {
+            "6": 1,
+            "8": 3,
+            "9": 1
+        },
+        "byCategory": {
+            "code-quality": 3,
+            "design-judgment": 1,
+            "tooling-limitation": 1
+        },
+        "bySeverity": {
+            "critical": 2,
+            "minor": 3
+        },
+        "byRootCause": {
+            "code-quality": 3,
+            "design-judgment": 1,
+            "tooling-limitation": 1
+        }
+    },
+    "recommendations": [
+        {
+            "id": "rec-01",
+            "title": "Add unit validation to s07_slide_helpers.py positional arguments",
+            "category": "code-quality",
+            "priority": "high",
+            "description": "Three of five issues were Inches/Pt/Emu confusion in s07-build.py. Adding runtime assertions to add_textbox() and add_shape() that reject Pt values > 72 for x/y/w/h positional parameters, and Inches values > 2 for font size parameters, would catch these at generation time instead of visual QA.",
+            "evidence": [
+                "issue-01",
+                "issue-03",
+                "issue-04"
+            ],
+            "estimatedPayoff": {
+                "timeSavedMinutes": 15,
+                "affectedSessions": "every session that writes a s07-build.py from scratch",
+                "confidence": "high"
+            }
+        },
+        {
+            "id": "rec-02",
+            "title": "Add consecutive-layout-pattern check to s05_validate_plan.py",
+            "category": "validation",
+            "priority": "medium",
+            "description": "The existing layout variety quota checks global distribution but not local runs. Adding a sliding-window check (no more than 2 consecutive body slides with the same layout family) would catch visual monotony earlier, before s07-build.py is written.",
+            "evidence": [
+                "issue-02"
+            ],
+            "estimatedPayoff": {
+                "timeSavedMinutes": 5,
+                "affectedSessions": "decks > 8 body slides",
+                "confidence": "medium"
+            }
+        },
+        {
+            "id": "rec-03",
+            "title": "Document LibreOffice gradient rendering gap in QA reviewer prompt",
+            "category": "tooling",
+            "priority": "low",
+            "description": "The QA subagent flagged a false positive on gradient color contrast because LibreOffice renders gradients differently from PowerPoint. Adding a note in qa-reviewer-prompt.md to treat gradient-related contrast issues as MINOR when rendered via LibreOffice would reduce false positives.",
+            "evidence": [
+                "issue-05"
+            ],
+            "estimatedPayoff": {
+                "timeSavedMinutes": 2,
+                "affectedSessions": "any session rendered via LibreOffice with gradient backgrounds",
+                "confidence": "low"
+            }
+        }
+    ],
+    "sessionInsights": {
+        "workedWell": [
+            "VLM image selection in Step 5f worked well — the selected cover image scored highest on all 5 criteria and no fallbacks were triggered. The 3-variation strategy justified its cost.",
+            "The bottom-up slide-count derivation in Step 3c landed on 10 — exactly matching the user's later expressed expectation, validating that we did not need to fight the act structure to hit a target."
+        ],
+        "worthSurprise": [
+            "3 of 5 issues (60%) were unit confusion in s07-build.py (Inches vs Pt vs raw integers). This is the single highest-leverage area for code quality improvement — a type-safe unit wrapper or runtime guard would eliminate the entire category."
+        ],
+        "wouldChange": [
+            "The design self-review in Step 7a caught 0 of the 3 code-quality issues because it operates at the design-intent level, not the code level. Consider adding a lightweight code-lint pass between Step 7 (write s07-build.py) and Step 8a (execute it)."
+        ]
+    }
+}

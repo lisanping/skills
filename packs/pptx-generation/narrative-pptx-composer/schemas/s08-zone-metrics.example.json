@@ -1,0 +1,299 @@
+{
+    "slideDimensions": {
+        "widthIn": 13.333,
+        "heightIn": 7.5
+    },
+    "generatedAt": "2026-05-02T10:00:00Z",
+    "sourcePptx": "output.pptx",
+    "slides": [
+        {
+            "slideId": "s01",
+            "slideIndex": 1,
+            "background": {
+                "fillColor": "#1A1A1A",
+                "source": "slide"
+            },
+            "zones": [
+                {
+                    "zoneId": "title",
+                    "shapeType": "text",
+                    "bboxIn": {
+                        "x": 0.5,
+                        "y": 2.8,
+                        "w": 12.3,
+                        "h": 1.6
+                    },
+                    "marginsIn": {
+                        "left": 0.5,
+                        "right": 0.533,
+                        "top": 2.8,
+                        "bottom": 3.1
+                    },
+                    "fill": null,
+                    "textRuns": [
+                        {
+                            "text": "Attention is All You Need",
+                            "fontPt": 54,
+                            "fontFamily": "Inter Bold",
+                            "bold": true,
+                            "italic": false,
+                            "color": "#FFFFFF"
+                        }
+                    ],
+                    "wcagContrast": {
+                        "fgVsBg": 18.27,
+                        "fgRgb": "#FFFFFF",
+                        "bgRgb": "#1A1A1A",
+                        "bgSource": "slide-bg"
+                    },
+                    "image": null,
+                    "isCodeZone": false,
+                    "zOrder": 1
+                },
+                {
+                    "zoneId": "subtitle",
+                    "shapeType": "text",
+                    "bboxIn": {
+                        "x": 0.5,
+                        "y": 4.5,
+                        "w": 12.3,
+                        "h": 0.6
+                    },
+                    "marginsIn": {
+                        "left": 0.5,
+                        "right": 0.533,
+                        "top": 4.5,
+                        "bottom": 2.4
+                    },
+                    "fill": null,
+                    "textRuns": [
+                        {
+                            "text": "A 2017 paper that reshaped sequence modeling",
+                            "fontPt": 18,
+                            "fontFamily": "Inter",
+                            "bold": false,
+                            "italic": false,
+                            "color": "#CCCCCC"
+                        }
+                    ],
+                    "wcagContrast": {
+                        "fgVsBg": 11.58,
+                        "fgRgb": "#CCCCCC",
+                        "bgRgb": "#1A1A1A",
+                        "bgSource": "slide-bg"
+                    },
+                    "image": null,
+                    "isCodeZone": false,
+                    "zOrder": 2
+                }
+            ],
+            "outOfCanvas": [],
+            "placeholderHits": []
+        },
+        {
+            "slideId": "s03",
+            "slideIndex": 3,
+            "background": {
+                "fillColor": "#FFFFFF",
+                "source": "slide"
+            },
+            "zones": [
+                {
+                    "zoneId": "title",
+                    "shapeType": "text",
+                    "bboxIn": {
+                        "x": 0.5,
+                        "y": 0.4,
+                        "w": 8.0,
+                        "h": 0.9
+                    },
+                    "marginsIn": {
+                        "left": 0.5,
+                        "right": 4.833,
+                        "top": 0.4,
+                        "bottom": 6.2
+                    },
+                    "fill": null,
+                    "textRuns": [
+                        {
+                            "text": "Three Innovations",
+                            "fontPt": 36,
+                            "fontFamily": "Inter Bold",
+                            "bold": true,
+                            "italic": false,
+                            "color": "#1A1A1A"
+                        }
+                    ],
+                    "wcagContrast": {
+                        "fgVsBg": 17.81,
+                        "fgRgb": "#1A1A1A",
+                        "bgRgb": "#FFFFFF",
+                        "bgSource": "slide-bg"
+                    },
+                    "image": null,
+                    "isCodeZone": false,
+                    "zOrder": 1
+                },
+                {
+                    "zoneId": "card-r2-subtitle",
+                    "shapeType": "text",
+                    "bboxIn": {
+                        "x": 9.0,
+                        "y": 4.5,
+                        "w": 3.2,
+                        "h": 1.0
+                    },
+                    "marginsIn": {
+                        "left": 9.0,
+                        "right": 1.133,
+                        "top": 4.5,
+                        "bottom": 2.0
+                    },
+                    "fill": {
+                        "fillColor": "#F0F0F0",
+                        "fillType": "solid"
+                    },
+                    "textRuns": [
+                        {
+                            "text": "Enabled the modern transformer architecture transformation initiative",
+                            "fontPt": 16,
+                            "fontFamily": "Inter",
+                            "bold": false,
+                            "italic": false,
+                            "color": "#666666"
+                        }
+                    ],
+                    "wcagContrast": {
+                        "fgVsBg": 5.74,
+                        "fgRgb": "#666666",
+                        "bgRgb": "#F0F0F0",
+                        "bgSource": "zone-fill"
+                    },
+                    "image": null,
+                    "isCodeZone": false,
+                    "zOrder": 4
+                },
+                {
+                    "zoneId": "decorative-bar",
+                    "shapeType": "shape",
+                    "bboxIn": {
+                        "x": 13.0,
+                        "y": 7.0,
+                        "w": 0.65,
+                        "h": 0.4
+                    },
+                    "marginsIn": {
+                        "left": 13.0,
+                        "right": -0.317,
+                        "top": 7.0,
+                        "bottom": 0.1
+                    },
+                    "fill": {
+                        "fillColor": "#E8913A",
+                        "fillType": "solid"
+                    },
+                    "textRuns": [],
+                    "wcagContrast": null,
+                    "image": null,
+                    "isCodeZone": false,
+                    "zOrder": 5
+                }
+            ],
+            "outOfCanvas": [
+                {
+                    "zoneId": "decorative-bar",
+                    "overhangIn": {
+                        "right": 0.317
+                    }
+                }
+            ],
+            "placeholderHits": []
+        },
+        {
+            "slideId": "s05",
+            "slideIndex": 5,
+            "background": {
+                "fillColor": "#FFFFFF",
+                "source": "slide"
+            },
+            "zones": [
+                {
+                    "zoneId": "hero-image",
+                    "shapeType": "image",
+                    "bboxIn": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "w": 6.5,
+                        "h": 7.5
+                    },
+                    "marginsIn": {
+                        "left": 0.0,
+                        "right": 6.833,
+                        "top": 0.0,
+                        "bottom": 0.0
+                    },
+                    "fill": null,
+                    "textRuns": [],
+                    "wcagContrast": null,
+                    "image": {
+                        "path": "images/s05-portrait.jpg",
+                        "fileWidthPx": 1920,
+                        "fileHeightPx": 1080,
+                        "fileAspectRatio": 1.778,
+                        "zoneAspectRatio": 0.867,
+                        "aspectDelta": 0.512
+                    },
+                    "isCodeZone": false,
+                    "zOrder": 1
+                },
+                {
+                    "zoneId": "code-snippet",
+                    "shapeType": "text",
+                    "bboxIn": {
+                        "x": 7.0,
+                        "y": 4.0,
+                        "w": 5.8,
+                        "h": 3.0
+                    },
+                    "marginsIn": {
+                        "left": 7.0,
+                        "right": 0.533,
+                        "top": 4.0,
+                        "bottom": 0.5
+                    },
+                    "fill": {
+                        "fillColor": "#F5F5F5",
+                        "fillType": "solid"
+                    },
+                    "textRuns": [
+                        {
+                            "text": "def attention(Q, K, V):",
+                            "fontPt": 11,
+                            "fontFamily": "Inter",
+                            "bold": false,
+                            "italic": false,
+                            "color": "#333333"
+                        }
+                    ],
+                    "wcagContrast": {
+                        "fgVsBg": 9.74,
+                        "fgRgb": "#333333",
+                        "bgRgb": "#F5F5F5",
+                        "bgSource": "zone-fill"
+                    },
+                    "image": null,
+                    "isCodeZone": true,
+                    "zOrder": 3
+                }
+            ],
+            "outOfCanvas": [],
+            "placeholderHits": [
+                {
+                    "zoneId": "footer",
+                    "match": "click to",
+                    "snippet": "...click to add notes here..."
+                }
+            ]
+        }
+    ]
+}

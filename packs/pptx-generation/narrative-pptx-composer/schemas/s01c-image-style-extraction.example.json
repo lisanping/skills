@@ -1,0 +1,258 @@
+{
+  "_comment": "Style + topology track output of the image-extraction VLM pass (workflow-step1.md § 1c-image). One entry per source image. Content-track text (visualGroups[].textContent) is also folded into s01c-content-digest.json as synthetic sections; intent-track fields (intentInference, extractedStyle, designMoves) are merged into s01b-query-intent.json. This file remains the canonical structural reference that Step 5c reads when honoring image-derived layout intent.",
+  "extractions": [
+    {
+      "sourceImage": "ref-arch-01.png",
+      "imageRole": "single-slide",
+      "overallForm": {
+        "name": "横向三段式流水线架构图（Ingest → Transform → Serve，等宽三列 + 两段箭头连接）",
+        "communicates": "数据从摄入到服务的端到端单路径流程，强调中间 Transform 是关键环节",
+        "confidence": "high",
+        "isConventional": true
+      },
+      "visualGroups": [
+        {
+          "id": "g-root",
+          "bbox": [
+            0.00,
+            0.00,
+            1.00,
+            1.00
+          ],
+          "whatItIs": "Whole slide. Top band carries title; lower 75% is a horizontal 3-stage architecture diagram with a bottom annotation strip.",
+          "textContent": null,
+          "childGroups": [
+            "g-title",
+            "g-arch",
+            "g-footnote"
+          ]
+        },
+        {
+          "id": "g-title",
+          "bbox": [
+            0.06,
+            0.06,
+            0.88,
+            0.18
+          ],
+          "whatItIs": "Title block, two lines, large display weight. Subtitle sits one baseline below, lighter color.",
+          "textContent": "Data Plane Architecture\nIngest, transform, serve — one path",
+          "childGroups": []
+        },
+        {
+          "id": "g-arch",
+          "bbox": [
+            0.06,
+            0.24,
+            0.94,
+            0.78
+          ],
+          "whatItIs": "3 vertical column-stacks of equal width, separated by two large rightward arrows. Each stack contains a header chip and 2–3 stacked rounded boxes. Background is faint grid.",
+          "textContent": null,
+          "childGroups": [
+            "g-stack-ingest",
+            "g-arrow-1",
+            "g-stack-transform",
+            "g-arrow-2",
+            "g-stack-serve"
+          ]
+        },
+        {
+          "id": "g-stack-ingest",
+          "bbox": [
+            0.08,
+            0.28,
+            0.32,
+            0.76
+          ],
+          "whatItIs": "Vertical stack with a teal header chip 'Ingest' and 3 rounded boxes below labelled 'Kafka', 'CDC', 'Webhooks'.",
+          "textContent": "Ingest / Kafka / CDC / Webhooks",
+          "childGroups": []
+        },
+        {
+          "id": "g-arrow-1",
+          "bbox": [
+            0.32,
+            0.48,
+            0.38,
+            0.56
+          ],
+          "whatItIs": "Thick rightward arrow, same teal as Ingest header.",
+          "textContent": null,
+          "childGroups": []
+        },
+        {
+          "id": "g-stack-transform",
+          "bbox": [
+            0.38,
+            0.28,
+            0.62,
+            0.76
+          ],
+          "whatItIs": "Vertical stack with an amber header chip 'Transform' and 2 rounded boxes 'dbt models', 'Materialized views'. The amber chip is visibly larger than the other two stack headers — the focal column.",
+          "textContent": "Transform / dbt models / Materialized views",
+          "childGroups": []
+        },
+        {
+          "id": "g-arrow-2",
+          "bbox": [
+            0.62,
+            0.48,
+            0.68,
+            0.56
+          ],
+          "whatItIs": "Thick rightward arrow, amber.",
+          "textContent": null,
+          "childGroups": []
+        },
+        {
+          "id": "g-stack-serve",
+          "bbox": [
+            0.68,
+            0.28,
+            0.92,
+            0.76
+          ],
+          "whatItIs": "Vertical stack with a teal header chip 'Serve' and 3 rounded boxes 'API', 'BI tools', 'Embedded apps'.",
+          "textContent": "Serve / API / BI tools / Embedded apps",
+          "childGroups": []
+        },
+        {
+          "id": "g-footnote",
+          "bbox": [
+            0.06,
+            0.86,
+            0.94,
+            0.94
+          ],
+          "whatItIs": "Single-line annotation strip in muted grey, italic. Reads as a tagline below the diagram.",
+          "textContent": "End-to-end latency target: under 30 seconds",
+          "childGroups": []
+        }
+      ],
+      "relations": [
+        {
+          "kind": "contains",
+          "from": "g-root",
+          "to": [
+            "g-title",
+            "g-arch",
+            "g-footnote"
+          ]
+        },
+        {
+          "kind": "contains",
+          "from": "g-arch",
+          "to": [
+            "g-stack-ingest",
+            "g-stack-transform",
+            "g-stack-serve"
+          ]
+        },
+        {
+          "kind": "sequence",
+          "ordered": [
+            "g-stack-ingest",
+            "g-stack-transform",
+            "g-stack-serve"
+          ],
+          "via": [
+            "g-arrow-1",
+            "g-arrow-2"
+          ],
+          "direction": "left-to-right",
+          "note": "Ingest → Transform → Serve pipeline"
+        },
+        {
+          "kind": "align",
+          "members": [
+            "g-stack-ingest",
+            "g-stack-transform",
+            "g-stack-serve"
+          ],
+          "axis": "horizontal",
+          "rhythm": "equal-width 3-column",
+          "note": "Equal column widths emphasize parallel structure"
+        },
+        {
+          "kind": "group",
+          "members": [
+            "g-stack-ingest",
+            "g-stack-serve"
+          ],
+          "by": "shared teal color",
+          "note": "Bookend stages share color; middle stage breaks it"
+        },
+        {
+          "kind": "emphasize",
+          "focus": "g-stack-transform",
+          "by": "amber header larger and warmer than teal bookends",
+          "note": "Visual focal point is the middle stage"
+        },
+        {
+          "kind": "annotate",
+          "from": "g-footnote",
+          "target": "g-arch",
+          "note": "Tagline interprets the diagram as a whole"
+        }
+      ],
+      "extractedStyle": {
+        "palette": [
+          "#0E3B43",
+          "#1F7A8C",
+          "#E8B85B",
+          "#F4F1EC",
+          "#3A3A3A"
+        ],
+        "paletteRole": {
+          "background": "#F4F1EC",
+          "primary": "#0E3B43",
+          "secondary": "#1F7A8C",
+          "accent": "#E8B85B",
+          "text": "#3A3A3A"
+        },
+        "fontHint": "humanist sans, bold for title and chips, regular for box labels",
+        "registerImpression": "business-standard",
+        "moodKeywords": [
+          "confident",
+          "structured",
+          "editorial"
+        ],
+        "designAmbitionGuess": "expressive"
+      },
+      "designMoves": {
+        "whatDrivesContrast": "color-temperature shift (cool teal bookends vs warm amber middle) and chip scale",
+        "firstFixation": {
+          "bbox": [
+            0.38,
+            0.28,
+            0.62,
+            0.40
+          ],
+          "reason": "Largest amber chip in the visual center"
+        },
+        "rhythm": "regular 3-column grid with arrow connectors; vertical stacks have consistent box heights",
+        "signatureMoves": [
+          "Bookend cool-color flanks a single warm focal column",
+          "Arrows match the upstream stack's color, reinforcing flow direction",
+          "Faint background grid grounds the diagram without competing with the boxes"
+        ]
+      },
+      "intentInference": {
+        "mode": "beautify",
+        "rationale": "Architecture diagram screenshot, no instruction to reproduce verbatim. Topology should be preserved, surface treatment can be re-authored.",
+        "modeAlternatives": [
+          "reproduce"
+        ],
+        "suggestedSlideCount": 1,
+        "openQuestions": []
+      }
+    }
+  ],
+  "deckInference": {
+    "mode": "beautify",
+    "totalSlidesEstimate": 1,
+    "multiImageRelationship": null,
+    "notes": "Single image. Topology (3-stage L→R pipeline with a focal middle stage) is the load-bearing structure for downstream layoutSpec. inputMode is a Step-5 design-strategy hint — Steps 2 and 3 still run normally and produce s02-communication-brief.json + s03-presentation-blueprint.json."
+  }
+}

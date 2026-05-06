@@ -1,0 +1,177 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "s08-cohort-definitions.schema.json",
+    "title": "Step 8 Cohort Definitions (v2 Phase 2)",
+    "description": "Output of s08_cohort_definitions.py. Defines structurally-similar slide groups (cohorts) that the per-cohort VLM detection pass evaluates as a unit. See workflow-step8.md § 8c.",
+    "type": "object",
+    "required": [
+        "generatedAt",
+        "sourceDesignFile",
+        "sourceMetricsFile",
+        "cohorts"
+    ],
+    "properties": {
+        "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "UTC ISO-8601 timestamp."
+        },
+        "sourceDesignFile": {
+            "type": "string",
+            "description": "Filename of the s05 visual-design JSON the cohorts were derived from."
+        },
+        "sourceMetricsFile": {
+            "type": "string",
+            "description": "Filename of the s08-zone-metrics.json the comparison tables were aggregated from."
+        },
+        "layoutPatternNormalization": {
+            "type": "object",
+            "description": "Optional Q3-B normalization map applied before grouping. Identity (no-op) when omitted. When present, original → canonical layoutPattern.",
+            "additionalProperties": {
+                "type": "string"
+            }
+        },
+        "cohorts": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Cohort"
+            }
+        }
+    },
+    "additionalProperties": false,
+    "definitions": {
+        "Cohort": {
+            "type": "object",
+            "required": [
+                "cohortId",
+                "cohortType",
+                "members",
+                "rationale"
+            ],
+            "properties": {
+                "cohortId": {
+                    "type": "string",
+                    "description": "Stable id. Format: 'bookends' | 'act-dividers' | 'layout:<pattern>' | 'role:<role>'."
+                },
+                "cohortType": {
+                    "type": "string",
+                    "enum": [
+                        "semantic-pair",
+                        "role-series",
+                        "layout-repetition"
+                    ],
+                    "description": "Discovery rule that produced this cohort. semantic-pair=bookends; role-series=act-dividers; layout-repetition=≥2 slides sharing layoutPattern."
+                },
+                "members": {
+                    "type": "array",
+                    "minItems": 2,
+                    "items": {
+                        "type": "string",
+                        "pattern": "^s\\d{2}$"
+                    },
+                    "description": "Member slideIds in deck order."
+                },
+                "rationale": {
+                    "type": "string",
+                    "description": "One-line human-readable reason this cohort was formed."
+                },
+                "sharedSpec": {
+                    "type": [
+                        "object",
+                        "null"
+                    ],
+                    "description": "Spec the members share (layoutPattern / slideType / etc.). Null for semantic-pair where members do not share structure but share role."
+                },
+                "sourceFields": {
+                    "type": "object",
+                    "description": "Which s05 design fields were the discovery signal. Useful for audit.",
+                    "additionalProperties": true
+                },
+                "comparisonTable": {
+                    "type": "object",
+                    "description": "Per-role metric comparison across cohort members. Outer key = roleHint; inner key = slideId; value = metric snapshot for that role on that slide. Only roles present in ≥ 2 members are included. Used by per-cohort VLM detection prompt as structured cross-member anchor.",
+                    "additionalProperties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "$ref": "#/definitions/RoleMetricSnapshot"
+                        }
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "RoleMetricSnapshot": {
+            "type": "object",
+            "description": "Selected metrics for one zone (one role on one slide). Drawn from s08-zone-metrics.json.",
+            "properties": {
+                "zoneId": {
+                    "type": "string"
+                },
+                "shapeType": {
+                    "type": "string"
+                },
+                "bboxIn": {
+                    "type": "object",
+                    "required": [
+                        "x",
+                        "y",
+                        "w",
+                        "h"
+                    ]
+                },
+                "fillColor": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "pattern": "^#[0-9A-Fa-f]{6}$"
+                },
+                "dominantText": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "First text run sample (truncated to 80 chars) for context."
+                },
+                "fontPt": {
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "fontFamily": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "bold": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "color": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "pattern": "^#[0-9A-Fa-f]{6}$"
+                },
+                "estimatedRenderedLines": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                },
+                "imageAspectDelta": {
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                }
+            },
+            "additionalProperties": false
+        }
+    }
+}

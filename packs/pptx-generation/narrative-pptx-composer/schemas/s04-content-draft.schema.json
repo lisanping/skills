@@ -1,0 +1,588 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$ref": "#/definitions/ContentDraft",
+    "definitions": {
+        "ContentDraft": {
+            "type": "object",
+            "description": "Step 4 output: per-slide drafted content + form specification + speaker notes. Pure content layer — does not name layout zones (Step 6a maps content to zones).",
+            "properties": {
+                "slides": {
+                    "type": "array",
+                    "description": "Ordered slide drafts. Order and taskIds must match s03-presentation-blueprint.json.",
+                    "items": {
+                        "$ref": "#/definitions/SlideDraft"
+                    },
+                    "minItems": 1
+                }
+            },
+            "required": [
+                "slides"
+            ],
+            "additionalProperties": false
+        },
+        "SlideDraft": {
+            "type": "object",
+            "description": "One slide's drafted content. Body text lives in `contentBody` (free-form prose / paragraph blocks); zone-level mapping is deferred to Step 6a.",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "Stable slide id, matches s03.slides[].slideId."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Short on-deck working title (used by validators / previews). Body slides may set this equal to a shortened headlineMessage; structural slides use a working label."
+                },
+                "slideType": {
+                    "type": "string",
+                    "enum": [
+                        "cover",
+                        "agenda",
+                        "divider",
+                        "closing",
+                        "executive_summary",
+                        "recap",
+                        "appendix",
+                        "content_text",
+                        "content_data",
+                        "content_mixed",
+                        "content_visual",
+                        "content_quote"
+                    ],
+                    "description": "Same vocabulary as s03.slides[].slideType."
+                },
+                "narrativeRole": {
+                    "type": "string",
+                    "description": "Carried from blueprint (opening / setup / evidence / analysis / synthesis / resolution / handoff / etc.)."
+                },
+                "contentSource": {
+                    "type": "string",
+                    "enum": [
+                        "document",
+                        "generated",
+                        "hybrid"
+                    ],
+                    "description": "Authoritative source policy for this slide's content. `document` forbids fabrication; `generated`/`hybrid` allow LLM authoring grounded in s04a registry."
+                },
+                "headlineMessage": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Verbatim copy of blueprint.headlineMessage. Step 4 must not shorten / split / rewrite — that is Step 6a's job. Null for cover / divider / agenda / closing."
+                },
+                "contentBody": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Free-form prose or paragraph-separated blocks for the slide body. Step 4 captures the *content shape* via `contentForm`; named-zone mapping (title / left-body / card-1-title / …) is deferred to Step 6a."
+                },
+                "supportingPoints": {
+                    "type": "array",
+                    "description": "Optional structured supporting points (carried/refined from blueprint). For document-mode slides each point should be a SourcedPoint object.",
+                    "items": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "text": {
+                                        "type": "string"
+                                    },
+                                    "sourceRef": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "text"
+                                ],
+                                "additionalProperties": true
+                            }
+                        ]
+                    }
+                },
+                "contentForm": {
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "$ref": "#/definitions/ContentForm"
+                        }
+                    ],
+                    "description": "Structural shape of this slide's content. May be null/omitted for structural slides (cover/divider/closing/agenda)."
+                },
+                "contentMetrics": {
+                    "$ref": "#/definitions/ContentMetrics",
+                    "description": "Per-slide content metrics. Feed Step 5 layout selection."
+                },
+                "illustrationSpec": {
+                    "$ref": "#/definitions/IllustrationSpec",
+                    "description": "Present only when blueprint set illustrationIntent.needed=true. Refines Step 3's intent into actionable spec for Step 5d/5f."
+                },
+                "mediaAttachments": {
+                    "type": "array",
+                    "description": "User-supplied media (from s01c.mediaAssets) attached to this slide. Each item: { ref, type, alt, placement }.",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "ref": {
+                                "type": "string"
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "image",
+                                    "chart",
+                                    "diagram",
+                                    "screenshot",
+                                    "photo",
+                                    "video"
+                                ]
+                            },
+                            "alt": {
+                                "type": "string"
+                            },
+                            "placement": {
+                                "type": "string",
+                                "enum": [
+                                    "primary-visual",
+                                    "supporting-visual",
+                                    "background"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "ref",
+                            "type"
+                        ],
+                        "additionalProperties": true
+                    }
+                },
+                "sourceRef": {
+                    "type": "string",
+                    "description": "Slide-level source citation. Required when contentSource='document' and supportingPoints don't carry per-point sourceRef."
+                },
+                "speakerNotes": {
+                    "type": "string",
+                    "description": "Presenter notes whose tone matches the deck's register (formalityLevel + audience profile from s02), not a default conversational voice. Required on every slide (covers, dividers, agendas, closings included). Length is content-driven — dense slides + Stage 2 demoted material warrant longer notes; structural slides may be brief."
+                },
+                "blocks": {
+                    "type": "array",
+                    "description": "Optional structured sub-content for multi-block layouts (card-grid, comparison-matrix, timeline, step-flow, stat-callout, etc.). When present, each block maps to a Step 5 zone whose role matches `block.role` (e.g. `card-1`, `column-2`, `phase-3`). Step 6 prefers blocks over splitting `contentBody` itself; when this field is absent on a multi-zone layout, Step 6 splits `contentBody` heuristically and logs the slide for traceability (no error). Single-zone layouts (text-narrative, bullet-list, prose) leave this field empty.",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "role": {
+                                "type": "string",
+                                "description": "Stable identifier matching the corresponding Step 5 zone role (e.g. `card-1`, `column-left`, `phase-3`, `stat-revenue`)."
+                            },
+                            "headline": {
+                                "type": "string",
+                                "description": "Short label / title for this block (maps to the block's title-zone if present)."
+                            },
+                            "body": {
+                                "type": "string",
+                                "description": "Body text for this block (maps to the block's body-zone)."
+                            }
+                        },
+                        "required": [
+                            "role"
+                        ],
+                        "additionalProperties": true
+                    }
+                }
+            },
+            "required": [
+                "taskId",
+                "slideType",
+                "contentSource"
+            ],
+            "additionalProperties": true
+        },
+        "ContentForm": {
+            "type": "object",
+            "description": "Structural shape of slide content. `type` is the canonical form id; the remaining required fields depend on `type` (see workflow-step4.md § Form Type Catalog).",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "cover",
+                        "divider",
+                        "closing",
+                        "agenda",
+                        "text-narrative",
+                        "bullet-list",
+                        "stat-callout",
+                        "comparison-matrix",
+                        "timeline",
+                        "step-flow",
+                        "architecture-layers",
+                        "code-walkthrough",
+                        "diagram-callouts",
+                        "before-after",
+                        "card-grid",
+                        "quote",
+                        "data-visualization",
+                        "icon-list",
+                        "full-bleed-image"
+                    ]
+                },
+                "paragraphs": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "items": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "stats": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "rows": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "columns": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "hasHeaders": {
+                    "type": "boolean"
+                },
+                "milestones": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "hasDescriptions": {
+                    "type": "boolean"
+                },
+                "steps": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "hasIcons": {
+                    "type": "boolean"
+                },
+                "layers": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "hasLabels": {
+                    "type": "boolean"
+                },
+                "codeBlocks": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "explanationPoints": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "calloutCount": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "cards": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "hasAttribution": {
+                    "type": "boolean"
+                },
+                "chartType": {
+                    "type": "string"
+                },
+                "dataPoints": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "hasOverlayText": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "type"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "text-narrative"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "paragraphs"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "bullet-list"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "items"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "stat-callout"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "stats"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "comparison-matrix"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "rows",
+                            "columns"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "timeline"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "milestones"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "step-flow"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "steps"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "architecture-layers"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "layers"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "code-walkthrough"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "codeBlocks",
+                            "explanationPoints"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "diagram-callouts"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "calloutCount"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "card-grid"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "cards"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "icon-list"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "items"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "data-visualization"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "chartType",
+                            "dataPoints"
+                        ]
+                    }
+                }
+            ]
+        },
+        "ContentMetrics": {
+            "type": "object",
+            "description": "Per-slide content metrics. Feed Step 5 layout selection.",
+            "properties": {
+                "wordCount": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "dataPointCount": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "bulletCount": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "hasImage": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "wordCount",
+                "dataPointCount",
+                "bulletCount",
+                "hasImage"
+            ],
+            "additionalProperties": false
+        },
+        "IllustrationSpec": {
+            "type": "object",
+            "description": "Refined illustration specification when blueprint set illustrationIntent.needed=true.",
+            "properties": {
+                "source": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "enum": [
+                        "to-generate",
+                        "user-media",
+                        null
+                    ],
+                    "description": "`to-generate` = AI-generated in Step 5f; `user-media` = passthrough from mediaAttachments; null = no illustration."
+                },
+                "imageCount": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "placement": {
+                    "type": "string",
+                    "enum": [
+                        "primary-visual",
+                        "supporting-visual",
+                        "background"
+                    ]
+                },
+                "subject": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "perImageSubject": {
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ]
+                },
+                "compositionNote": {
+                    "type": "string"
+                },
+                "contentInteraction": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "source"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "source": {
+                                "const": "to-generate"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "imageCount",
+                            "subject"
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+}

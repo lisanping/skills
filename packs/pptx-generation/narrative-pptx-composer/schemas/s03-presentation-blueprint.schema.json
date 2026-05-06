@@ -1,0 +1,480 @@
+{
+  "$ref": "#/definitions/PresentationBlueprint",
+  "definitions": {
+    "PresentationBlueprint": {
+      "type": "object",
+      "description": "Step 3 output: narrative architecture (embedded as `architecture`) plus per-slide messaging design (`slides`). The brief lives in s02-communication-brief.json; this file embeds the architecture block so all narrative decisions travel with the slide list.",
+      "properties": {
+        "architecture": {
+          "$ref": "#/definitions/NarrativeArchitecture",
+          "description": "Deck-level narrative decisions from Phases 3a/3b (core argument, storytelling pattern, acts, hook/anchor, information hierarchy, inter-act handoffs, structural scaffold)."
+        },
+        "totalSlides": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "Total slide count. Must equal len(slides). When slideCountConstraint is 'exact', must also match that target."
+        },
+        "slides": {
+          "type": "array",
+          "description": "Ordered list of slides. First must be slideType=cover, last must be slideType=closing.",
+          "items": {
+            "$ref": "#/definitions/BlueprintSlide"
+          },
+          "minItems": 2
+        }
+      },
+      "required": [
+        "architecture",
+        "totalSlides",
+        "slides"
+      ],
+      "additionalProperties": false
+    },
+    "NarrativeArchitecture": {
+      "type": "object",
+      "description": "Deck-level narrative decisions produced by Phases 3a (architecture) and 3b (structural scaffolding). Embedded as `architecture` inside the blueprint.",
+      "properties": {
+        "coreArgument": {
+          "type": "string",
+          "description": "Single complete falsifiable claim that unifies the deck. Derived from s02.keyMessages[rank=1] (departures must be logged in `inferences`)."
+        },
+        "storytellingPattern": {
+          "type": "object",
+          "description": "Chosen narrative pattern. `origin` is one of reused / composed / nested / designed.",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "origin": {
+              "type": "string",
+              "enum": [
+                "reused",
+                "composed",
+                "nested",
+                "designed"
+              ]
+            },
+            "rationale": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "origin",
+            "rationale"
+          ]
+        },
+        "actStructure": {
+          "type": "array",
+          "description": "2–4 acts. Each act has goal, emotionalArc, sections, informationDensity.",
+          "minItems": 2,
+          "maxItems": 4,
+          "items": {
+            "type": "object"
+          }
+        },
+        "openingHook": {
+          "type": "string",
+          "description": "Delivery-strategy summary of the cover slide — the audience-engagement framing the speaker opens with (or the one-sentence framing the cover visually embodies). Pinned to slides[0] (the cover); the cover slide's `headlineMessage` remains the on-screen title text."
+        },
+        "closingAnchor": {
+          "type": "string",
+          "description": "The single most memorable takeaway — the line that lands as the deck ends. Pinned to slides[-1] (the closing slide); MUST match or be the source of the closing slide's `headlineMessage`. When the closing slide is a pure thank-you/contact card, the anchor is the verbal beat delivered just before it."
+        },
+        "informationHierarchy": {
+          "type": "object",
+          "description": "Triage of all available content into essential / supporting / cut tiers. Every `cut` item MUST include a non-empty `reason` so downstream steps don't re-include it.",
+          "properties": {
+            "essential": {
+              "type": "array",
+              "description": "Must appear; cutting this undermines the argument. Items may be plain strings or {item, ...} objects.",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "item": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "item"
+                    ]
+                  }
+                ]
+              }
+            },
+            "supporting": {
+              "type": "array",
+              "description": "Strengthens the argument; include if space allows.",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "item": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "item"
+                    ]
+                  }
+                ]
+              }
+            },
+            "cut": {
+              "type": "array",
+              "description": "Actively excluded. Each entry MUST be an object with both `item` and a non-empty `reason` — bare strings are not allowed because the reason prevents downstream steps from re-including the item.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "item": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Why this item was cut (audience mismatch, time constraint, dilutes focus, etc.)."
+                  }
+                },
+                "required": [
+                  "item",
+                  "reason"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "essential",
+            "supporting",
+            "cut"
+          ]
+        },
+        "interActHandoffs": {
+          "description": "Logical connection strategy between adjacent acts (e.g. progressive-disclosure / contrast / callback / parallel)."
+        },
+        "structuralScaffold": {
+          "type": "object",
+          "description": "Decisions on executive summary, agenda, section dividers, mid-deck recap, appendix. Must include a `rationale`."
+        },
+        "inferences": {
+          "type": "array",
+          "description": "Recorded departures from defaults (e.g. coreArgument deviating from rank-1 keyMessage).",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "required": [
+        "coreArgument",
+        "storytellingPattern",
+        "actStructure",
+        "openingHook",
+        "closingAnchor",
+        "informationHierarchy",
+        "interActHandoffs",
+        "structuralScaffold"
+      ]
+    },
+    "CommunicationObjectives": {
+      "type": "object",
+      "description": "What the audience should think, feel, and do after this presentation.",
+      "properties": {
+        "think": {
+          "type": "string"
+        },
+        "feel": {
+          "type": "string"
+        },
+        "do": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "think",
+        "feel",
+        "do"
+      ]
+    },
+    "BlueprintSlide": {
+      "type": "object",
+      "description": "A single slide's messaging design.",
+      "properties": {
+        "slideId": {
+          "type": "string",
+          "pattern": "^s\\d{2,}$",
+          "description": "Unique identifier: s01, s02, etc."
+        },
+        "title": {
+          "type": "string",
+          "description": "Working title for the slide."
+        },
+        "headlineMessage": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The one takeaway for this slide (the 'so what'). May be null for structural slides — cover, divider, agenda, executive-summary, recap, appendix — which serve navigation/bookkeeping rather than a single argument. Every other slide MUST have a non-null value."
+        },
+        "supportingPoints": {
+          "type": "array",
+          "description": "Evidence, data, or examples that prove the headline. Items may be plain strings or objects with 'point' and 'sourceRef' fields (document mode).",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/definitions/SourcedPoint"
+              }
+            ]
+          }
+        },
+        "narrativeRole": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            null,
+            "opening",
+            "setup",
+            "evidence",
+            "analysis",
+            "pivot",
+            "climax",
+            "resolution",
+            "callback"
+          ],
+          "description": "Function of this slide in the narrative arc. Null for divider slides (no narrative function \u2014 they are pure structural pauses) and for agenda/recap/appendix when used as bookkeeping rather than story beats."
+        },
+        "slideType": {
+          "type": "string",
+          "enum": [
+            "cover",
+            "executive-summary",
+            "agenda",
+            "divider",
+            "content_text",
+            "content_data",
+            "content_mixed",
+            "recap",
+            "closing",
+            "appendix"
+          ],
+          "description": "Physical/structural type of the slide. Drives layout pattern selection in Step 5 and the no-headline-required exemption in validators. Distinct from narrativeRole (story function)."
+        },
+        "narrativeIntent": {
+          "type": "string",
+          "enum": [
+            "title-card",
+            "text-narrative",
+            "data-visualization",
+            "comparison",
+            "process",
+            "timeline",
+            "matrix",
+            "metaphor",
+            "stat-callout",
+            "quote",
+            "full-bleed-image",
+            "architecture",
+            "system",
+            "code-walkthrough",
+            "data-flow"
+          ],
+          "description": "Narrative-level intent for how this slide's message should be delivered (paired with `narrativeRole`: role = function in story, narrativeIntent = mode of delivery). Must match content — e.g. don't assign `data-visualization` to a slide with no data points. Step 4c maps this to `contentForm`; Step 5d picks the final layout."
+        },
+        "transitionIn": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "How this slide connects FROM the previous slide. Null for the first slide."
+        },
+        "transitionOut": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "How this slide leads TO the next slide. Null for the last slide."
+        },
+        "informationDensity": {
+          "type": "string",
+          "enum": [
+            "minimal",
+            "light",
+            "medium",
+            "dense"
+          ],
+          "description": "Expected density of information on this slide."
+        },
+        "contentSource": {
+          "type": "string",
+          "enum": [
+            "document",
+            "generated",
+            "hybrid"
+          ],
+          "description": "Where the content originates. 'document'=extracted from content docs, 'generated'=LLM-authored, 'hybrid'=document facts + LLM framing."
+        },
+        "sourceRef": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Primary content source reference: '<filename>#<heading>' or null."
+        },
+        "mediaAttachments": {
+          "type": "array",
+          "description": "Media assets from s01c-content-digest.json to include on this slide. Empty or omitted when no media is used.",
+          "items": {
+            "$ref": "#/definitions/MediaAttachment"
+          }
+        },
+        "illustrationIntent": {
+          "$ref": "#/definitions/IllustrationIntent",
+          "description": "Whether this slide needs generated illustrations (decided after mediaAttachments). Omit for bookend slides (handled by structuralFamily backgrounds) and slides that don't need illustration."
+        }
+      },
+      "required": [
+        "slideId",
+        "title",
+        "headlineMessage",
+        "supportingPoints",
+        "narrativeRole",
+        "slideType",
+        "narrativeIntent",
+        "transitionIn",
+        "transitionOut",
+        "informationDensity",
+        "contentSource",
+        "sourceRef"
+      ],
+      "additionalProperties": false
+    },
+    "MediaAttachment": {
+      "type": "object",
+      "description": "A media asset assigned to a slide. Sourced from s01c-content-digest.json → mediaAssets.",
+      "properties": {
+        "ref": {
+          "type": "string",
+          "description": "File path (relative to session dir) or URL of the media asset."
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "image",
+            "diagram",
+            "quote",
+            "link",
+            "embed",
+            "code-block"
+          ],
+          "description": "Kind of media asset."
+        },
+        "alt": {
+          "type": "string",
+          "description": "Caption or alt-text for the media."
+        },
+        "placement": {
+          "type": "string",
+          "enum": [
+            "primary-visual",
+            "supporting-visual",
+            "background"
+          ],
+          "description": "How the media should be placed: primary-visual (dominant), supporting-visual (secondary alongside text), background (full-bleed/faded)."
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Why this media is included on this slide."
+        }
+      },
+      "required": [
+        "ref",
+        "type",
+        "placement"
+      ],
+      "additionalProperties": false
+    },
+    "SourcedPoint": {
+      "type": "object",
+      "description": "A supporting point with source traceability (used in document mode).",
+      "properties": {
+        "point": {
+          "type": "string",
+          "description": "The evidence or data point text."
+        },
+        "sourceRef": {
+          "type": "string",
+          "description": "Source reference: '<filename>#<heading>'."
+        }
+      },
+      "required": [
+        "point",
+        "sourceRef"
+      ],
+      "additionalProperties": false
+    },
+    "IllustrationIntent": {
+      "type": "object",
+      "description": "Declares whether a slide needs generated illustration(s) and describes what they should depict.",
+      "properties": {
+        "needed": {
+          "type": "boolean",
+          "description": "Whether this slide needs generated illustrations."
+        },
+        "subject": {
+          "type": "string",
+          "description": "Conceptual description of what the illustration(s) should depict (narrative level, not a generation prompt)."
+        },
+        "narrativePurpose": {
+          "type": "string",
+          "description": "Why this slide needs illustration — must be a communication argument, not decorative."
+        },
+        "placement": {
+          "type": "string",
+          "enum": [
+            "primary-visual",
+            "supporting-visual",
+            "background"
+          ],
+          "description": "How the illustration relates to text (same enum as `mediaAttachments.placement`): primary-visual (illustration dominates), supporting-visual (text dominates, illustration alongside), background (mood/texture/full-bleed atmosphere \u2014 not informational)."
+        },
+        "imageCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6,
+          "description": "Number of distinct images needed on this slide."
+        },
+        "perImageSubject": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Per-image subject descriptions when imageCount > 1. Length must equal imageCount. Null when imageCount == 1.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "needed",
+        "subject",
+        "narrativePurpose",
+        "placement",
+        "imageCount"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

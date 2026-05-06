@@ -14,9 +14,10 @@
 
 Pick a pack by **task domain**. After reading the pack's `README.md` + `AGENTS.md`, follow its internal routing to a specific SKILL.
 
-| Task domain                                                                                     | Enter pack                                     | Internal routing file            |
-| ----------------------------------------------------------------------------------------------- | ---------------------------------------------- | -------------------------------- |
-| Building BREP modeling / IFC / DWG / compliance checklists / specifications / project documents | [packs/aec-generation/](packs/aec-generation/) | `packs/aec-generation/CLAUDE.md` |
+| Task domain                                                                                                                                       | Enter pack                                       | Internal routing file             |
+| ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | --------------------------------- |
+| Building BREP modeling / IFC / DWG / compliance checklists / specifications / project documents                                                   | [packs/aec-generation/](packs/aec-generation/)   | `packs/aec-generation/AGENTS.md`  |
+| PowerPoint generation: template profiling / brand-compliant decks / narrative composition / batch image generation / low-level `.pptx` operations | [packs/pptx-generation/](packs/pptx-generation/) | `packs/pptx-generation/AGENTS.md` |
 
 > If the task does not fit any of the above, **do not guess**. Tell the user the repository does not yet cover that domain, and suggest creating a new pack via [CONTRIBUTING.md](CONTRIBUTING.md).
 

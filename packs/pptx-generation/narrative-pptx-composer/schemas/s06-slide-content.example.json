@@ -1,0 +1,75 @@
+{
+  "slides": [
+    {
+      "taskId": "s04",
+      "title": "Financial Highlights",
+      "contentSource": "document",
+      "slots": [
+        {
+          "zone": "title",
+          "text": "Revenue exceeded targets by 3%"
+        },
+        {
+          "zone": "stat-1-num",
+          "text": "$16.2B"
+        },
+        {
+          "zone": "stat-1-label",
+          "text": "Revenue"
+        },
+        {
+          "zone": "stat-2-num",
+          "text": "+8.4%"
+        },
+        {
+          "zone": "stat-2-label",
+          "text": "YoY Growth"
+        },
+        {
+          "zone": "stat-3-num",
+          "text": "$2.8B"
+        },
+        {
+          "zone": "stat-3-label",
+          "text": "EBITDA"
+        },
+        {
+          "zone": "visual",
+          "type": "image",
+          "path": "images/revenue-chart.png",
+          "alt": "Q2 revenue breakdown by segment"
+        },
+        {
+          "zone": "footnote",
+          "text": "Source: Q2 FY2025 internal financials"
+        }
+      ],
+      "speakerNotes": "Revenue came in at $16.2 billion, beating our internal target by three percent. Year-over-year that's an 8.4% increase, driven mainly by the cloud segment. Let's look at what's behind those numbers."
+    },
+    {
+      "taskId": "s05",
+      "title": "Scaled Dot-Product Attention",
+      "contentSource": "document",
+      "slots": [
+        {
+          "zone": "title",
+          "text": "Attention is just a weighted sum"
+        },
+        {
+          "zone": "lead",
+          "text": "Each output token blends every input token, weighted by how relevant the model thinks it is."
+        },
+        {
+          "zone": "formula-attention",
+          "formulaSource": "\\mathrm{Attention}(Q,K,V) = \\mathrm{softmax}\\!\\left(\\frac{QK^{\\top}}{\\sqrt{d_k}}\\right)V",
+          "alt": "Attention of Q, K, V equals softmax of Q times K-transpose, divided by square root of d_k, applied to V."
+        },
+        {
+          "zone": "caption",
+          "text": "The 1/√d_k scaling keeps gradients well-behaved as embedding dimension grows."
+        }
+      ],
+      "speakerNotes": "This is the only equation we need to keep on screen. Walk it left to right: Q-K-transpose gives raw similarity scores; the square-root-d-k denominator stops them blowing up at high dimensions; softmax turns them into a probability distribution; that distribution weights V into the output. The whole transformer is iterated softmaxes of dot products."
+    }
+  ]
+}

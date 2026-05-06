@@ -1,0 +1,118 @@
+{
+  "sources": [
+    {
+      "file": "report.md",
+      "format": "md",
+      "sections": [
+        {
+          "heading": "Q2 Revenue",
+          "level": 1,
+          "content": "Revenue reached $16.2B, up 8.4% year-over-year...",
+          "dataPoints": [
+            "$16.2B revenue",
+            "+8.4% YoY"
+          ],
+          "suggestedRole": "content_data",
+          "mediaAssets": [
+            {
+              "type": "image",
+              "ref": "images/revenue-chart.png",
+              "alt": "Q2 revenue breakdown by segment",
+              "context": "Chart showing revenue split across cloud, enterprise, and consumer segments",
+              "sourceAnchor": "sec-q2-revenue"
+            }
+          ]
+        }
+      ],
+      "totalChars": 4200
+    },
+    {
+      "file": "existing-deck.pptx",
+      "format": "pptx",
+      "slideCount": 12,
+      "dimensions": {
+        "widthEmu": 12192000,
+        "heightEmu": 6858000,
+        "widthInches": 13.33,
+        "heightInches": 7.5
+      },
+      "sections": [
+        {
+          "heading": "Strategic Priorities FY26",
+          "level": 1,
+          "content": "Three pillars driving growth:\n\n1. Cloud platform expansion\n2. AI integration across product lines\n3. Enterprise customer acquisition",
+          "dataPoints": [],
+          "suggestedRole": "content_text",
+          "anchor": "pptx-slide-1",
+          "layoutName": "Title + Content_2",
+          "mediaAssets": []
+        },
+        {
+          "heading": "Revenue by Segment",
+          "level": 1,
+          "content": "Cloud: $8.1B (+14% YoY)\nEnterprise: $5.3B (+6% YoY)\nConsumer: $2.8B (-2% YoY)",
+          "dataPoints": [
+            "$8.1B",
+            "+14% YoY",
+            "$5.3B",
+            "+6% YoY",
+            "$2.8B",
+            "-2% YoY"
+          ],
+          "suggestedRole": "content_data",
+          "anchor": "pptx-slide-2",
+          "layoutName": "Title + Content_2",
+          "mediaAssets": [
+            {
+              "type": "image",
+              "ref": "images/slide02_img01_a3f1c2e9.png",
+              "alt": "Revenue breakdown chart",
+              "context": "Embedded image from slide 2",
+              "sourceAnchor": "pptx-slide-2"
+            }
+          ],
+          "speakerNotes": "Highlight the cloud growth story — this is our main narrative for investors."
+        }
+      ],
+      "totalChars": 3100
+    }
+  ],
+  "mergedSections": [
+    {
+      "heading": "Q2 Revenue",
+      "level": 1,
+      "content": "Revenue reached $16.2B...",
+      "dataPoints": [
+        "$16.2B revenue",
+        "+8.4% YoY"
+      ],
+      "suggestedRole": "content_data",
+      "sourceFile": "report.md",
+      "mediaAssets": [
+        {
+          "type": "image",
+          "ref": "images/revenue-chart.png",
+          "alt": "Q2 revenue breakdown by segment",
+          "context": "Chart showing revenue split across cloud, enterprise, and consumer segments",
+          "sourceAnchor": "sec-q2-revenue"
+        }
+      ]
+    }
+  ],
+  "mediaAssets": [
+    {
+      "type": "image",
+      "ref": "images/revenue-chart.png",
+      "alt": "Q2 revenue breakdown by segment",
+      "context": "Chart showing revenue split across cloud, enterprise, and consumer segments",
+      "sourceAnchor": "sec-q2-revenue",
+      "sourceFile": "report.md",
+      "usedInSlides": []
+    }
+  ],
+  "preGlossary": {
+    "revenue_q2": "$16.2B",
+    "yoy_growth": "+8.4%",
+    "pillar1_name": "Digital Transformation"
+  }
+}

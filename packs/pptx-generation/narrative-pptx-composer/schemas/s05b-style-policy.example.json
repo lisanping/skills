@@ -1,0 +1,222 @@
+{
+  "palette": {
+    "primary": "1E2761",
+    "secondary": "CADCFC",
+    "accent": "408EC6",
+    "accent2": "E97132",
+    "background": "FFFFFF",
+    "backgroundAlt": "F5F5F5",
+    "surface": "EEF2FF",
+    "text": "1E293B",
+    "textMuted": "64748B",
+    "divider": "E2E8F0"
+  },
+  "typography": {
+    "headingFont": "DM Sans",
+    "bodyFont": "DM Sans",
+    "monoFont": "JetBrains Mono",
+    "secondaryFont": "Source Serif Pro",
+    "mathFontset": "cm",
+    "scale": {
+      "display": 48,
+      "heading1": 36,
+      "heading2": 24,
+      "body": 14,
+      "caption": 10,
+      "oversized": 160
+    },
+    "emphasisStyle": "bold"
+  },
+  "spacing": {
+    "marginInches": 0.5,
+    "rowGapInches": 0.3,
+    "columnGapInches": 0.4
+  },
+  "designLanguage": {
+    "contrast": "dark-bookends",
+    "motif": "accent-bar-under-title",
+    "iconStyle": "filled-circle",
+    "cardStyle": "rounded-alt-bg",
+    "notes": "Dark navy cover and closing; light body slides with subtle accent bars. Cards use backgroundAlt fill with rounded corners."
+  },
+  "visualTone": {
+    "designAmbition": "expressive",
+    "contentDomain": "general",
+    "register": "authoritative",
+    "imageryDemand": "medium",
+    "imageryDemandRationale": {
+      "value": "medium",
+      "confidence": "low",
+      "basis": "insufficient signals — general business deck, no explicit imagery hint"
+    },
+    "colorTemperature": {
+      "strategy": "restrained-to-bold",
+      "accentProgression": [
+        {
+          "act": 1,
+          "accentIntensity": "low",
+          "note": "Credibility phase — let data speak"
+        },
+        {
+          "act": 2,
+          "accentIntensity": "medium",
+          "note": "Engagement phase — highlight key comparisons"
+        },
+        {
+          "act": 3,
+          "accentIntensity": "high",
+          "note": "Urgency phase — accent the ask"
+        }
+      ]
+    },
+    "whitespaceRhythm": {
+      "strategy": "density-follows-arc",
+      "perAct": [
+        {
+          "act": 1,
+          "minWhitespacePct": 40
+        },
+        {
+          "act": 2,
+          "minWhitespacePct": 25
+        },
+        {
+          "act": 3,
+          "minWhitespacePct": 35
+        }
+      ]
+    },
+    "contrastStrategy": "progressive-intensification",
+    "impactLevels": {
+      "cover": "high-impact",
+      "closing": "standard"
+    },
+    "imageryGuidance": "data-forward with selective icon accents",
+    "rhythmArc": {
+      "perAct": [
+        {
+          "act": 1,
+          "accentArea": "accent-bar only",
+          "backgroundType": "solid",
+          "titleScale": "heading1"
+        },
+        {
+          "act": 2,
+          "accentArea": "accent-bar + surface cards",
+          "backgroundType": "tinted",
+          "titleScale": "heading1"
+        },
+        {
+          "act": 3,
+          "accentArea": "accent-band or large accent shapes",
+          "backgroundType": "tinted",
+          "titleScale": "display for climax"
+        }
+      ]
+    },
+    "titleChoreography": {
+      "movesAvailable": [
+        "mixed-weight-run",
+        "oversized-numeral",
+        "multi-line-break",
+        "display-color-shift",
+        "dual-typeface",
+        "vertical-act-label"
+      ],
+      "perSlidePlan": [
+        {
+          "taskId": "s01",
+          "move": "dual-typeface",
+          "rationale": "Cover sets the deck's typographic register by pairing the heading sans with the secondary serif subtitle."
+        },
+        {
+          "taskId": "s04",
+          "move": "mixed-weight-run",
+          "rationale": "Climax title weaves bold accent words inside the headline so the structural emphasis reads at a glance."
+        },
+        {
+          "taskId": "s05",
+          "move": "oversized-numeral",
+          "rationale": "Section opener anchors with a 180pt numeral as the focal point before the body content."
+        },
+        {
+          "taskId": "s06",
+          "move": "multi-line-break",
+          "rationale": "Pivot statement breaks across three indented lines to slow the reader and mark the narrative beat."
+        }
+      ],
+      "deckWideMoves": [
+        "vertical-act-label"
+      ],
+      "notes": "Same move may appear at most twice per deck. perSlidePlan must hold >= 1 entry on every deck (deck-wide mandatory) and >= 3 entries when bodyCount >= 8. Validator check_title_choreography enforces structure now and (Phase C) will verify each declared move shows up in the slide's layoutSpec."
+    },
+    "accentImageryAllowance": {
+      "enabled": true,
+      "maxPerDeck": 2,
+      "maxAreaFraction": 0.30,
+      "promptStyleHint": "abstract muted color wash matching palette token {accent}; no people, no logos, no text, no recognizable objects",
+      "notes": "Permissive: a deck MAY include up to maxPerDeck zones with imageRole='accent'. Not a quota. Each accent zone must clear the title zone bbox and stay within maxAreaFraction of the canvas. Prompt must contain a constraint keyword (abstract, texture, wash, gradient, motif, organic)."
+    },
+    "motifPalette": {
+      "primaryMotif": {
+        "name": "teal-rule-cluster",
+        "vocabulary": [
+          "under-title-rule",
+          "left-edge-rule",
+          "footer-rule"
+        ],
+        "expression": "shape-only",
+        "deckRole": "ambient",
+        "rationale": "The teal accent rule is the deck's repeating 'unit signature' — appearing in three placements lets every body slide carry the motif without any two slides sharing the exact composition."
+      },
+      "secondaryMotif": {
+        "name": "coral-risk-mark",
+        "vocabulary": [
+          "corner-tag",
+          "edge-stripe"
+        ],
+        "expression": "shape-only",
+        "deckRole": "structural"
+      },
+      "perSlidePlan": [
+        {
+          "taskId": "s03",
+          "motif": "teal-rule-cluster",
+          "instance": "under-title-rule",
+          "intensity": "low"
+        },
+        {
+          "taskId": "s04",
+          "motif": "teal-rule-cluster",
+          "instance": "left-edge-rule",
+          "intensity": "medium"
+        },
+        {
+          "taskId": "s05",
+          "motif": "teal-rule-cluster",
+          "instance": "footer-rule",
+          "intensity": "low"
+        },
+        {
+          "taskId": "s07",
+          "motif": "coral-risk-mark",
+          "instance": "corner-tag",
+          "intensity": "high"
+        }
+      ],
+      "budget": {
+        "ambientMaxFraction": 0.6,
+        "decorationFreeMin": 2
+      }
+    }
+  },
+  "designThesis": {
+    "statement": "A typographically restrained executive deck where teal codes evidence and the warm secondary accent codes risk, with one editorial illustration as the deck's only photographic moment.",
+    "mechanisms": [
+      "Teal accent rule recurring under every body-slide title and divider title — the deck's unit signature",
+      "Coral (accent2) restricted to Act 3 risk slides — color as semantic code, not decoration",
+      "One generated illustration on the most abstract evidence slide; every other slide composed from typography, geometry, and color",
+      "Four-act structural-family symmetry: every divider shares the same act-marker stripe layout"
+    ]
+  }
+}

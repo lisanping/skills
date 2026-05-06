@@ -1,0 +1,85 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Per-Deck Aesthetic Evaluation",
+    "description": "Output of 8e per-deck VLM aesthetic evaluation.",
+    "type": "object",
+    "required": [
+        "deckVisualCharacter",
+        "perceivedStrengths",
+        "recommendations"
+    ],
+    "properties": {
+        "deckVisualCharacter": {
+            "type": "string",
+            "minLength": 20,
+            "description": "2-3 sentence description of the deck's overall visual character."
+        },
+        "perceivedStrengths": {
+            "type": "string",
+            "minLength": 10,
+            "description": "What the deck already does well."
+        },
+        "recommendations": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "headline",
+                    "whatISee",
+                    "direction",
+                    "expectedEffect",
+                    "scope"
+                ],
+                "properties": {
+                    "headline": {
+                        "type": "string",
+                        "description": "One-sentence summary of the recommendation."
+                    },
+                    "whatISee": {
+                        "type": "string",
+                        "minLength": 30,
+                        "description": "Concrete visual observation from the images. Anti-hallucination anchor."
+                    },
+                    "direction": {
+                        "type": "string",
+                        "description": "What to change and in which direction."
+                    },
+                    "expectedEffect": {
+                        "type": "string",
+                        "description": "What the deck will look like after the change."
+                    },
+                    "scope": {
+                        "type": "string",
+                        "enum": [
+                            "global",
+                            "section",
+                            "specific_pages"
+                        ]
+                    },
+                    "targetPages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Required when scope is section or specific_pages."
+                    }
+                },
+                "if": {
+                    "properties": {
+                        "scope": {
+                            "enum": [
+                                "section",
+                                "specific_pages"
+                            ]
+                        }
+                    }
+                },
+                "then": {
+                    "required": [
+                        "targetPages"
+                    ]
+                }
+            }
+        }
+    }
+}

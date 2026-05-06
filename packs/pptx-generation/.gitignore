@@ -1,0 +1,51 @@
+# --- Pack outputs (never commit) -------------------------------------------
+output/
+*-output/
+**/output/
+images/
+**/images/
+slide-previews/
+layout-previews/
+sample-slides/
+unpacked/
+*.profile/
+build/
+
+# --- Generated / intermediate PPTX, PDFs, large media ----------------------
+*.pptx
+*.potx
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.mp4
+# Allow committed test fixtures by overriding under tests/fixtures/
+!tests/fixtures/**/*.pptx
+!tests/fixtures/**/*.potx
+!tests/fixtures/**/*.png
+!tests/fixtures/**/*.jpg
+# Allow LICENSE assets and similar
+!**/LICENSE*
+
+# --- Secrets ---------------------------------------------------------------
+.env
+.env.*
+!.env.example
+
+# --- Python --------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# --- Editor / OS ---------------------------------------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

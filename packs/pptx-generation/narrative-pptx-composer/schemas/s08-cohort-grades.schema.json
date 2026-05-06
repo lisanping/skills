@@ -1,0 +1,134 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Per-Cohort Grades",
+    "description": "VLM detection output: 5 consistency dimension grades + anomalies per cohort.",
+    "type": "object",
+    "required": [
+        "cohortId",
+        "timestamp",
+        "membersInspected",
+        "dimensions",
+        "anomalies"
+    ],
+    "properties": {
+        "cohortId": {
+            "type": "string"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "membersInspected": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^s\\d{2,3}$"
+            }
+        },
+        "previewDir": {
+            "type": "string"
+        },
+        "dimensions": {
+            "type": "object",
+            "required": [
+                "typographicConsistency",
+                "proportionalConsistency",
+                "paletteConsistency",
+                "motifIntegrity",
+                "bookendSymmetry"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "typographicConsistency": {
+                    "$ref": "#/$defs/dimensionGrade"
+                },
+                "proportionalConsistency": {
+                    "$ref": "#/$defs/dimensionGrade"
+                },
+                "paletteConsistency": {
+                    "$ref": "#/$defs/dimensionGrade"
+                },
+                "motifIntegrity": {
+                    "$ref": "#/$defs/dimensionGrade"
+                },
+                "bookendSymmetry": {
+                    "$ref": "#/$defs/dimensionGrade"
+                }
+            }
+        },
+        "anomalies": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/cohortAnomaly"
+            }
+        }
+    },
+    "$defs": {
+        "dimensionGrade": {
+            "type": "object",
+            "required": [
+                "grade"
+            ],
+            "properties": {
+                "grade": {
+                    "type": "string",
+                    "enum": [
+                        "pass",
+                        "acceptable",
+                        "marginal",
+                        "fail"
+                    ]
+                },
+                "evidence": {
+                    "type": "string"
+                }
+            }
+        },
+        "cohortAnomaly": {
+            "type": "object",
+            "required": [
+                "what",
+                "severity",
+                "confidence",
+                "evidence",
+                "fixDirection",
+                "affectedMembers"
+            ],
+            "properties": {
+                "what": {
+                    "type": "string"
+                },
+                "severity": {
+                    "type": "string",
+                    "enum": [
+                        "critical",
+                        "minor"
+                    ]
+                },
+                "confidence": {
+                    "type": "string",
+                    "enum": [
+                        "high",
+                        "medium",
+                        "low"
+                    ]
+                },
+                "evidence": {
+                    "type": "string"
+                },
+                "suggestedDimension": {
+                    "type": "string"
+                },
+                "fixDirection": {
+                    "type": "string"
+                },
+                "affectedMembers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,58 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Fix Decisions",
+    "description": "Audit file: every fail/marginal dimension and P1+ anomaly must appear exactly once.",
+    "type": "object",
+    "required": [
+        "decisions"
+    ],
+    "properties": {
+        "decisions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "slideId",
+                    "trigger",
+                    "action"
+                ],
+                "properties": {
+                    "slideId": {
+                        "type": "string"
+                    },
+                    "trigger": {
+                        "type": "string",
+                        "description": "Dimension name (e.g. 'spatialContainment') or 'anomaly:<what summary>'"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "enum": [
+                            "P0",
+                            "P1",
+                            "P2",
+                            "P3"
+                        ]
+                    },
+                    "action": {
+                        "type": "string",
+                        "enum": [
+                            "applied",
+                            "dropped",
+                            "deferred"
+                        ]
+                    },
+                    "rationale": {
+                        "type": "string"
+                    },
+                    "remediationProposalChosen": {
+                        "type": "integer",
+                        "description": "Index of the chosen proposal from remediations file (when action=applied and remediation was triggered)"
+                    },
+                    "specificChange": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

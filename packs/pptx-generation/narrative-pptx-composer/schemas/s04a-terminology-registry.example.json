@@ -1,0 +1,54 @@
+{
+  "namedEntities": {
+    "pillar1": {
+      "canonical": "Digital Transformation",
+      "rejected": [
+        "DX",
+        "Digitization",
+        "Digital Strategy"
+      ]
+    },
+    "pillar2": {
+      "canonical": "Market Expansion",
+      "rejected": [
+        "Growth",
+        "Market Growth"
+      ]
+    }
+  },
+  "dataPoints": {
+    "revenue_q2": {
+      "value": "$16.2B",
+      "context": "Q2 2026 revenue",
+      "source": "report.md#Q2 Revenue",
+      "verificationTier": "verified",
+      "confidence": 1.0
+    },
+    "revenue_yoy": {
+      "value": "+8.4%",
+      "context": "Year-over-year revenue growth",
+      "source": "report.md#Q2 Revenue",
+      "verificationTier": "verified",
+      "confidence": 1.0
+    },
+    "eiffel_height": {
+      "value": "324 m",
+      "context": "Height of the Eiffel Tower",
+      "source": "common knowledge",
+      "verificationTier": "common-knowledge",
+      "confidence": 0.9
+    },
+    "market_growth_2025": {
+      "value": "~40%",
+      "qualitativeForm": "nearly 40%",
+      "context": "Estimated AI market growth in 2025",
+      "source": "common knowledge",
+      "verificationTier": "unverified",
+      "confidence": 0.5
+    }
+  },
+  "abbreviations": {
+    "YoY": "year-over-year",
+    "H2": "second half of fiscal year 2026"
+  }
+}

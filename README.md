@@ -8,9 +8,10 @@ A cross-domain repository of **agent SKILL packs**. Each domain is an independen
 
 ## Skill packs
 
-| Pack                                           | Domain                                                                                                                                                        | Status |
-| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| [packs/aec-generation/](packs/aec-generation/) | AEC (Architecture / Engineering / Construction) — BREP modeling, IFC/DWG parsing, code-compliance checklists, specifications, project communication documents | active |
+| Pack                                             | Domain                                                                                                                                                        | Status |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| [packs/aec-generation/](packs/aec-generation/)   | AEC (Architecture / Engineering / Construction) — BREP modeling, IFC/DWG parsing, code-compliance checklists, specifications, project communication documents | active |
+| [packs/pptx-generation/](packs/pptx-generation/) | PowerPoint — template profiling, narrative-driven composition, brand-compliant generation, batch AI image generation, low-level OOXML operations              | active |
 
 To add a new pack, see [CONTRIBUTING.md](CONTRIBUTING.md).
 

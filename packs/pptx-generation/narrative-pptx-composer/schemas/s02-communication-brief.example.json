@@ -1,0 +1,37 @@
+{
+  "presentationPurpose": "persuade",
+  "purposeStatement": "Persuade executive leadership to approve H2 resource allocation based on Q2 results",
+  "audience": {
+    "who": "C-suite and SVPs (12 people)",
+    "priorKnowledge": "Familiar with company strategy, have seen Q1 results",
+    "concerns": "ROI on strategic pillars, competitive positioning, budget implications",
+    "decisionPower": "Budget approval authority"
+  },
+  "communicationObjectives": {
+    "think": "Q2 execution was strong; the three pillars strategy is working",
+    "feel": "Confident in leadership's execution capability; urgency about H2 window",
+    "do": "Approve $X resource package for H2; prioritize Pillar 2 acceleration"
+  },
+  "keyMessages": [
+    {
+      "rank": 1,
+      "message": "Q2 revenue exceeded targets by 3%, validating the strategy",
+      "evidence": "document"
+    },
+    {
+      "rank": 2,
+      "message": "Pillar 2 (Market Expansion) has the highest ROI potential but needs acceleration",
+      "evidence": "document"
+    },
+    {
+      "rank": 3,
+      "message": "H2 window is time-sensitive — competitor moves in Q3 require pre-emptive action",
+      "evidence": "hybrid"
+    }
+  ],
+  "constraints": {
+    "timeMinutes": 20,
+    "language": "en",
+    "formalityLevel": "executive-formal"
+  }
+}

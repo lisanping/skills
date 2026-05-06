@@ -1,0 +1,158 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "QA Log",
+    "description": "Append-only log of all QA rounds in Step 8. Finalized at 8d delivery.",
+    "type": "object",
+    "required": [
+        "rounds"
+    ],
+    "properties": {
+        "rounds": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "round",
+                    "roundType",
+                    "timestamp",
+                    "gradeSummary",
+                    "anomalySummary"
+                ],
+                "properties": {
+                    "round": {
+                        "type": "integer"
+                    },
+                    "roundType": {
+                        "type": "string",
+                        "enum": [
+                            "per-slide",
+                            "per-slide-verify",
+                            "per-cohort",
+                            "per-cohort-verify",
+                            "per-deck",
+                            "per-deck-fix"
+                        ]
+                    },
+                    "previewDir": {
+                        "type": "string"
+                    },
+                    "slideCount": {
+                        "type": "integer"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "metricsRef": {
+                        "type": "string"
+                    },
+                    "gradesFile": {
+                        "type": "string"
+                    },
+                    "decisionsRef": {
+                        "type": "string"
+                    },
+                    "batches": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "batchId": {
+                                    "type": "integer"
+                                },
+                                "slideIds": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "degradedToSingle": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    },
+                    "gradeSummary": {
+                        "type": "object",
+                        "properties": {
+                            "fail": {
+                                "type": "integer"
+                            },
+                            "marginal": {
+                                "type": "integer"
+                            },
+                            "acceptable": {
+                                "type": "integer"
+                            },
+                            "pass": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "anomalySummary": {
+                        "type": "object",
+                        "properties": {
+                            "critical": {
+                                "type": "integer"
+                            },
+                            "minor": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "resolved": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "finalStatus": {
+            "type": "string",
+            "enum": [
+                "clean",
+                "has-unresolved"
+            ]
+        },
+        "totalRounds": {
+            "type": "integer"
+        },
+        "totalDimensionsFail": {
+            "type": "integer"
+        },
+        "totalDimensionsFixed": {
+            "type": "integer"
+        },
+        "totalAnomaliesCritical": {
+            "type": "integer"
+        },
+        "totalAnomaliesFixed": {
+            "type": "integer"
+        },
+        "unresolvedItems": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "slideId": {
+                        "type": "string"
+                    },
+                    "cohortId": {
+                        "type": "string"
+                    },
+                    "trigger": {
+                        "type": "string"
+                    },
+                    "grade": {
+                        "type": "string"
+                    },
+                    "reason": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
