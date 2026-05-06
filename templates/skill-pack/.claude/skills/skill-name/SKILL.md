@@ -9,27 +9,27 @@ argument-hint: 'one-line description of expected user input'
 
 # skill-name SKILL
 
-> 删除本提示后再提交。完整规范见仓库根 `SKILL-SPEC.md`。
+> Delete this banner before committing. Full spec: `SKILL-SPEC.md` at the repo root.
 
 ## What this skill does
 
-一段说明：此 SKILL 的输入、输出与边界。
+A short paragraph stating the inputs, outputs, and boundaries of this SKILL.
 
 ## When to use
 
-- 触发条件 1
-- 触发条件 2
+- Trigger condition 1
+- Trigger condition 2
 
 ## When NOT to use
 
-- 反触发 1
-- 反触发 2
+- Anti-trigger 1
+- Anti-trigger 2
 
 ## Workflow
 
-1. 读 [references/your-reference.md](references/your-reference.md)
-2. 调用 `python scripts/your_script.py --input ...`
-3. 验证产物，向用户报告
+1. Read [references/your-reference.md](references/your-reference.md)
+2. Run `python scripts/your_script.py --input ...`
+3. Validate the artifact and report back to the user
 
 ## Key entry points
 
@@ -39,9 +39,9 @@ argument-hint: 'one-line description of expected user input'
 
 ## Constraints
 
-- 不可违反的硬约束 1
-- 不可违反的硬约束 2
+- Hard rule that must not be violated 1
+- Hard rule that must not be violated 2
 
 ## References
 
-- [references/your-reference.md](references/your-reference.md) —— 何时按需读取
+- [references/your-reference.md](references/your-reference.md) — when to fetch on demand

@@ -1,35 +1,35 @@
 # AGENTS.md (pack-level)
 
-> Agent 在执行本 pack 范围内任务前的二级路由。先读完此文件，再进入对应 SKILL.md。
+> Second-level routing for tasks scoped to this pack. Agents should read this file before opening any SKILL.md inside the pack.
 
-## Pack 定位
+## Pack purpose
 
-一句话说明此 pack 解决的问题域、输入与输出。
+One sentence describing the problem domain, inputs, and outputs of this pack.
 
-## SKILL 路由
+## SKILL routing
 
-| 任务              | 先读                                   |
-| ----------------- | -------------------------------------- |
-| TODO 描述任务类型 | `.claude/skills/<skill-name>/SKILL.md` |
+| Task                    | Read first                             |
+| ----------------------- | -------------------------------------- |
+| TODO describe task type | `.claude/skills/<skill-name>/SKILL.md` |
 
-## 变量
+## Variables
 
-| 变量          | 值               |
+| Variable      | Value            |
 | ------------- | ---------------- |
 | `SKILLS_ROOT` | `.claude/skills` |
 
-所有 SKILL 路径相对于 `SKILLS_ROOT`。
+All SKILL paths are relative to `SKILLS_ROOT`.
 
-## 关键命令
+## Key commands
 
 ```bash
 conda activate <pack-name>
 pytest tests/ -v
 ```
 
-## 编码约定
+## Conventions
 
-- 源代码：`src/<package>/`
-- 示例：`examples/`
-- 输出：`output/`（git-ignored）
-- 测试：`tests/test_*.py`
+- Source code: `src/<package>/`
+- Examples: `examples/`
+- Output: `output/` (git-ignored)
+- Tests: `tests/test_*.py`

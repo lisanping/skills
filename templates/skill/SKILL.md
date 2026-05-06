@@ -11,17 +11,17 @@ argument-hint: 'one-line description of expected user input'
 
 ## What this skill does
 
-简明描述输入、输出、边界。
+A short paragraph stating the inputs, outputs, and boundaries of this SKILL.
 
 ## When to use / When NOT to use
 
-复述并细化 frontmatter 的触发条件，可附 1–2 个用例。
+Restate and refine the trigger conditions from the frontmatter; add 1–2 example prompts if helpful.
 
 ## Workflow
 
-1. 步骤 1
-2. 步骤 2
-3. 步骤 3
+1. Step 1
+2. Step 2
+3. Step 3
 
 ## Key entry points
 

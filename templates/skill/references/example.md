@@ -1,11 +1,11 @@
 # Example reference
 
-> `references/` 用于存放**按需加载**的长篇知识。SKILL.md 通过相对链接引用，agent 看到链接才会读取。
+> `references/` holds **load-on-demand** long-form knowledge. SKILL.md links to it relatively; the agent only fetches the file when it follows the link.
 
-## 何时读本文件
+## When to read this file
 
-TODO：说明 agent 在何种触发下应读本文件。
+TODO: state the conditions under which the agent should fetch this reference.
 
-## 内容
+## Content
 
 TODO

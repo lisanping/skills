@@ -1,58 +1,58 @@
-# 仓库架构
+# Repository architecture
 
-## 总体设计
+## Overall design
 
 ```text
-┌──────────────────────────────────────────────────┐
-│  Agent (Claude Code / Copilot / Cursor / ...)    │
-└─────────────────────┬────────────────────────────┘
-                      │ 1. 读 AGENTS.md（顶层路由）
-                      ▼
-┌──────────────────────────────────────────────────┐
-│  packs/<pack-name>/AGENTS.md  （pack 内路由）    │
-└─────────────────────┬────────────────────────────┘
-                      │ 2. 读对应 SKILL.md
-                      ▼
-┌──────────────────────────────────────────────────┐
-│  packs/<pack>/.claude/skills/<skill>/SKILL.md    │
-│   ├── frontmatter (name + description)           │
-│   ├── workflow                                    │
-│   ├── references/   ← 按需加载                   │
-│   └── scripts/      ← 显式调用                   │
-└──────────────────────────────────────────────────┘
++--------------------------------------------------+
+|  Agent (Claude Code / Copilot / Cursor / ...)    |
++----------------------+---------------------------+
+                       | 1. read AGENTS.md (top-level routing)
+                       v
++--------------------------------------------------+
+|  packs/<pack-name>/AGENTS.md  (pack-internal)    |
++----------------------+---------------------------+
+                       | 2. read the matching SKILL.md
+                       v
++--------------------------------------------------+
+|  packs/<pack>/.claude/skills/<skill>/SKILL.md    |
+|   |-- frontmatter (name + description)           |
+|   |-- workflow                                   |
+|   |-- references/   <- loaded on demand          |
+|   +-- scripts/      <- invoked explicitly        |
++--------------------------------------------------+
 ```
 
-## 三层路由
+## Three-layer routing
 
-1. **顶层 [AGENTS.md](../AGENTS.md)** —— 按"任务领域"选 pack
-2. **Pack 内 AGENTS.md / CLAUDE.md** —— 按"任务类型"选 SKILL
-3. **SKILL.md** —— 自含完整工作流
+1. **Top-level [AGENTS.md](../AGENTS.md)** — pick a pack by *task domain*.
+2. **Pack-internal AGENTS.md / CLAUDE.md** — pick a SKILL by *task type*.
+3. **SKILL.md** — self-contained workflow.
 
-> 路由文件自身只做"指路"，不重复 SKILL 内的细节。
+> Routing files only **point**; they never duplicate the details that live inside a SKILL.
 
-## 隔离边界
+## Isolation boundaries
 
-| 边界                  | 实现方式                                            |
-| --------------------- | --------------------------------------------------- |
-| Pack 之间 Python 依赖 | 各自 `environment.yml`，**不共享** Conda 环境       |
-| Pack 之间数据交换     | 用文件落盘（IFC / JSON / docx），不假设内存共享     |
-| Pack 之间代码引用     | 禁止跨 pack `import`；如需共享逻辑，抽出第三个 pack |
-| 仓库根 vs pack        | 根目录**不含**可执行 Python；所有代码归属某个 pack  |
+| Boundary                      | How it is enforced                                                              |
+| ----------------------------- | ------------------------------------------------------------------------------- |
+| Python deps between packs     | Each pack ships its own `environment.yml`; Conda envs are **not shared**.       |
+| Data exchange between packs   | Pass via files on disk (IFC / JSON / docx); never assume in-memory sharing.     |
+| Code references between packs | Cross-pack `import` is forbidden. To share logic, extract a third pack.         |
+| Repo root vs packs            | The repo root contains **no** executable Python. All code belongs to some pack. |
 
-## SKILL 加载机制
+## SKILL loading mechanism
 
-- **加载方式**：每个 pack 内 `.claude/skills/` 目录是 Claude Code / Anthropic Skills 的标准约定；其他 agent（Copilot 等）可通过本仓库 `AGENTS.md` 路由到同一文件。
-- **触发**：agent 仅根据 `SKILL.md` frontmatter 的 `description` 字段决定是否激活某个 SKILL，因此 `description` 必须包含 **USE WHEN / DO NOT USE** 子句。
-- **按需加载**：`references/` 与 `scripts/` 不在 SKILL 激活时立刻加载，agent 看到 `SKILL.md` 内的相对链接才取——这是上下文压缩的关键机制。
+- **Layout convention.** `.claude/skills/` inside each pack is the standard convention used by Claude Code / Anthropic Skills. Other agents (Copilot, etc.) reach the same files through the repository's `AGENTS.md`.
+- **Trigger.** Agents decide whether to activate a SKILL purely from the `description` field in the SKILL.md frontmatter — hence `description` must contain explicit **USE WHEN / DO NOT USE** clauses.
+- **Lazy loading.** `references/` and `scripts/` are *not* loaded when the SKILL activates. The agent fetches them only after seeing a relative link inside `SKILL.md` — the key mechanism for context compression.
 
-## 测试与基线
+## Tests and baselines
 
-详见 [evaluation.md](evaluation.md)。要点：
+See [evaluation.md](evaluation.md). The essentials:
 
-- 代码类 SKILL → `pytest`
-- 文档类 SKILL → `tests/*.evals.json` 人工 prompt-eval
-- 基线版本化：`tests/BASELINE-vX.Y.md` + git tag
+- Code-oriented SKILLs → `pytest`
+- Document-oriented SKILLs → manual prompt-evals defined in `tests/*.evals.json`
+- Versioned baselines: `tests/BASELINE-vX.Y.md` + a matching git tag
 
-## 命名一致性
+## Naming consistency
 
-所有面向 agent 暴露的标识符（pack 名、SKILL 名、目录名、frontmatter `name`）必须 kebab-case。CI 通过 [scripts/check_naming.py](../scripts/check_naming.py) 强制。
+Every identifier exposed to agents (pack name, SKILL name, directory name, frontmatter `name`) must be kebab-case. Enforced in CI by [scripts/check_naming.py](../scripts/check_naming.py).
