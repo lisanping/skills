@@ -1,3 +1,11 @@
+# Repo-root .gitignore.
+#
+# Scope: only patterns that apply to **any** pack — Python bytecode, virtual
+# envs, generic editor / OS noise, coverage, logs, and a `packs/*/output|build|dist`
+# catch-all. Domain-specific binaries (CAD/BIM, PPTX/PDF, images, …) belong in
+# the per-pack `.gitignore` so each pack remains self-contained when shared
+# standalone.
+
 # Python
 __pycache__/
 *.py[cod]
@@ -20,26 +28,10 @@ venv/
 .DS_Store
 Thumbs.db
 
-# BREP / CAD output files (large binaries — use git-lfs if needed)
-*.rvt
-*.rfa
-*.dyn
-*.stp
-*.step
-*.iges
-*.igs
-*.ifc
-*.stl
-*.obj
-!tests/fixtures/**
-
-# Model output directory
-output/
-
 # Jupyter
 .ipynb_checkpoints/
 
-# Coverage
+# Coverage / test caches
 htmlcov/
 .coverage
 .pytest_cache/
@@ -59,10 +51,11 @@ logs/
 .cursor/
 .vscode/
 
-# Per-pack output (each pack may add more in its own .gitignore)
+# Per-pack catch-all (each pack may add more in its own .gitignore)
 packs/*/output/
 packs/*/build/
 packs/*/dist/
 
 # Test artifacts (results dirs are tracked; raw scratch is not)
 packs/*/tests/.scratch/
+

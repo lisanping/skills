@@ -1,0 +1,73 @@
+# --- Pack outputs (never commit) -------------------------------------------
+output/
+**/output/
+*-output/
+build/
+.conda/
+
+# --- Generated CAD / BIM binaries (large; use Git LFS if you must share) ---
+*.stp
+*.step
+*.iges
+*.igs
+*.ifc
+*.ifczip
+*.stl
+*.obj
+*.glb
+*.gltf
+*.dxf
+*.dwg
+*.rvt
+*.rfa
+*.dyn
+# Allow committed test fixtures and reference assets shipped with the pack
+!aec-dwg-dxf/scripts/sample.dxf
+!aec-ifc-parser/scripts/sample.ifc
+!reference/**/*.glb
+!reference/**/*.ifc
+!reference/**/*.dxf
+!tests/fixtures/**
+
+# --- Generated documents (intermediate) -----------------------------------
+*.docx
+*.xlsx
+# Allow templates and committed reference docs
+!**/templates/**/*.docx
+!**/templates/**/*.xlsx
+!references/**/*.docx
+!references/**/*.xlsx
+
+# --- Python ---------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+*.egg
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# --- Virtual envs ---------------------------------------------------------
+.venv/
+env/
+venv/
+
+# --- Logs -----------------------------------------------------------------
+*.log
+logs/
+
+# --- Editor / OS ----------------------------------------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Local agent caches ---------------------------------------------------
+.claude/cache/
+.copilot/
+.cursor/
