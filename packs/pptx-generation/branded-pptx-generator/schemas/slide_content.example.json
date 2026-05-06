@@ -1,0 +1,38 @@
+{
+  "slides": [
+    {
+      "taskId": "s02",
+      "title": "Agenda",
+      "contentSource": "generated",
+      "slots": [
+        { "placeholder": "agenda_item_1", "text": "Q2 Performance", "charBudget": 30 },
+        { "placeholder": "agenda_page_1", "text": "TBD", "charBudget": 4 },
+        { "placeholder": "agenda_item_2", "text": "Strategic Pillars", "charBudget": 30 },
+        { "placeholder": "agenda_page_2", "text": "TBD", "charBudget": 4 },
+        { "placeholder": "agenda_item_3", "text": "Roadmap & Next Steps", "charBudget": 30 },
+        { "placeholder": "agenda_page_3", "text": "TBD", "charBudget": 4 }
+      ]
+    },
+    {
+      "taskId": "s04",
+      "title": "Financial Highlights",
+      "contentSource": "generated",
+      "slots": [
+        { "placeholder": "title", "text": "Financial Highlights", "charBudget": 40 },
+        { "placeholder": "cell1_number", "text": "$16.2B", "charBudget": 8 },
+        { "placeholder": "cell1_label", "text": "Revenue", "charBudget": 20 },
+        { "placeholder": "cell1_detail", "text": "+3% vs target | YoY: +8.4%", "charBudget": 40 },
+        { "placeholder": "cell2_number", "text": "$2.8B", "charBudget": 8 },
+        { "placeholder": "cell2_label", "text": "EBITDA", "charBudget": 20 },
+        { "placeholder": "cell2_detail", "text": "17.3% margin | +120bps YoY", "charBudget": 40 }
+      ]
+    }
+  ],
+  "glossary": {
+    "revenue_q2": "$16.2B",
+    "ebitda_q2": "$2.8B",
+    "pillar1_name": "Digital Transformation",
+    "pillar2_name": "Market Expansion",
+    "pillar3_name": "Operational Excellence"
+  }
+}

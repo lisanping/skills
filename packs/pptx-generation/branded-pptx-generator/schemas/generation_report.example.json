@@ -1,0 +1,21 @@
+{
+  "mode": "balanced",
+  "slideCount": 10,
+  "layoutsUsed": ["slideLayout2.xml", "slideLayout3.xml", "slideLayout4.xml", "slideLayout5.xml", "slideLayout7.xml", "slideLayout12.xml"],
+  "strategies": {
+    "clone-sample": 4,
+    "clone-layout": 3,
+    "augmented-clone": 2,
+    "spec-composed": 1
+  },
+  "compliance": {
+    "lockedViolations": 0,
+    "wcagIssues": 0,
+    "leftoverPlaceholders": false
+  },
+  "schemaValidation": "pass",
+  "visualIssuesFound": 2,
+  "visualIssuesFixed": 2,
+  "unresolvedIssues": [],
+  "outputFile": "outputs/Accenture_balanced_20260420_Q2_strategy_review.pptx"
+}

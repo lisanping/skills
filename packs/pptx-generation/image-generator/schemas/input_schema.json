@@ -1,0 +1,142 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Image Generation Request",
+    "description": "Batch image generation request format for generate_images.py",
+    "type": "object",
+    "required": [
+        "requests"
+    ],
+    "properties": {
+        "defaults": {
+            "type": "object",
+            "description": "Default values applied to all requests (per-request values override)",
+            "properties": {
+                "backend": {
+                    "type": "string",
+                    "enum": [
+                        "gpt-image",
+                        "flux"
+                    ],
+                    "description": "Default backend"
+                },
+                "quality": {
+                    "type": "string",
+                    "enum": [
+                        "low",
+                        "medium",
+                        "high"
+                    ],
+                    "description": "Default quality level"
+                },
+                "width": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Default width in pixels"
+                },
+                "height": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Default height in pixels"
+                },
+                "output_format": {
+                    "type": "string",
+                    "enum": [
+                        "png",
+                        "jpg",
+                        "webp"
+                    ],
+                    "description": "Default output format"
+                },
+                "style_reference": {
+                    "type": "string",
+                    "description": "Default style reference text"
+                },
+                "negative_prompt": {
+                    "type": "string",
+                    "description": "Default negative prompt (FLUX only)"
+                },
+                "seed": {
+                    "type": "integer",
+                    "description": "Default seed for reproducibility (FLUX only)"
+                }
+            },
+            "additionalProperties": false
+        },
+        "requests": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "prompt"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier linking input to output"
+                    },
+                    "prompt": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Image generation prompt"
+                    },
+                    "width": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "Desired width in pixels (mapped to nearest API size)"
+                    },
+                    "height": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "Desired height in pixels (mapped to nearest API size)"
+                    },
+                    "quality": {
+                        "type": "string",
+                        "enum": [
+                            "low",
+                            "medium",
+                            "high"
+                        ],
+                        "description": "Quality level"
+                    },
+                    "negative_prompt": {
+                        "type": "string",
+                        "description": "Elements to exclude (FLUX only; ignored by gpt-image)"
+                    },
+                    "style_reference": {
+                        "type": "string",
+                        "description": "Style guidance appended to prompt"
+                    },
+                    "output_format": {
+                        "type": "string",
+                        "enum": [
+                            "png",
+                            "jpg",
+                            "webp"
+                        ],
+                        "description": "Output image format"
+                    },
+                    "output_filename": {
+                        "type": "string",
+                        "description": "Custom filename; auto-generated from id if omitted"
+                    },
+                    "backend": {
+                        "type": "string",
+                        "enum": [
+                            "gpt-image",
+                            "flux"
+                        ],
+                        "description": "Per-request backend override"
+                    },
+                    "seed": {
+                        "type": "integer",
+                        "description": "Reproducibility seed (FLUX only)"
+                    }
+                },
+                "additionalProperties": false
+            }
+        }
+    },
+    "additionalProperties": false
+}

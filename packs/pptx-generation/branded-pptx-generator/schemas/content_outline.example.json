@@ -1,0 +1,21 @@
+{
+  "intent": {
+    "topic": "Q2 2026 strategy review",
+    "audience": "executive leadership team",
+    "tone": "formal, data-driven",
+    "slideCount": 10,
+    "keyMessages": [
+      "Q2 financial performance vs targets",
+      "Progress on three strategic pillars",
+      "H2 roadmap and resource asks"
+    ]
+  },
+  "narrativeArc": "context → performance → strategy → roadmap",
+  "sections": [
+    { "title": "Opening", "slideCount": 1, "roles": ["cover"] },
+    { "title": "Q2 Performance", "slideCount": 2, "roles": ["divider", "content_data"] },
+    { "title": "Strategic Pillars", "slideCount": 4, "roles": ["divider", "content_text", "content_text", "content_mixed"] },
+    { "title": "Roadmap & Next Steps", "slideCount": 2, "roles": ["divider", "content_data"] },
+    { "title": "Closing", "slideCount": 1, "roles": ["closing"] }
+  ]
+}

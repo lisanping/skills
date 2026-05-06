@@ -1,0 +1,85 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Image Generation Output",
+    "description": "Output manifest produced by generate_images.py",
+    "type": "object",
+    "required": [
+        "results",
+        "summary"
+    ],
+    "properties": {
+        "results": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "status"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Matches the input request id"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "success",
+                            "failed",
+                            "skipped"
+                        ],
+                        "description": "Generation outcome"
+                    },
+                    "output_path": {
+                        "type": "string",
+                        "description": "Absolute path to generated image file"
+                    },
+                    "revised_prompt": {
+                        "type": "string",
+                        "description": "Model-revised prompt (if returned by API)"
+                    },
+                    "backend": {
+                        "type": "string",
+                        "description": "Backend used for this request"
+                    },
+                    "model": {
+                        "type": "string",
+                        "description": "Deployment/model name"
+                    },
+                    "generated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "ISO 8601 timestamp of generation"
+                    },
+                    "error": {
+                        "type": "string",
+                        "description": "Error message (only for status=failed)"
+                    }
+                }
+            }
+        },
+        "summary": {
+            "type": "object",
+            "required": [
+                "total",
+                "generated",
+                "skipped",
+                "failed"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer"
+                },
+                "generated": {
+                    "type": "integer"
+                },
+                "skipped": {
+                    "type": "integer"
+                },
+                "failed": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

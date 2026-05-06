@@ -1,0 +1,2998 @@
+{
+  "$ref": "#/definitions/TemplateProfile",
+  "definitions": {
+    "TemplateProfile": {
+      "type": "object",
+      "properties": {
+        "meta": {
+          "type": "object",
+          "properties": {
+            "source_file": {
+              "type": "string"
+            },
+            "extraction_date": {
+              "type": "string"
+            },
+            "extractor_version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source_file",
+            "extraction_date",
+            "extractor_version"
+          ],
+          "additionalProperties": false
+        },
+        "identity": {
+          "type": "object",
+          "properties": {
+            "colors": {
+              "type": "object",
+              "properties": {
+                "scheme": {
+                  "type": "object",
+                  "properties": {
+                    "dk1": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "dk2": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "lt1": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "lt2": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "accent1": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "accent2": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "accent3": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "accent4": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "accent5": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "accent6": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "hlink": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^#[0-9A-Fa-f]{6}$"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "folHlink": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^#[0-9A-Fa-f]{6}$"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "dk1",
+                    "dk2",
+                    "lt1",
+                    "lt2",
+                    "accent1",
+                    "accent2",
+                    "accent3",
+                    "accent4",
+                    "accent5",
+                    "accent6",
+                    "hlink",
+                    "folHlink"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "scheme"
+              ],
+              "additionalProperties": false
+            },
+            "fonts": {
+              "type": "object",
+              "properties": {
+                "major": {
+                  "type": "object",
+                  "properties": {
+                    "latin": {
+                      "type": "string"
+                    },
+                    "ea": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "cs": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "latin",
+                    "ea",
+                    "cs"
+                  ],
+                  "additionalProperties": false
+                },
+                "minor": {
+                  "type": "object",
+                  "properties": {
+                    "latin": {
+                      "type": "string"
+                    },
+                    "ea": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "cs": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "latin",
+                    "ea",
+                    "cs"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "major",
+                "minor"
+              ],
+              "additionalProperties": false
+            },
+            "slide_size": {
+              "type": "object",
+              "properties": {
+                "width_pt": {
+                  "type": "number"
+                },
+                "height_pt": {
+                  "type": "number"
+                },
+                "aspect": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "width_pt",
+                "height_pt",
+                "aspect"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "colors",
+            "fonts",
+            "slide_size"
+          ],
+          "additionalProperties": false
+        },
+        "compliance": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "logo": {
+                  "type": "object",
+                  "properties": {
+                    "found_in_template": {
+                      "type": "boolean"
+                    },
+                    "positions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "context": {
+                            "type": "string"
+                          },
+                          "x_pct": {
+                            "type": "string"
+                          },
+                          "y_pct": {
+                            "type": "string"
+                          },
+                          "w_pct": {
+                            "type": "string"
+                          },
+                          "h_pct": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "context",
+                          "x_pct",
+                          "y_pct",
+                          "w_pct",
+                          "h_pct"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "clear_space": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "min_size": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "prohibitions": {
+                      "anyOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "found_in_template",
+                    "positions",
+                    "clear_space",
+                    "min_size",
+                    "prohibitions"
+                  ],
+                  "additionalProperties": false
+                },
+                "footer": {
+                  "type": "object",
+                  "properties": {
+                    "has_page_number": {
+                      "type": "boolean"
+                    },
+                    "has_date": {
+                      "type": "boolean"
+                    },
+                    "has_footer_text": {
+                      "type": "boolean"
+                    },
+                    "footer_text": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "default": null
+                    },
+                    "date_format": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "default": null
+                    }
+                  },
+                  "required": [
+                    "has_page_number",
+                    "has_date",
+                    "has_footer_text"
+                  ],
+                  "additionalProperties": false
+                },
+                "disclaimer_text": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "copyright_format": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "wcag_level": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "logo",
+                "footer",
+                "disclaimer_text",
+                "copyright_format",
+                "wcag_level"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "masters": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Slide master metadata from extraction"
+        },
+        "layouts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Layout display name from the template (e.g. 'Title Slide', 'Two Content')"
+              },
+              "index": {
+                "type": "number",
+                "description": "Zero-based index of this layout within the master's layout list"
+              },
+              "master_index": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "default": null,
+                "description": "Index of the parent slide master (null if only one master)"
+              },
+              "inferred_type": {
+                "anyOf": [
+                  {
+                    "$ref": "enums.json#/definitions/layout_inferred_type"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "VLM-classified semantic layout type (e.g. cover, content_single_col, comparison). Null before VLM analysis."
+              },
+              "inferred_type_confidence": {
+                "anyOf": [
+                  {
+                    "$ref": "enums.json#/definitions/confidence_level"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Confidence of the inferred_type classification. Null before VLM analysis."
+              },
+              "background": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "color": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^#[0-9A-Fa-f]{6}$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "type",
+                  "color"
+                ],
+                "additionalProperties": false
+              },
+              "placeholders": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "default": null
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "idx": {
+                      "type": "number"
+                    },
+                    "x_pct": {
+                      "type": "string"
+                    },
+                    "y_pct": {
+                      "type": "string"
+                    },
+                    "w_pct": {
+                      "type": "string"
+                    },
+                    "h_pct": {
+                      "type": "string"
+                    },
+                    "font_size_pt": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "font_color": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "font_bold": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ],
+                      "default": null
+                    },
+                    "alignment": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "anchor": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "t",
+                            "ctr",
+                            "m",
+                            "b"
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": null
+                    },
+                    "auto_fit": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "none",
+                            "normal",
+                            "shape"
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": null
+                    },
+                    "prompt_text": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "default": null
+                    },
+                    "font_family": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "default": null,
+                      "description": "Explicit font family from defRPr/rPr latin typeface (null if inherited from theme)"
+                    },
+                    "is_meta": {
+                      "type": "boolean",
+                      "default": false
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "idx",
+                    "x_pct",
+                    "y_pct",
+                    "w_pct",
+                    "h_pct",
+                    "font_size_pt",
+                    "font_color",
+                    "alignment"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "shapes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "desc": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "anyOf": [
+                        {
+                          "$ref": "enums.json#/definitions/shape_role"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "VLM-assigned decorative shape role"
+                    },
+                    "x_pct": {
+                      "type": "string"
+                    },
+                    "y_pct": {
+                      "type": "string"
+                    },
+                    "w_pct": {
+                      "type": "string"
+                    },
+                    "h_pct": {
+                      "type": "string"
+                    },
+                    "fill_color": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^#[0-9A-Fa-f]{6}$"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "desc",
+                    "role",
+                    "x_pct",
+                    "y_pct",
+                    "w_pct",
+                    "h_pct",
+                    "fill_color"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "content_zone": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "top_pct": {
+                        "type": "number"
+                      },
+                      "bottom_pct": {
+                        "type": "number"
+                      },
+                      "left_pct": {
+                        "type": "number"
+                      },
+                      "right_pct": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "top_pct",
+                      "bottom_pct",
+                      "left_pct",
+                      "right_pct"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null
+              },
+              "column_count": {
+                "type": "integer",
+                "minimum": 0,
+                "default": 0,
+                "description": "Number of content columns detected in this layout (0 if not a columnar layout)"
+              },
+              "has_image_slot": {
+                "type": "boolean",
+                "default": false,
+                "description": "Whether this layout contains a picture placeholder"
+              },
+              "augmentable": {
+                "type": "boolean",
+                "default": false,
+                "description": "Whether this layout has free space where additional shapes can be placed without overlapping existing content"
+              },
+              "custom_content_zone": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "top_pct": {
+                        "type": "number"
+                      },
+                      "bottom_pct": {
+                        "type": "number"
+                      },
+                      "left_pct": {
+                        "type": "number"
+                      },
+                      "right_pct": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "top_pct",
+                      "bottom_pct",
+                      "left_pct",
+                      "right_pct"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null
+              },
+              "content_capacity": {
+                "anyOf": [
+                  {
+                    "$ref": "enums.json#/definitions/content_capacity"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "description": "VLM-assessed content capacity of this layout (T1)"
+              },
+              "visual_weight": {
+                "anyOf": [
+                  {
+                    "$ref": "enums.json#/definitions/visual_weight"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "description": "VLM-assessed visual prominence/heaviness of this layout (light, medium, heavy). Null before VLM analysis."
+              },
+              "layout_file": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "default": null,
+                "description": "Layout XML filename (e.g. slideLayout1.xml)"
+              },
+              "is_builtin": {
+                "type": "boolean",
+                "default": false,
+                "description": "Whether this layout belongs to a built-in default master (non-brand, skip during generation)"
+              },
+              "typographySummary": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "description": "Aggregated typography info from layout placeholders",
+                    "properties": {
+                      "fontFamilies": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Distinct font families declared in placeholder defRPr/rPr"
+                      },
+                      "sizeRange": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "description": "[min, max] font size in pt"
+                      },
+                      "sizes": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "description": "All distinct font sizes in pt, sorted ascending"
+                      },
+                      "hasBold": {
+                        "type": "boolean",
+                        "description": "Whether any placeholder has bold text"
+                      }
+                    },
+                    "required": [
+                      "fontFamilies",
+                      "sizeRange",
+                      "sizes",
+                      "hasBold"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "description": "Aggregated typography from layout placeholders (null if no font info)"
+              },
+              "colorSummary": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "description": "Aggregated color info from layout placeholders, shapes, and background",
+                    "properties": {
+                      "background": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Background color value — 'inherited', theme ref (e.g. 'accent2'), or hex"
+                      },
+                      "themeRefs": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Unique schemeClr references from placeholders and shapes (e.g. 'tx1', 'bg2')"
+                      },
+                      "hardcoded": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^#[0-9A-Fa-f]{6}$"
+                        },
+                        "description": "Unique srgbClr hex values from placeholders and shapes"
+                      },
+                      "fills": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Deduplicated shape fill values (theme refs + hex, mixed)"
+                      }
+                    },
+                    "required": [
+                      "background",
+                      "themeRefs",
+                      "hardcoded",
+                      "fills"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "description": "Aggregated color info from layout (null if no color info)"
+              }
+            },
+            "required": [
+              "name",
+              "index",
+              "background",
+              "placeholders",
+              "shapes"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "design_language": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "style_tone": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "default": null,
+                  "description": "Overall design philosophy / aesthetic tone"
+                },
+                "whitespace_rhythm": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "default": null,
+                  "description": "Spacing density: generous / compact / mixed"
+                },
+                "color_ratio": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "Color system summary (primary, secondary, accent, palette_strategy)"
+                },
+                "visual_hierarchy_method": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "default": null,
+                  "description": "How visual hierarchy is established (e.g. H1:36pt/Bold → H2:24pt/SemiBold → Body:14pt/Regular)"
+                },
+                "component_style_pattern": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "default": null,
+                  "description": "Shape/component style conventions (e.g. rounded corners, flat design)"
+                },
+                "cover_vs_content_contrast": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "default": null,
+                  "description": "How cover/divider slides contrast with content slides"
+                },
+                "visual_motifs": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "description": "Motif category (e.g. 'accent_bar', 'rounded_image_frame', 'gradient_overlay')"
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "Visual description of how this motif appears in the template"
+                          },
+                          "frequency": {
+                            "type": "string",
+                            "description": "How often this motif appears: 'every_slide', 'most_slides', 'some_slides', 'rare'"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "description",
+                          "frequency"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "Recurring visual patterns (e.g. rounded image frames, left accent bars)"
+                },
+                "vlm_guardrails": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "rule": {
+                            "type": "string",
+                            "description": "Concise imperative sentence describing a brand-specific constraint."
+                          },
+                          "severity": {
+                            "type": "string",
+                            "enum": [
+                              "soft"
+                            ],
+                            "description": "VLM-inferred guardrails are always soft."
+                          }
+                        },
+                        "required": [
+                          "rule",
+                          "severity"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "Brand-specific guardrails inferred by VLM in Step 4b. Consumed by generate_composer_digest.py."
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Cross-layout design language extracted by VLM analysis"
+        },
+        "aesthetic_principles": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/AestheticPrinciples"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Generalizable, actionable design principles synthesized from cross-sample VLM analysis in Step 4d. Bridges the gap between descriptive design_language (WHAT the template looks like) and prescriptive generation guidance (HOW to design new things that belong). Consumed by branded-pptx-generator via composer-digest."
+        },
+        "table_styles": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "style_id": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "source_slide_index": {
+                    "type": "number"
+                  },
+                  "row_count": {
+                    "type": "number"
+                  },
+                  "col_count": {
+                    "type": "number"
+                  },
+                  "col_width_ratios": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "band_row": {
+                    "type": "boolean"
+                  },
+                  "band_col": {
+                    "type": "boolean"
+                  },
+                  "first_row_styled": {
+                    "type": "boolean"
+                  },
+                  "first_col_styled": {
+                    "type": "boolean"
+                  },
+                  "header_style": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "fill_color": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "font_size_pt": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          },
+                          "font_bold": {
+                            "type": [
+                              "boolean",
+                              "null"
+                            ]
+                          },
+                          "font_color": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "fill_color",
+                          "font_size_pt",
+                          "font_bold",
+                          "font_color"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "data_style": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "fill_color": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "font_size_pt": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          },
+                          "font_bold": {
+                            "type": [
+                              "boolean",
+                              "null"
+                            ]
+                          },
+                          "font_color": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "fill_color",
+                          "font_size_pt",
+                          "font_bold",
+                          "font_color"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "style_id",
+                  "row_count",
+                  "col_count",
+                  "col_width_ratios",
+                  "band_row",
+                  "band_col",
+                  "first_row_styled",
+                  "first_col_styled",
+                  "header_style",
+                  "data_style"
+                ],
+                "additionalProperties": false
+              }
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "sample_slide_catalog": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "slide_file": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "default": null,
+                    "description": "Slide XML filename (e.g. slide1.xml)"
+                  },
+                  "slide_index": {
+                    "type": "number",
+                    "description": "Zero-based index of this slide in the presentation"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Title text extracted from the slide's title placeholder"
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "Content category derived from layout name or slide content (e.g. 'title', 'content', 'chart')"
+                  },
+                  "layout_name": {
+                    "type": "string",
+                    "description": "Name of the slide layout this slide is based on"
+                  },
+                  "has_content": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ],
+                    "default": null,
+                    "description": "Whether this slide contains real content beyond placeholder markers. true = sample/guide slide worth analyzing."
+                  },
+                  "shape_count": {
+                    "type": "number",
+                    "description": "Total number of shapes (non-placeholder) on this slide"
+                  },
+                  "layout_index": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "default": null,
+                    "description": "Index linking to layouts[] entry"
+                  },
+                  "keywords": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Content keywords extracted from slide text for search/matching"
+                  },
+                  "guideType": {
+                    "anyOf": [
+                      {
+                        "$ref": "enums.json#/definitions/guide_type"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Guide slide subtype, set when role is guide or hybrid"
+                  },
+                  "contentPattern": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "default": null,
+                    "description": "One-line description of the content arrangement (e.g. 'two-column text with left image', 'three stat cards in a row'). VLM-assigned."
+                  },
+                  "patternDescription": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "default": null,
+                    "description": "One-line description of the overall visual pattern demonstrated by this slide (e.g., 'Gantt chart with horizontal task bars and time axis'). null for simple text/placeholder layouts."
+                  },
+                  "complexElements": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Named visual patterns present on this slide (e.g. 'threeColumnGrid', 'numberedTimeline', 'iconCardRow'). Empty array if text-only. VLM-assigned."
+                  },
+                  "cloneCandidate": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ],
+                    "default": null,
+                    "description": "Whether this slide is suitable for clone-based generation strategies (clone-sample or clone-layout). true if the slide's content can be swapped while preserving structure. VLM-assigned."
+                  },
+                  "layoutRelationship": {
+                    "anyOf": [
+                      {
+                        "$ref": "enums.json#/definitions/layout_relationship"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "How this slide's actual content relates to its declared layout (e.g. faithful, extended, divergent). VLM-assigned."
+                  },
+                  "styleSourceType": {
+                    "anyOf": [
+                      {
+                        "$ref": "enums.json#/definitions/style_source_type"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Where this slide's styling originates — inherited from layout or applied directly on the slide. VLM-assigned."
+                  },
+                  "styleRefSuitability": {
+                    "anyOf": [
+                      {
+                        "$ref": "enums.json#/definitions/style_ref_suitability"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "How suitable this slide is as a style reference for generating new slides with similar visual patterns. VLM-assigned."
+                  },
+                  "layoutMismatchSummary": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "default": null,
+                    "description": "Summary of what matches vs. diverges between this slide and its layout template (e.g. 'adds gradient bar not in layout; title position matches'). VLM-assigned."
+                  },
+                  "role": {
+                    "anyOf": [
+                      {
+                        "$ref": "enums.json#/definitions/slide_role"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Slide role: 'sample' for normal samples, 'guide' for template usage guides, 'hybrid' for slides that are both instructional and demonstrative."
+                  },
+                  "typographyUsage": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "description": "Typography inventory extracted from all text runs in this slide",
+                        "properties": {
+                          "fontFamilies": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "All font families found in rPr/defRPr (includes theme-resolved names)"
+                          },
+                          "nonThemeFonts": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Font families not matching identity.fonts.major or minor"
+                          },
+                          "sizeRange": {
+                            "type": "array",
+                            "items": {
+                              "type": "number"
+                            },
+                            "minItems": 2,
+                            "maxItems": 2,
+                            "description": "[min, max] font size in pt"
+                          },
+                          "sizes": {
+                            "type": "array",
+                            "items": {
+                              "type": "number"
+                            },
+                            "description": "All distinct font sizes in pt, sorted ascending"
+                          },
+                          "hasBold": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "fontFamilies",
+                          "nonThemeFonts",
+                          "sizeRange",
+                          "sizes",
+                          "hasBold"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Typography inventory from slide content (null before extraction)"
+                  },
+                  "colorUsage": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "description": "Color inventory extracted from all fills and text runs in this slide",
+                        "properties": {
+                          "themeRefs": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Unique schemeClr slot names referenced (e.g. 'accent1', 'dk1')"
+                          },
+                          "themeRefsWithMods": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "slot": {
+                                  "type": "string"
+                                },
+                                "lumMod": {
+                                  "type": [
+                                    "integer",
+                                    "null"
+                                  ],
+                                  "default": null
+                                },
+                                "lumOff": {
+                                  "type": [
+                                    "integer",
+                                    "null"
+                                  ],
+                                  "default": null
+                                }
+                              },
+                              "required": [
+                                "slot"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "description": "schemeClr references with luminance modifiers for tint/shade tracking"
+                          },
+                          "hardcoded": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "pattern": "^#[0-9A-Fa-f]{6}$"
+                            },
+                            "description": "Unique srgbClr hex values"
+                          },
+                          "hardcodedToThemeMap": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "string"
+                            },
+                            "description": "Map of hardcoded hex → matching theme slot name (exact match against identity.colors.scheme)"
+                          },
+                          "backgroundFill": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "description": "Slide background (schemeClr ref or hex), null if inherited from layout"
+                          },
+                          "stats": {
+                            "type": "object",
+                            "properties": {
+                              "schemeClrCount": {
+                                "type": "integer",
+                                "description": "Total schemeClr usages (fill + text)"
+                              },
+                              "srgbClrCount": {
+                                "type": "integer",
+                                "description": "Total srgbClr usages"
+                              },
+                              "noFillCount": {
+                                "type": "integer",
+                                "description": "Elements with no fill"
+                              }
+                            },
+                            "required": [
+                              "schemeClrCount",
+                              "srgbClrCount",
+                              "noFillCount"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "themeRefs",
+                          "themeRefsWithMods",
+                          "hardcoded",
+                          "hardcodedToThemeMap",
+                          "backgroundFill",
+                          "stats"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Color inventory from slide content (null before extraction)"
+                  }
+                },
+                "required": [
+                  "slide_index",
+                  "title",
+                  "layout_name",
+                  "shape_count"
+                ],
+                "additionalProperties": false
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sample_semantic_index": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "slide_index": {
+                    "type": "number"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string"
+                  },
+                  "layout_name": {
+                    "type": "string"
+                  },
+                  "slide_role": {
+                    "type": "string",
+                    "enum": [
+                      "section_header",
+                      "instructional",
+                      "example",
+                      "variant"
+                    ]
+                  },
+                  "content_type_tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "construction_method": {
+                    "type": "string",
+                    "enum": [
+                      "grouped_shapes",
+                      "native_chart",
+                      "table_based",
+                      "smartart",
+                      "image_based",
+                      "text_layout",
+                      "hybrid"
+                    ]
+                  },
+                  "density": {
+                    "type": "string",
+                    "enum": [
+                      "dense",
+                      "moderate",
+                      "spacious"
+                    ]
+                  },
+                  "visual_pattern_brief": {
+                    "type": "string"
+                  },
+                  "color_overview": {
+                    "type": "string"
+                  },
+                  "applicable_scenario_tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "complexity": {
+                    "type": "string",
+                    "enum": [
+                      "simple",
+                      "moderate",
+                      "complex"
+                    ]
+                  },
+                  "variant_group_id": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "variant_role_brief": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "index_summary": {
+                    "type": "string"
+                  },
+                  "detail_analyzed": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "detail_analyzed_at": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "default": null
+                  },
+                  "applicable_scenarios": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "design_technique": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "default": null
+                  },
+                  "shape_primitives": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "visual_pattern": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "default": null
+                  },
+                  "color_strategy": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "default": null
+                  },
+                  "typography_notes": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "default": null
+                  },
+                  "variant_differentiation": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "default": null
+                  },
+                  "color_area_estimate": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "neutral_pct": {
+                            "type": "number"
+                          },
+                          "brand_pct": {
+                            "type": "number"
+                          },
+                          "accent_pct": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "neutral_pct",
+                          "brand_pct",
+                          "accent_pct"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  }
+                },
+                "required": [
+                  "slide_index",
+                  "title",
+                  "category",
+                  "layout_name",
+                  "slide_role",
+                  "content_type_tags",
+                  "construction_method",
+                  "density",
+                  "visual_pattern_brief",
+                  "color_overview",
+                  "applicable_scenario_tags",
+                  "complexity",
+                  "variant_group_id",
+                  "variant_role_brief",
+                  "index_summary"
+                ],
+                "additionalProperties": false
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sample_analysis_summary": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "total_samples": {
+                  "type": "number"
+                },
+                "category_distribution": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "number"
+                  }
+                },
+                "dominant_construction": {
+                  "type": "string"
+                },
+                "density_distribution": {
+                  "type": "object",
+                  "properties": {
+                    "dense": {
+                      "type": "number"
+                    },
+                    "moderate": {
+                      "type": "number"
+                    },
+                    "spacious": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "dense",
+                    "moderate",
+                    "spacious"
+                  ],
+                  "additionalProperties": false
+                },
+                "color_practices": {
+                  "type": "string"
+                },
+                "typography_overview": {
+                  "type": "string"
+                },
+                "layout_relationship_distribution": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "faithful": {
+                          "type": "number"
+                        },
+                        "variant": {
+                          "type": "number"
+                        },
+                        "detached": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "faithful",
+                        "variant",
+                        "detached"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null
+                }
+              },
+              "required": [
+                "total_samples",
+                "category_distribution",
+                "dominant_construction",
+                "density_distribution",
+                "color_practices",
+                "typography_overview"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "layout_usage_analysis": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "layout_file": {
+                    "type": [
+                      "string",
+                      "number"
+                    ]
+                  },
+                  "usageCount": {
+                    "type": "number"
+                  },
+                  "faithfulCount": {
+                    "type": "number"
+                  },
+                  "variantCount": {
+                    "type": "number"
+                  },
+                  "detachedCount": {
+                    "type": "number"
+                  },
+                  "effectiveUsageRate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                },
+                "required": [
+                  "layout_file",
+                  "usageCount",
+                  "faithfulCount",
+                  "variantCount",
+                  "detachedCount",
+                  "effectiveUsageRate"
+                ],
+                "additionalProperties": false
+              }
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "brand_knowledge": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "color_guidelines": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "usage_ratio_description": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "do_rules": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "dont_rules": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "usage_ratio_description",
+                        "do_rules",
+                        "dont_rules"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null
+                },
+                "typography_guidelines": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "primary_font_usage": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "secondary_font_usage": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "size_guidelines": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "primary_font_usage",
+                        "secondary_font_usage",
+                        "size_guidelines"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null
+                },
+                "presentation_guidelines": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "storytelling_tips": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "structure_recommendations": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "general_tips": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "storytelling_tips",
+                        "structure_recommendations",
+                        "general_tips"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null
+                },
+                "iconography_guidelines": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "style": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "usage_rules": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "style",
+                        "usage_rules"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null
+                },
+                "source_slides": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              },
+              "required": [
+                "source_slides"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "template_guide": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "slides": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "List of slide_file values identified as guide slides"
+                },
+                "rulesExtracted": {
+                  "type": "number",
+                  "description": "Total number of structured rules extracted"
+                },
+                "byType": {
+                  "type": "object",
+                  "properties": {
+                    "typography": {
+                      "anyOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/definitions/GuideRule"
+                          }
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": null
+                    },
+                    "colorUsage": {
+                      "anyOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/definitions/GuideRule"
+                          }
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": null
+                    },
+                    "spacing": {
+                      "anyOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/definitions/GuideRule"
+                          }
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": null
+                    },
+                    "layoutUsage": {
+                      "anyOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/definitions/GuideRule"
+                          }
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": null
+                    },
+                    "donts": {
+                      "anyOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/definitions/GuideRule"
+                          }
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": null
+                    },
+                    "logoUsage": {
+                      "anyOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/definitions/GuideRule"
+                          }
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": null
+                    },
+                    "imagery": {
+                      "anyOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/definitions/GuideRule"
+                          }
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": null
+                    },
+                    "iconography": {
+                      "anyOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/definitions/GuideRule"
+                          }
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": null
+                    },
+                    "elementUsage": {
+                      "anyOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/definitions/GuideRule"
+                          }
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": null
+                    },
+                    "general": {
+                      "anyOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/definitions/GuideRule"
+                          }
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": null
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "slides",
+                "rulesExtracted",
+                "byType"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Structured rules extracted from template usage guide slides"
+        },
+        "extended": {
+          "type": "object",
+          "additionalProperties": {}
+        },
+        "gaps": {
+          "type": "object",
+          "properties": {
+            "summary": {
+              "type": "string"
+            },
+            "missing_from_potx": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "field": {
+                    "type": "string"
+                  },
+                  "tier": {
+                    "type": "string",
+                    "enum": [
+                      "locked",
+                      "guided",
+                      "flexible"
+                    ]
+                  },
+                  "source_needed": {
+                    "type": "string"
+                  },
+                  "can_infer": {
+                    "type": "boolean"
+                  },
+                  "inference_source": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "field",
+                  "tier",
+                  "source_needed",
+                  "can_infer"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "summary",
+            "missing_from_potx"
+          ],
+          "additionalProperties": false
+        },
+        "fontInventory": {
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "Cross-template font usage summary aggregated from layouts and sample slides",
+              "properties": {
+                "theme": {
+                  "type": "object",
+                  "properties": {
+                    "major": {
+                      "type": "string"
+                    },
+                    "minor": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "major",
+                    "minor"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Theme-declared font families (latin only)"
+                },
+                "inLayouts": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Distinct font families found across all layout placeholders"
+                },
+                "inSamples": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Distinct font families found across all sample slides"
+                },
+                "nonThemeFonts": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Font families appearing in layouts or samples that are not in theme major/minor"
+                },
+                "allFamilies": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Union of all font families (theme + layouts + samples)"
+                }
+              },
+              "required": [
+                "theme",
+                "inLayouts",
+                "inSamples",
+                "nonThemeFonts",
+                "allFamilies"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Cross-template font inventory (null if not yet computed)"
+        },
+        "colorInventory": {
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "Cross-template color usage summary aggregated from layouts and sample slides",
+              "properties": {
+                "themeSlotUsage": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "inLayouts": {
+                        "type": "integer",
+                        "description": "Number of layouts referencing this slot"
+                      },
+                      "inSamples": {
+                        "type": "integer",
+                        "description": "Number of sample slides referencing this slot"
+                      }
+                    },
+                    "required": [
+                      "inLayouts",
+                      "inSamples"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "description": "Per theme color slot: frequency of use across layouts and samples"
+                },
+                "hardcodedColors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "hex": {
+                        "type": "string",
+                        "pattern": "^#[0-9A-Fa-f]{6}$"
+                      },
+                      "matchesSlot": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Theme slot this hex exactly matches, or null"
+                      },
+                      "inLayouts": {
+                        "type": "integer"
+                      },
+                      "inSamples": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "hex",
+                      "matchesSlot",
+                      "inLayouts",
+                      "inSamples"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "description": "All hardcoded srgbClr values with theme-match analysis"
+                },
+                "complianceRisk": {
+                  "type": "string",
+                  "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                  ],
+                  "description": "Risk level based on hardcoded color ratio: low = all match theme or none; medium = <30% unmatched; high = >30% unmatched"
+                }
+              },
+              "required": [
+                "themeSlotUsage",
+                "hardcodedColors",
+                "complianceRisk"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Cross-template color inventory (null if not yet computed)"
+        }
+      },
+      "required": [
+        "meta",
+        "identity",
+        "compliance",
+        "layouts",
+        "sample_slide_catalog",
+        "extended",
+        "gaps"
+      ],
+      "additionalProperties": false
+    },
+    "GuideRule": {
+      "type": "object",
+      "properties": {
+        "ruleKind": {
+          "allOf": [
+            {
+              "$ref": "enums.json#/definitions/rule_kind"
+            }
+          ],
+          "description": "Closed-set category of the rule"
+        },
+        "applies_to": {
+          "type": "string",
+          "description": "Natural language description of what this rule applies to (e.g., 'headline', 'body text', 'call-to-action')"
+        },
+        "constraint": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": true,
+              "description": "Structured constraint (e.g., {font: 'Graphik', weight: 'Bold', size_pt: 36})"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "rawQuote": {
+          "type": "string",
+          "description": "Original text from the guide slide that states this rule"
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "guide_slide"
+          ],
+          "default": "guide_slide"
+        },
+        "sourceSlide": {
+          "type": "string",
+          "description": "slide_file of the guide slide this rule was extracted from"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Confidence of the rule extraction (from VLM)"
+        }
+      },
+      "required": [
+        "ruleKind",
+        "applies_to",
+        "rawQuote",
+        "sourceSlide",
+        "confidence"
+      ],
+      "additionalProperties": false
+    },
+    "AestheticPrinciples": {
+      "type": "object",
+      "description": "Generalizable, actionable design principles synthesized by cross-sample VLM analysis. Five dimensions: composition, color, typography, shape, and pattern recipes. Each dimension captures not just WHAT (description) but WHY (rationale) and HOW (implementation guidance for novel designs).",
+      "properties": {
+        "provenance": {
+          "type": "string",
+          "enum": [
+            "vlm_cross_sample_synthesis"
+          ]
+        },
+        "compositionSystem": {
+          "$ref": "#/definitions/CompositionSystem"
+        },
+        "colorSemantics": {
+          "$ref": "#/definitions/ColorSemantics"
+        },
+        "typographicSystem": {
+          "$ref": "#/definitions/TypographicSystem"
+        },
+        "shapeGrammar": {
+          "$ref": "#/definitions/ShapeGrammar"
+        },
+        "patternRecipes": {
+          "type": "array",
+          "description": "Generalizable visual pattern families extracted from sample slides. Each recipe is a reusable structural template with scaling rules, color logic, and spacing specs — enabling the generator to build brand-consistent layouts for content the template never demonstrated.",
+          "items": {
+            "$ref": "#/definitions/PatternRecipe"
+          }
+        }
+      },
+      "required": [
+        "provenance",
+        "compositionSystem",
+        "colorSemantics",
+        "typographicSystem",
+        "shapeGrammar",
+        "patternRecipes"
+      ],
+      "additionalProperties": false
+    },
+    "CompositionSystem": {
+      "type": "object",
+      "description": "How space is organized across the template — alignment logic, margin conventions, zone allocation, and density norms.",
+      "properties": {
+        "alignmentAnchors": {
+          "type": "string",
+          "description": "Dominant alignment logic observed across slides (e.g., 'left-aligned titles, left-aligned body, right-aligned decorative accents'). Describes where elements anchor spatially."
+        },
+        "marginStrategy": {
+          "type": "object",
+          "description": "Edge margin and inter-element gap conventions, expressed as % of slide dimensions or EMU.",
+          "properties": {
+            "edgeMarginPct": {
+              "type": "number",
+              "description": "Typical distance from slide edge to nearest content element, as % of slide width."
+            },
+            "interElementGapPct": {
+              "type": "number",
+              "description": "Typical gap between adjacent content elements (cards, columns), as % of slide width."
+            },
+            "titleContentGapPct": {
+              "type": "number",
+              "description": "Typical vertical gap between title region and content region, as % of slide height."
+            },
+            "variationNotes": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null,
+              "description": "How margins vary by slide type (e.g., 'cover slides use edge-to-edge imagery, content slides enforce 5% margins')."
+            }
+          },
+          "required": [
+            "edgeMarginPct",
+            "interElementGapPct",
+            "titleContentGapPct"
+          ],
+          "additionalProperties": false
+        },
+        "zoneAllocation": {
+          "type": "array",
+          "description": "Per-slide-type zone maps showing how slide area is divided among title, content, and decoration.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "slideType": {
+                "type": "string",
+                "description": "Slide type this allocation applies to (e.g., 'cover', 'content_single_col', 'divider')."
+              },
+              "titleZonePct": {
+                "type": "number",
+                "description": "% of slide height allocated to the title zone."
+              },
+              "contentZonePct": {
+                "type": "number",
+                "description": "% of slide height allocated to the main content zone."
+              },
+              "decorationZone": {
+                "type": "string",
+                "description": "Where decorative elements are placed (e.g., 'bottom-right corner', 'full-bleed background', 'left edge strip')."
+              }
+            },
+            "required": [
+              "slideType",
+              "titleZonePct",
+              "contentZonePct",
+              "decorationZone"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "densitySpectrum": {
+          "type": "object",
+          "description": "Observed content density range across samples and guidance on when to use each end.",
+          "properties": {
+            "low": {
+              "type": "string",
+              "description": "When low density (generous whitespace) is used (e.g., 'cover, divider, hero image slides')."
+            },
+            "high": {
+              "type": "string",
+              "description": "When high density (compact layout) is used (e.g., 'data tables, multi-column comparison slides')."
+            },
+            "default": {
+              "type": "string",
+              "description": "The default density for standard content slides."
+            }
+          },
+          "required": [
+            "low",
+            "high",
+            "default"
+          ],
+          "additionalProperties": false
+        },
+        "symmetryPreference": {
+          "type": "string",
+          "description": "Whether the template favors symmetric or asymmetric layouts, and when each applies (e.g., 'asymmetric for text+image, symmetric for multi-card grids')."
+        }
+      },
+      "required": [
+        "alignmentAnchors",
+        "marginStrategy",
+        "zoneAllocation",
+        "densitySpectrum",
+        "symmetryPreference"
+      ],
+      "additionalProperties": false
+    },
+    "ColorSemantics": {
+      "type": "object",
+      "description": "How color carries meaning — semantic role assignments, intensity logic, palette balance, and emphasis progression.",
+      "properties": {
+        "roleAssignment": {
+          "type": "array",
+          "description": "Maps semantic roles to theme color slots with usage contexts. This is the prescriptive color guide: when building a new element, look up its semantic role here to find the correct theme color.",
+          "items": {
+            "$ref": "#/definitions/ColorRoleAssignment"
+          }
+        },
+        "intensityGradient": {
+          "type": "string",
+          "description": "How tint-to-saturated color progression is used across the template (e.g., 'peach-to-accent1 progression for sequential/chronological elements', 'not used — flat fills only')."
+        },
+        "paletteBalance": {
+          "type": "object",
+          "description": "Observed proportional breakdown of color usage across all samples.",
+          "properties": {
+            "neutralPct": {
+              "type": "number",
+              "description": "% of visual area occupied by neutral colors (dk1/lt1/dk2/lt2)."
+            },
+            "brandPrimaryPct": {
+              "type": "number",
+              "description": "% of visual area occupied by the primary brand accent."
+            },
+            "secondaryAccentPct": {
+              "type": "number",
+              "description": "% of visual area occupied by secondary and tertiary accents."
+            },
+            "balanceGuideline": {
+              "type": "string",
+              "description": "Prescriptive rule for maintaining this balance in new designs."
+            }
+          },
+          "required": [
+            "neutralPct",
+            "brandPrimaryPct",
+            "secondaryAccentPct",
+            "balanceGuideline"
+          ],
+          "additionalProperties": false
+        },
+        "contrastStrategy": {
+          "type": "string",
+          "description": "Overall contrast approach with rationale (e.g., 'dark mode — light text on dark backgrounds throughout; high contrast reinforces the outdoor-adventure premium feel')."
+        },
+        "colorEmphasisProgression": {
+          "type": "string",
+          "description": "How the brand escalates visual emphasis through color (e.g., 'neutral dk1 (baseline) → accent1 text (moderate emphasis) → accent1 fill (high emphasis) → full-bleed accent1 background (maximum impact)')."
+        }
+      },
+      "required": [
+        "roleAssignment",
+        "intensityGradient",
+        "paletteBalance",
+        "contrastStrategy",
+        "colorEmphasisProgression"
+      ],
+      "additionalProperties": false
+    },
+    "ColorRoleAssignment": {
+      "type": "object",
+      "description": "Maps a semantic role to a theme color slot with usage context.",
+      "properties": {
+        "role": {
+          "$ref": "enums.json#/definitions/color_semantic_role",
+          "description": "Semantic role this color serves."
+        },
+        "themeSlot": {
+          "type": "string",
+          "description": "Theme color key (e.g., 'accent1', 'dk1', 'lt1'). Must reference a valid slot in identity.colors.scheme."
+        },
+        "useWhen": {
+          "type": "string",
+          "description": "When to apply this color role (e.g., 'focal point elements, CTA buttons, active process step')."
+        },
+        "tintShade": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "description": "Optional tint/shade modifier (e.g., 'lumMod 40000 for muted variant'). null means use the color at full saturation."
+        }
+      },
+      "required": [
+        "role",
+        "themeSlot",
+        "useWhen"
+      ],
+      "additionalProperties": false
+    },
+    "TypographicSystem": {
+      "type": "object",
+      "description": "How text creates visual rhythm — the full type scale, emphasis mechanisms, and spacing conventions.",
+      "properties": {
+        "scaleStops": {
+          "type": "array",
+          "description": "The complete typographic scale used across samples. Each stop defines a role in the hierarchy with its size, weight, and usage context.",
+          "items": {
+            "$ref": "#/definitions/TypeScaleStop"
+          }
+        },
+        "scaleRatio": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "default": null,
+          "description": "If a consistent ratio exists between adjacent scale stops (e.g., 1.5, 2.0). null if sizes don't follow a geometric progression."
+        },
+        "emphasisMechanism": {
+          "type": "string",
+          "description": "How the template creates emphasis within text: which combination of size, weight, color, and style is used for what context (e.g., 'size + weight for heading hierarchy; accent1 color for section titles; bold for inline emphasis; italic reserved for brand accent headers only')."
+        },
+        "spacingConvention": {
+          "type": "string",
+          "description": "Line spacing norms, paragraph gap norms, and how they relate to font size (e.g., '1.2x line height for body; paragraph gap ≈ 0.5x font size; generous inter-section spacing')."
+        },
+        "textDensityGuideline": {
+          "type": "string",
+          "description": "How much text per slide type and how to handle overflow (e.g., 'cover: title + subtitle only; content: max 6 bullet points at 18pt; overflow → split across slides, never auto-shrink')."
+        }
+      },
+      "required": [
+        "scaleStops",
+        "emphasisMechanism",
+        "spacingConvention",
+        "textDensityGuideline"
+      ],
+      "additionalProperties": false
+    },
+    "TypeScaleStop": {
+      "type": "object",
+      "description": "A single stop in the typographic scale.",
+      "properties": {
+        "role": {
+          "type": "string",
+          "description": "The typographic role (e.g., 'display', 'title', 'subtitle', 'body', 'caption', 'label')."
+        },
+        "sizePt": {
+          "type": "number",
+          "description": "Font size in points."
+        },
+        "weight": {
+          "type": "string",
+          "description": "Font weight descriptor (e.g., 'heavy condensed', 'bold', 'semibold', 'regular', 'light')."
+        },
+        "font": {
+          "type": "string",
+          "description": "Font family name (e.g., 'Trade Gothic Next HvyCd', 'Avenir Next LT Pro'). Should match identity.fonts entries."
+        },
+        "useWhen": {
+          "type": "string",
+          "description": "When this stop is used (e.g., 'cover/divider hero text', 'content slide titles', 'body text and bullets')."
+        }
+      },
+      "required": [
+        "role",
+        "sizePt",
+        "weight",
+        "font",
+        "useWhen"
+      ],
+      "additionalProperties": false
+    },
+    "ShapeGrammar": {
+      "type": "object",
+      "description": "How shapes communicate — the shape vocabulary, composition rules, and scaling behavior for building new visual elements.",
+      "properties": {
+        "primitiveVocabulary": {
+          "type": "array",
+          "description": "The complete shape vocabulary observed across samples. Each entry defines a shape type with its styling treatment and primary use case. When creating new elements, choose ONLY from this vocabulary.",
+          "items": {
+            "$ref": "#/definitions/ShapePrimitive"
+          }
+        },
+        "compositionRules": {
+          "type": "string",
+          "description": "How shapes relate to each other and to content — layering order, containment patterns, adjacency rules (e.g., 'decorative shapes always behind content layer; cards in horizontal rows, equal-width; never overlap content shapes')."
+        },
+        "connectorStyle": {
+          "type": "string",
+          "description": "How elements are visually connected (e.g., 'thin lines or gradient bars connecting process nodes; no arrowheads; accent1 color', or 'no connectors — elements are spatially grouped only')."
+        },
+        "decorationPlacement": {
+          "type": "string",
+          "description": "Where decorative elements go relative to content and how they scale with slide type (e.g., 'topographic patterns in corners on content slides, full-bleed on dividers; never overlay text content')."
+        },
+        "scalingBehavior": {
+          "type": "string",
+          "description": "How repeated elements (cards, columns, steps) scale when the item count changes (e.g., 'redistribute width equally within content zone; maintain consistent inter-element gap; if >6 items, switch to 2-row grid')."
+        }
+      },
+      "required": [
+        "primitiveVocabulary",
+        "compositionRules",
+        "connectorStyle",
+        "decorationPlacement",
+        "scalingBehavior"
+      ],
+      "additionalProperties": false
+    },
+    "ShapePrimitive": {
+      "type": "object",
+      "description": "A single entry in the shape vocabulary.",
+      "properties": {
+        "shape": {
+          "type": "string",
+          "description": "Shape type name (e.g., 'rectangle', 'rounded-rectangle', 'hexagon', 'circle', 'line', 'arrow', 'chevron')."
+        },
+        "treatment": {
+          "type": "string",
+          "description": "Styling treatment applied to this shape (e.g., 'sharp corners, flat solid fill', 'thin accent1 outline, transparent fill', 'dashed gray stroke, no fill')."
+        },
+        "primaryUse": {
+          "type": "string",
+          "description": "Primary use case for this shape (e.g., 'content cards and process steps', 'icon containers in timelines', 'decorative contour patterns')."
+        }
+      },
+      "required": [
+        "shape",
+        "treatment",
+        "primaryUse"
+      ],
+      "additionalProperties": false
+    },
+    "PatternRecipe": {
+      "type": "object",
+      "description": "A generalizable visual pattern family extracted from sample slides. Provides a reusable structural template that the generator can adapt to new content with different item counts or data.",
+      "properties": {
+        "patternFamily": {
+          "$ref": "enums.json#/definitions/pattern_family",
+          "description": "Pattern family category."
+        },
+        "description": {
+          "type": "string",
+          "description": "One-line description of the pattern (e.g., 'N equal-width cards in a horizontal row showing sequential steps with tint progression')."
+        },
+        "skeleton": {
+          "type": "object",
+          "description": "Structural template defining the pattern's anatomy.",
+          "properties": {
+            "direction": {
+              "type": "string",
+              "enum": [
+                "leftToRight",
+                "topToBottom",
+                "grid",
+                "radial",
+                "freeform"
+              ],
+              "description": "Primary flow direction of the pattern."
+            },
+            "elementsPerUnit": {
+              "type": "array",
+              "description": "Named elements that make up each repeating unit (e.g., ['stepNumber', 'stepTitle', 'stepBody'] for a process step).",
+              "items": {
+                "type": "string"
+              }
+            },
+            "wrapperTreatment": {
+              "type": "string",
+              "description": "How each unit is visually wrapped (e.g., 'rectangle card with graduated fill', 'no wrapper — elements grouped spatially', 'hexagonal badge outline')."
+            },
+            "fixedChrome": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null,
+              "description": "Fixed elements that don't repeat (e.g., 'horizontal spine line connecting all nodes', 'gradient timeline bar'). null if none."
+            }
+          },
+          "required": [
+            "direction",
+            "elementsPerUnit",
+            "wrapperTreatment"
+          ],
+          "additionalProperties": false
+        },
+        "scalingRules": {
+          "type": "object",
+          "description": "How the pattern adapts to different item counts.",
+          "properties": {
+            "method": {
+              "$ref": "enums.json#/definitions/scaling_method",
+              "description": "Primary scaling strategy."
+            },
+            "minItems": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Minimum number of items the pattern supports."
+            },
+            "maxItems": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Maximum items in a single row/column before overflow behavior kicks in."
+            },
+            "overflowBehavior": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null,
+              "description": "What happens when maxItems is exceeded (e.g., 'wrap to second row', 'split across slides', 'reduce element size'). null if maxItems is a hard limit."
+            }
+          },
+          "required": [
+            "method",
+            "minItems",
+            "maxItems"
+          ],
+          "additionalProperties": false
+        },
+        "colorAssignment": {
+          "type": "object",
+          "description": "How colors are distributed across the pattern's elements.",
+          "properties": {
+            "method": {
+              "type": "string",
+              "enum": [
+                "uniform",
+                "tintProgression",
+                "alternating",
+                "semanticByRole",
+                "seriesColors"
+              ],
+              "description": "Color distribution method."
+            },
+            "detail": {
+              "type": "string",
+              "description": "Specifics of the color assignment (e.g., 'start at 10% tint of accent1, end at 100% accent1, interpolate linearly', 'odd items accent1, even items accent2')."
+            }
+          },
+          "required": [
+            "method",
+            "detail"
+          ],
+          "additionalProperties": false
+        },
+        "spacingSpec": {
+          "type": "object",
+          "description": "Spacing values for the pattern, in % of slide dimensions.",
+          "properties": {
+            "interElementGapPct": {
+              "type": "number",
+              "description": "Gap between repeating units, as % of slide width (horizontal) or height (vertical)."
+            },
+            "internalPaddingPct": {
+              "type": "number",
+              "description": "Padding inside each unit's wrapper, as % of unit width."
+            },
+            "contentZoneUsagePct": {
+              "type": "number",
+              "description": "What % of the available content zone the pattern occupies (e.g., 90 means 90% of the zone, leaving 10% breathing room)."
+            }
+          },
+          "required": [
+            "interElementGapPct",
+            "internalPaddingPct",
+            "contentZoneUsagePct"
+          ],
+          "additionalProperties": false
+        },
+        "sourceSlides": {
+          "type": "array",
+          "description": "Sample slides that demonstrate this pattern (for reference and validation).",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "patternFamily",
+        "description",
+        "skeleton",
+        "scalingRules",
+        "colorAssignment",
+        "spacingSpec",
+        "sourceSlides"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

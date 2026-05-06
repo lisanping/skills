@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/definitions/ContentOutline",
+  "definitions": {
+    "ContentOutline": {
+      "type": "object",
+      "description": "Step 4 output. Pure content-side plan: intent, narrative arc, and per-slide semanticRole allocation. Step 5 maps these slots onto template layouts.",
+      "properties": {
+        "intent": { "$ref": "#/definitions/Intent" },
+        "narrativeArc": {
+          "type": "string",
+          "description": "Short prose describing the storytelling structure, e.g. 'context → performance → strategy → roadmap'."
+        },
+        "sections": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/definitions/Section" }
+        }
+      },
+      "required": ["intent", "narrativeArc", "sections"],
+      "additionalProperties": false
+    },
+    "Intent": {
+      "type": "object",
+      "properties": {
+        "topic": { "type": "string" },
+        "audience": { "type": "string" },
+        "tone": { "type": "string" },
+        "slideCount": { "type": "integer", "minimum": 2 },
+        "keyMessages": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        }
+      },
+      "required": ["topic", "slideCount", "keyMessages"],
+      "additionalProperties": false
+    },
+    "Section": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "slideCount": { "type": "integer", "minimum": 1 },
+        "roles": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/SemanticRole" },
+          "description": "Length must equal slideCount."
+        }
+      },
+      "required": ["title", "slideCount", "roles"],
+      "additionalProperties": false
+    },
+    "SemanticRole": {
+      "type": "string",
+      "enum": ["cover", "divider", "content_text", "content_data", "content_mixed", "closing"]
+    }
+  }
+}

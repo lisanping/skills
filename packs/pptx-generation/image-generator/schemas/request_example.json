@@ -1,0 +1,44 @@
+{
+    "defaults": {
+        "backend": "gpt-image",
+        "quality": "medium",
+        "width": 1024,
+        "height": 1024,
+        "output_format": "png"
+    },
+    "requests": [
+        {
+            "id": "hero-bg",
+            "prompt": "Abstract gradient with deep blue and warm gold tones, soft bokeh light effects, professional corporate feel",
+            "width": 1536,
+            "height": 1024,
+            "quality": "high",
+            "style_reference": "minimalist, corporate, clean edges",
+            "output_filename": "hero_background.png"
+        },
+        {
+            "id": "diagram-01",
+            "prompt": "Isometric data flow architecture diagram with connected nodes, arrows showing data direction, cloud and database icons, modern flat design",
+            "width": 1024,
+            "height": 1024,
+            "negative_prompt": "text, labels, watermark, blurry",
+            "backend": "flux",
+            "seed": 42
+        },
+        {
+            "id": "team-illustration",
+            "prompt": "Diverse team of professionals collaborating around a digital whiteboard, modern office setting, warm lighting",
+            "width": 1536,
+            "height": 1024,
+            "quality": "high"
+        },
+        {
+            "id": "section-divider-bg",
+            "prompt": "Subtle geometric pattern with thin lines on dark navy background, minimalist, abstract",
+            "width": 1536,
+            "height": 1024,
+            "quality": "low",
+            "style_reference": "dark mode, subtle texture"
+        }
+    ]
+}

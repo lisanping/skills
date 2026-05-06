@@ -1,0 +1,211 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "enums.json",
+    "description": "Single source of truth for all enum values used across profiler schemas and SKILL.md subagent prompts. Any addition or removal MUST happen here only; profile_schema.json and composer_digest_schema.json reference these via $ref.",
+    "definitions": {
+        "layout_inferred_type": {
+            "type": "string",
+            "description": "Semantic layout type classification",
+            "enum": [
+                "cover",
+                "toc",
+                "content_single_col",
+                "content_two_column",
+                "content_three_column",
+                "content_four_plus_column",
+                "comparison",
+                "content_data",
+                "content_image_text",
+                "full_image",
+                "quote_or_callout",
+                "team",
+                "statistics",
+                "divider",
+                "closing",
+                "blank",
+                "unknown"
+            ]
+        },
+        "confidence_level": {
+            "type": "string",
+            "description": "Three-tier confidence rating",
+            "enum": [
+                "high",
+                "medium",
+                "low"
+            ]
+        },
+        "content_capacity": {
+            "type": "string",
+            "description": "How much content a layout can hold",
+            "enum": [
+                "minimal",
+                "moderate",
+                "substantial"
+            ]
+        },
+        "visual_weight": {
+            "type": "string",
+            "description": "Visual density / heaviness of a layout",
+            "enum": [
+                "light",
+                "balanced",
+                "heavy"
+            ]
+        },
+        "shape_role": {
+            "type": "string",
+            "description": "VLM-assigned decorative shape role",
+            "enum": [
+                "brand_accent",
+                "divider_line",
+                "background_pattern",
+                "logo",
+                "icon",
+                "icon_placeholder",
+                "functional_shape",
+                "unknown"
+            ]
+        },
+        "slide_role": {
+            "type": "string",
+            "description": "Sample slide role classification",
+            "enum": [
+                "sample",
+                "guide",
+                "hybrid"
+            ]
+        },
+        "guide_type": {
+            "type": "string",
+            "description": "Guide slide subtype",
+            "enum": [
+                "color_palette",
+                "typography",
+                "layout_usage",
+                "dos_and_donts",
+                "general_instructions"
+            ]
+        },
+        "layout_relationship": {
+            "type": "string",
+            "description": "How a sample slide relates to its mapped layout",
+            "enum": [
+                "faithful",
+                "variant",
+                "detached"
+            ]
+        },
+        "style_source_type": {
+            "type": "string",
+            "description": "Where a sample slide's styling originates",
+            "enum": [
+                "layout-driven",
+                "mixed",
+                "sample-driven"
+            ]
+        },
+        "style_ref_suitability": {
+            "type": "string",
+            "description": "Suitability of a sample slide as a style reference",
+            "enum": [
+                "high",
+                "medium",
+                "low"
+            ]
+        },
+        "rule_kind": {
+            "type": "string",
+            "description": "Closed-set category for guide-extracted rules",
+            "enum": [
+                "typography",
+                "colorUsage",
+                "spacing",
+                "layoutUsage",
+                "donts",
+                "logoUsage",
+                "imagery",
+                "iconography",
+                "elementUsage",
+                "general"
+            ]
+        },
+        "guardrail_rule_kind": {
+            "type": "string",
+            "description": "Subset of rule_kind used in composer-digest guardrails (excludes typography and colorUsage, which are absorbed into designDirectives)",
+            "enum": [
+                "donts",
+                "spacing",
+                "layoutUsage",
+                "logoUsage",
+                "imagery",
+                "iconography",
+                "elementUsage",
+                "general"
+            ]
+        },
+        "pattern_type": {
+            "type": "string",
+            "description": "Recognized visual pattern category for sample slide design analysis",
+            "enum": [
+                "timeline",
+                "fishbone",
+                "flowchart",
+                "matrix",
+                "comparison_cards",
+                "numbered_steps",
+                "org_chart",
+                "funnel",
+                "cycle",
+                "data_table",
+                "kpi_dashboard",
+                "icon_grid",
+                "text_columns",
+                "other"
+            ]
+        },
+        "pattern_family": {
+            "type": "string",
+            "description": "Generalizable visual pattern family for aesthetic_principles.patternRecipes. Broader than pattern_type — groups related patterns that share scaling and composition logic.",
+            "enum": [
+                "horizontal_process",
+                "card_grid",
+                "timeline",
+                "comparison_columns",
+                "data_table_layout",
+                "icon_grid",
+                "numbered_list",
+                "image_text_split",
+                "kpi_dashboard",
+                "countdown_stack",
+                "other"
+            ]
+        },
+        "color_semantic_role": {
+            "type": "string",
+            "description": "Semantic role a theme color serves in the template's design system. Used in aesthetic_principles.colorSemantics.roleAssignment.",
+            "enum": [
+                "emphasis_primary",
+                "emphasis_secondary",
+                "structural",
+                "background_primary",
+                "background_secondary",
+                "accent_decorative",
+                "data_series_1",
+                "data_series_2",
+                "data_series_3",
+                "muted"
+            ]
+        },
+        "scaling_method": {
+            "type": "string",
+            "description": "How a pattern recipe scales when the item count changes. Used in aesthetic_principles.patternRecipes[].scalingRules.",
+            "enum": [
+                "equal_distribute",
+                "fixed_width_wrap",
+                "proportional",
+                "overflow_paginate"
+            ]
+        }
+    }
+}

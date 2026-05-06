@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/definitions/StylePolicy",
+  "definitions": {
+    "StylePolicy": {
+      "type": "object",
+      "description": "Step 5b output. The single source of style consistency across the deck. Every slide subagent in Step 7 reads this instead of re-deciding.",
+      "properties": {
+        "mode": { "type": "string", "enum": ["strict", "balanced", "creative"] },
+        "palette": { "$ref": "#/definitions/Palette" },
+        "typography": { "$ref": "#/definitions/Typography" },
+        "spacing": { "$ref": "#/definitions/Spacing" },
+        "dividerSource": { "type": ["string", "null"], "description": "Sample slide filename used as the canonical divider, or null." },
+        "coverSource": { "type": ["string", "null"] },
+        "closingSource": { "type": ["string", "null"] },
+        "guardrails": { "$ref": "#/definitions/Guardrails" },
+        "designLanguageNotes": { "type": "string" },
+        "aestheticGuidance": {
+          "anyOf": [
+            { "type": "null" },
+            { "$ref": "#/definitions/AestheticGuidance" }
+          ]
+        }
+      },
+      "required": ["mode", "palette", "typography", "guardrails"],
+      "additionalProperties": false
+    },
+    "Palette": {
+      "type": "object",
+      "description": "Theme color slot bindings. Values must be theme slot names (lt1, dk1, accent1…), never hex.",
+      "properties": {
+        "background": { "$ref": "#/definitions/ThemeSlot" },
+        "headingText": { "$ref": "#/definitions/ThemeSlot" },
+        "accent": { "$ref": "#/definitions/ThemeSlot" },
+        "muted": { "$ref": "#/definitions/ThemeSlot" }
+      },
+      "required": ["background", "headingText", "accent"],
+      "additionalProperties": false
+    },
+    "ThemeSlot": {
+      "type": "string",
+      "enum": ["bg1", "bg2", "lt1", "lt2", "dk1", "dk2", "tx1", "tx2", "accent1", "accent2", "accent3", "accent4", "accent5", "accent6", "hlink", "folHlink"]
+    },
+    "Typography": {
+      "type": "object",
+      "properties": {
+        "titleSize": { "type": "number", "minimum": 12 },
+        "bodySize": { "type": "number", "minimum": 8 },
+        "captionSize": { "type": "number", "minimum": 6 },
+        "emphasisStyle": { "type": "string", "enum": ["bold", "italic", "underline", "color"] }
+      },
+      "required": ["titleSize", "bodySize"],
+      "additionalProperties": false
+    },
+    "Spacing": {
+      "type": "object",
+      "properties": {
+        "marginEMU": { "type": "integer", "minimum": 0 },
+        "rowGapEMU": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "Guardrails": {
+      "type": "object",
+      "properties": {
+        "fontSizeTolerance": { "type": "number", "minimum": 0, "maximum": 1 },
+        "augmentationAllowed": { "type": "boolean" },
+        "augmentationConservative": { "type": "boolean" },
+        "colorRoleBinding": { "type": "string", "enum": ["locked", "reassignable-within-theme", "free-within-theme"] },
+        "typographicScale": { "type": "string", "enum": ["locked", "use-existing-set", "font-families-locked"] },
+        "shapeVocabulary": { "type": "string", "enum": ["locked", "template-shapes-only", "match-visual-weight"] },
+        "augmentation": { "type": "string", "enum": ["disabled", "conservative", "exploratory"] },
+        "layoutInvention": { "type": "string", "enum": ["disabled", "enabled"] },
+        "aestheticAdherence": { "type": "string", "enum": ["recipes-as-law", "recipes-as-guidance", "recipes-as-inspiration"] }
+      },
+      "additionalProperties": false
+    },
+    "AestheticGuidance": {
+      "type": "object",
+      "description": "Optional enrichment derived from $DIGEST → aestheticPrinciples. When present, becomes the single reference for aesthetic decisions.",
+      "properties": {
+        "compositionRules": { "type": "string" },
+        "colorRoleMap": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": { "type": "string" },
+              "themeSlot": { "$ref": "#/definitions/ThemeSlot" },
+              "useWhen": { "type": "string" }
+            },
+            "required": ["role", "themeSlot"],
+            "additionalProperties": false
+          }
+        },
+        "colorEmphasisProgression": { "type": "string" },
+        "typeScale": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": { "type": "string" },
+              "sizePt": { "type": "number" },
+              "weight": { "type": "string" },
+              "font": { "type": "string" },
+              "useWhen": { "type": "string" }
+            },
+            "required": ["role", "sizePt"],
+            "additionalProperties": false
+          }
+        },
+        "shapeVocabulary": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "shape": { "type": "string" },
+              "treatment": { "type": "string" },
+              "primaryUse": { "type": "string" }
+            },
+            "required": ["shape"],
+            "additionalProperties": false
+          }
+        },
+        "applicableRecipes": {
+          "type": "array",
+          "items": { "type": "object", "additionalProperties": true }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

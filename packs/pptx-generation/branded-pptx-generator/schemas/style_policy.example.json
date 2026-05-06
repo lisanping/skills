@@ -1,0 +1,53 @@
+{
+  "mode": "balanced",
+  "palette": {
+    "background": "lt1",
+    "headingText": "dk1",
+    "accent": "accent1",
+    "muted": "lt2"
+  },
+  "typography": {
+    "titleSize": 36,
+    "bodySize": 14,
+    "captionSize": 10,
+    "emphasisStyle": "bold"
+  },
+  "spacing": {
+    "marginEMU": 457200,
+    "rowGapEMU": 91440
+  },
+  "dividerSource": "slide2.xml",
+  "coverSource": "slide1.xml",
+  "closingSource": "slide12.xml",
+  "guardrails": {
+    "fontSizeTolerance": 0.15,
+    "augmentationAllowed": true,
+    "augmentationConservative": true,
+    "colorRoleBinding": "reassignable-within-theme",
+    "typographicScale": "use-existing-set",
+    "shapeVocabulary": "template-shapes-only",
+    "augmentation": "conservative",
+    "layoutInvention": "disabled",
+    "aestheticAdherence": "recipes-as-guidance"
+  },
+  "designLanguageNotes": "Generous whitespace, left-aligned headings, accent1 used sparingly for emphasis",
+  "aestheticGuidance": {
+    "compositionRules": "left-aligned titles, centered process rows; 5% edge margins, 2% inter-element gaps",
+    "colorRoleMap": [
+      { "role": "emphasis_primary", "themeSlot": "accent1", "useWhen": "focal points, CTA, active step" },
+      { "role": "structural", "themeSlot": "dk1", "useWhen": "body text, table borders" },
+      { "role": "background_primary", "themeSlot": "lt1", "useWhen": "slide backgrounds" }
+    ],
+    "colorEmphasisProgression": "neutral dk1 → accent1 text → accent1 fill → full-bleed accent1 bg",
+    "typeScale": [
+      { "role": "display", "sizePt": 96, "weight": "heavy condensed", "font": "Trade Gothic Next HvyCd", "useWhen": "cover/divider hero" },
+      { "role": "title", "sizePt": 40, "weight": "bold", "font": "Trade Gothic Next HvyCd", "useWhen": "content slide titles" },
+      { "role": "body", "sizePt": 18, "weight": "regular", "font": "Avenir Next LT Pro", "useWhen": "body text and bullets" }
+    ],
+    "shapeVocabulary": [
+      { "shape": "rectangle", "treatment": "sharp corners, flat fill", "primaryUse": "content cards" },
+      { "shape": "hexagon", "treatment": "thin accent1 outline, transparent", "primaryUse": "icon containers" }
+    ],
+    "applicableRecipes": []
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "mode": "balanced",
+  "outline": "Q2 strategy review for execs",
+  "slides": [
+    {
+      "taskId": "s01",
+      "title": "Q2 Strategy Overview",
+      "semanticRole": "cover",
+      "layoutRef": "slideLayout2.xml",
+      "strategy": "clone-layout",
+      "cloneSource": null,
+      "contentBrief": "Deck title + subtitle + date"
+    },
+    {
+      "taskId": "s02",
+      "title": "Agenda",
+      "semanticRole": "content_text",
+      "layoutRef": "slideLayout3.xml",
+      "strategy": "clone-layout",
+      "cloneSource": null,
+      "contentBrief": "Four agenda items with deferred page numbers"
+    },
+    {
+      "taskId": "s03",
+      "title": "Q2 Performance",
+      "semanticRole": "divider",
+      "layoutRef": "slideLayout7.xml",
+      "strategy": "clone-sample",
+      "cloneSource": "slide2.xml",
+      "contentBrief": "Section divider for Q2 performance"
+    },
+    {
+      "taskId": "s04",
+      "title": "Financial Highlights",
+      "semanticRole": "content_data",
+      "layoutRef": "slideLayout4.xml",
+      "strategy": "clone-sample",
+      "cloneSource": "slide3.xml",
+      "contentBrief": "KPI grid: revenue, EBITDA, customers, NPS"
+    },
+    {
+      "taskId": "s05",
+      "title": "Strategic Pillars",
+      "semanticRole": "divider",
+      "layoutRef": "slideLayout7.xml",
+      "strategy": "clone-sample",
+      "cloneSource": "slide2.xml",
+      "contentBrief": "Section divider for strategic pillars"
+    },
+    {
+      "taskId": "s06",
+      "title": "Pillar 1: Digital Transformation",
+      "semanticRole": "content_text",
+      "layoutRef": "slideLayout5.xml",
+      "strategy": "clone-layout",
+      "cloneSource": null,
+      "contentBrief": "Three workstream cards with progress notes"
+    },
+    {
+      "taskId": "s07",
+      "title": "Revenue by Region",
+      "semanticRole": "content_data",
+      "layoutRef": "slideLayout4.xml",
+      "strategy": "augmented-clone",
+      "cloneSource": "slide6.xml",
+      "contentBrief": "KPI layout + added bar chart for regional breakdown"
+    },
+    {
+      "taskId": "s08",
+      "title": "Roadmap & Next Steps",
+      "semanticRole": "divider",
+      "layoutRef": "slideLayout7.xml",
+      "strategy": "clone-sample",
+      "cloneSource": "slide2.xml",
+      "contentBrief": "Section divider for roadmap"
+    },
+    {
+      "taskId": "s09",
+      "title": "Project Timeline",
+      "semanticRole": "content_data",
+      "layoutRef": "slideLayout4.xml",
+      "strategy": "spec-composed",
+      "cloneSource": null,
+      "styleRef": "slide-design-slide6.json",
+      "contentBrief": "6-month Gantt with 4 workstreams"
+    },
+    {
+      "taskId": "s10",
+      "title": "Thank You",
+      "semanticRole": "closing",
+      "layoutRef": "slideLayout12.xml",
+      "strategy": "clone-sample",
+      "cloneSource": "slide12.xml",
+      "contentBrief": "Closing slide with contact info"
+    }
+  ]
+}

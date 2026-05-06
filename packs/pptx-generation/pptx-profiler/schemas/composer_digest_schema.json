@@ -1,0 +1,992 @@
+{
+  "$ref": "#/definitions/ComposerDigest",
+  "definitions": {
+    "ComposerDigest": {
+      "type": "object",
+      "description": "Downstream-facing decision digest produced by generate_composer_digest.py from a completed template-profile.json. Consumed by branded-pptx-generator and other composition skills as the primary (compact) view of the template.",
+      "properties": {
+        "meta": {
+          "$ref": "#/definitions/Meta"
+        },
+        "template": {
+          "$ref": "#/definitions/TemplateSummary"
+        },
+        "profileHealth": {
+          "$ref": "#/definitions/ProfileHealth"
+        },
+        "designDirectives": {
+          "$ref": "#/definitions/DesignDirectives"
+        },
+        "layoutBehaviorSummary": {
+          "$ref": "#/definitions/LayoutBehaviorSummary"
+        },
+        "preferredLayoutHints": {
+          "type": "array",
+          "description": "Top layouts ranked by usage in classified sample slides (max 5 entries).",
+          "items": {
+            "$ref": "#/definitions/PreferredLayoutHint"
+          }
+        },
+        "styleRefCandidates": {
+          "$ref": "#/definitions/StyleRefCandidates"
+        },
+        "strategyPolicy": {
+          "$ref": "#/definitions/StrategyPolicy"
+        },
+        "guardrails": {
+          "type": "array",
+          "description": "Rules the composer should respect. Each entry is either VLM-inferred (source=vlm_inferred) or derived from a guide slide (source=guide_slide).",
+          "items": {
+            "$ref": "#/definitions/Guardrail"
+          }
+        },
+        "aestheticPrinciples": {
+          "$ref": "#/definitions/DigestAestheticPrinciples",
+          "description": "Present only when the template profile has aesthetic_principles (requires >= 3 content-bearing sample slides). Projected from profile.aesthetic_principles with patternRecipes carried forward fully and the other four dimensions condensed to their most decision-relevant fields."
+        },
+        "guideSlidesSummary": {
+          "$ref": "#/definitions/GuideSlidesSummary",
+          "description": "Present only when the template contains guide slides."
+        },
+        "layoutUsageConstraints": {
+          "type": "object",
+          "description": "Present only when guide slides contained layoutUsage rules. Maps applies_to (e.g. 'cover', 'section divider') to raw guide-quoted constraint strings.",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": [
+        "meta",
+        "template",
+        "profileHealth",
+        "designDirectives",
+        "layoutBehaviorSummary",
+        "preferredLayoutHints",
+        "styleRefCandidates",
+        "strategyPolicy",
+        "guardrails"
+      ],
+      "additionalProperties": false
+    },
+    "Meta": {
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "type": "string",
+          "description": "Version of the extractor that produced the source profile (profile.meta.extractor_version)."
+        },
+        "digestVersion": {
+          "type": "string",
+          "description": "Version of generate_composer_digest.py."
+        },
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp (UTC) of digest generation."
+        }
+      },
+      "required": [
+        "profileVersion",
+        "digestVersion",
+        "generatedAt"
+      ],
+      "additionalProperties": false
+    },
+    "TemplateSummary": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Template basename without extension (derived from profile.meta.source_file)."
+        },
+        "layoutsTotal": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sampleSlidesTotal": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sampleSlidesWithContent": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Count of sample slides with has_content=true (excludes pure placeholder slides)."
+        },
+        "guideSlidesIdentified": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "name",
+        "layoutsTotal",
+        "sampleSlidesTotal",
+        "sampleSlidesWithContent",
+        "guideSlidesIdentified"
+      ],
+      "additionalProperties": false
+    },
+    "ProfileHealth": {
+      "type": "object",
+      "properties": {
+        "classificationCoverage": {
+          "type": "string",
+          "pattern": "^[0-9]+/[0-9]+$",
+          "description": "Fraction of content-bearing samples that have a layoutRelationship assigned, formatted as 'classified/withContent'."
+        },
+        "gapsCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Length of profile.gaps.missing_from_potx[]."
+        }
+      },
+      "required": [
+        "classificationCoverage",
+        "gapsCount"
+      ],
+      "additionalProperties": false
+    },
+    "DesignDirectives": {
+      "type": "object",
+      "description": "Design-language directives for the composer. VLM-inferred fields describe the template's aesthetic; guideExplicitOverrides (when present) carry higher-authority rules from guide slides.",
+      "properties": {
+        "whitespaceRhythm": {
+          "type": "string",
+          "description": "Spacing density (e.g. 'generous', 'compact', 'mixed') or 'unspecified' when not extracted."
+        },
+        "colorUsage": {
+          "type": "string",
+          "description": "Style tone description used as color-usage hint."
+        },
+        "visualHierarchyMethod": {
+          "type": "string"
+        },
+        "componentStylePattern": {
+          "type": "string"
+        },
+        "coverVsContentContrast": {
+          "type": "string"
+        },
+        "motifsPriority": {
+          "type": "array",
+          "description": "Recurring visual motifs carried over from profile.design_language.visual_motifs. Items may be VisualMotif objects (structured VLM output) or plain strings (free-form VLM descriptions).",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/VisualMotif"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "provenance": {
+          "type": "string",
+          "enum": [
+            "vlm_inferred"
+          ]
+        },
+        "guideExplicitOverrides": {
+          "$ref": "#/definitions/GuideExplicitOverrides",
+          "description": "Present only when guide slides yielded typography or color rules."
+        },
+        "guideOverrideProvenance": {
+          "type": "string",
+          "enum": [
+            "guide_slide_explicit"
+          ],
+          "description": "Present only when guideExplicitOverrides is present."
+        }
+      },
+      "required": [
+        "whitespaceRhythm",
+        "colorUsage",
+        "visualHierarchyMethod",
+        "componentStylePattern",
+        "coverVsContentContrast",
+        "motifsPriority",
+        "provenance"
+      ],
+      "additionalProperties": false
+    },
+    "VisualMotif": {
+      "type": "object",
+      "description": "Mirrors profile.design_language.visual_motifs[] entries.",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "frequency": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "description",
+        "frequency"
+      ],
+      "additionalProperties": false
+    },
+    "GuideExplicitOverrides": {
+      "type": "object",
+      "description": "Rules extracted from guide slides. Only ruleKinds present in the template appear as keys.",
+      "properties": {
+        "typographyRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GuideRuleProjection"
+          }
+        },
+        "colorRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GuideRuleProjection"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "GuideRuleProjection": {
+      "type": "object",
+      "description": "A guide-slide rule projected into the digest. constraint is a structured object when the rule could be parsed, null otherwise.",
+      "properties": {
+        "applies_to": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "constraint": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": true
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rawQuote": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "provenance": {
+          "type": "string",
+          "enum": [
+            "guide_slide_explicit"
+          ]
+        }
+      },
+      "required": [
+        "applies_to",
+        "constraint",
+        "rawQuote",
+        "provenance"
+      ],
+      "additionalProperties": false
+    },
+    "LayoutBehaviorSummary": {
+      "type": "object",
+      "properties": {
+        "relationshipDistribution": {
+          "type": "object",
+          "description": "Count of classified samples by layoutRelationship value. Keys are a subset of {faithful, variant, detached}.",
+          "properties": {
+            "faithful": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "variant": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "detached": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "styleSourceTypeDistribution": {
+          "type": "object",
+          "description": "Count of classified samples by styleSourceType. Keys are a subset of {layout-driven, mixed, sample-driven}.",
+          "properties": {
+            "layout-driven": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "mixed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sample-driven": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "implicationForComposer": {
+          "type": "string",
+          "description": "Natural-language interpretation of the distribution, guiding default strategy choice."
+        }
+      },
+      "required": [
+        "relationshipDistribution",
+        "styleSourceTypeDistribution",
+        "implicationForComposer"
+      ],
+      "additionalProperties": false
+    },
+    "PreferredLayoutHint": {
+      "type": "object",
+      "properties": {
+        "mappedLayout": {
+          "description": "Layout identifier. Integer when layout_index is known; otherwise the slideLayoutN filename string.",
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "usageCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "distributionByRelationship": {
+          "type": "object",
+          "properties": {
+            "faithful": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "variant": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "detached": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "faithful",
+            "variant",
+            "detached"
+          ],
+          "additionalProperties": false
+        },
+        "behavior": {
+          "type": "string",
+          "enum": [
+            "detached-dominant",
+            "mixed"
+          ]
+        },
+        "recommendation": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "mappedLayout",
+        "usageCount",
+        "distributionByRelationship",
+        "behavior",
+        "recommendation"
+      ],
+      "additionalProperties": false
+    },
+    "StyleRefCandidates": {
+      "type": "object",
+      "properties": {
+        "highSuitability": {
+          "type": "array",
+          "description": "Sample slides flagged styleRefSuitability=high; preferred as clone sources.",
+          "items": {
+            "$ref": "#/definitions/HighSuitabilityCandidate"
+          }
+        },
+        "lowSuitabilityAvoidAsDefault": {
+          "type": "array",
+          "description": "Sample slides flagged styleRefSuitability=low; composer should not default to these.",
+          "items": {
+            "$ref": "#/definitions/LowSuitabilityCandidate"
+          }
+        }
+      },
+      "required": [
+        "highSuitability",
+        "lowSuitabilityAvoidAsDefault"
+      ],
+      "additionalProperties": false
+    },
+    "HighSuitabilityCandidate": {
+      "type": "object",
+      "properties": {
+        "slideFile": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Source sample slide filename (e.g. 'slide3.xml')."
+        },
+        "title": {
+          "type": "string",
+          "description": "Slide title or '(untitled)'."
+        },
+        "contentPattern": {
+          "type": "string"
+        },
+        "patternDescription": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "One-line description of the overall visual pattern demonstrated by this slide (e.g., 'Gantt chart with horizontal task bars and time axis'). null for simple text/placeholder layouts."
+        },
+        "layoutIndex": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "complexity": {
+          "type": "string",
+          "enum": [
+            "simple",
+            "moderate",
+            "complex"
+          ],
+          "description": "Derived from complexElements length: 0 → simple, 1–2 → moderate, 3+ → complex."
+        },
+        "cloneCandidate": {
+          "type": "boolean"
+        },
+        "recommendedFor": {
+          "type": "array",
+          "description": "Inferred use-case tags (e.g. 'agenda', 'kpi', 'timeline'). Defaults to ['general-content'] when no pattern matches.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "slideFile",
+        "title",
+        "contentPattern",
+        "layoutIndex",
+        "complexity",
+        "cloneCandidate",
+        "recommendedFor"
+      ],
+      "additionalProperties": false
+    },
+    "LowSuitabilityCandidate": {
+      "type": "object",
+      "properties": {
+        "slideFile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Short explanation of why this sample is unsuitable as a default styleRef."
+        }
+      },
+      "required": [
+        "slideFile",
+        "title",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "StrategyPolicy": {
+      "type": "object",
+      "properties": {
+        "defaultStrategy": {
+          "type": "string",
+          "enum": [
+            "clone",
+            "spec-composed"
+          ],
+          "description": "Default generation strategy, chosen from clone candidate ratio (>=60% of classified samples cloneable → clone, else spec-composed). Downstream maps clone to clone-sample/clone-layout/augmented-clone per slide."
+        },
+        "cloneCandidateRatio": {
+          "type": "string",
+          "pattern": "^[0-9]+/[0-9]+$",
+          "description": "Ratio formatted as 'cloneable/classified'."
+        },
+        "confidence": {
+          "type": "string",
+          "enum": [
+            "high",
+            "low"
+          ],
+          "description": "'low' when fewer than 3 classified samples back the recommendation; downstream should treat as tentative."
+        },
+        "whenToCloneAndEdit": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "whenToUseGenerate": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "defaultStrategy",
+        "cloneCandidateRatio",
+        "confidence",
+        "whenToCloneAndEdit",
+        "whenToUseGenerate"
+      ],
+      "additionalProperties": false
+    },
+    "Guardrail": {
+      "type": "object",
+      "description": "A composer constraint. VLM-inferred guardrails carry only rule/severity/source; guide-slide guardrails additionally carry applies_to, ruleKind, sourceSlide, and confidence.",
+      "properties": {
+        "rule": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "hard",
+            "soft"
+          ],
+          "description": "'hard' is used for donts rules from guide slides; all others are 'soft'."
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "vlm_inferred",
+            "guide_slide"
+          ]
+        },
+        "applies_to": {
+          "type": "string",
+          "description": "Present for guide-slide guardrails."
+        },
+        "ruleKind": {
+          "allOf": [
+            {
+              "$ref": "enums.json#/definitions/guardrail_rule_kind"
+            }
+          ],
+          "description": "Present for guide-slide guardrails."
+        },
+        "sourceSlide": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Present for guide-slide guardrails; slide_file of the originating guide slide."
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Present for guide-slide guardrails; confidence score from rule extraction."
+        }
+      },
+      "required": [
+        "rule",
+        "severity",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "GuideSlidesSummary": {
+      "type": "object",
+      "properties": {
+        "slidesIdentified": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rulesExtracted": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ruleKindsCovered": {
+          "type": "array",
+          "description": "Non-empty ruleKinds found in template_guide.byType.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "slidesIdentified",
+        "rulesExtracted",
+        "ruleKindsCovered"
+      ],
+      "additionalProperties": false
+    },
+    "DigestAestheticPrinciples": {
+      "type": "object",
+      "description": "Projected aesthetic principles for the composer. patternRecipes are carried forward in full; the other four dimensions are condensed to their most decision-relevant fields to keep the digest compact.",
+      "properties": {
+        "compositionSummary": {
+          "type": "object",
+          "description": "Condensed composition system — the fields most needed for slide layout decisions.",
+          "properties": {
+            "alignmentAnchors": {
+              "type": "string",
+              "description": "Dominant alignment logic (from profile.aesthetic_principles.compositionSystem.alignmentAnchors)."
+            },
+            "marginStrategy": {
+              "type": "object",
+              "description": "Edge margin and gap conventions (from profile.aesthetic_principles.compositionSystem.marginStrategy).",
+              "properties": {
+                "edgeMarginPct": {
+                  "type": "number"
+                },
+                "interElementGapPct": {
+                  "type": "number"
+                },
+                "titleContentGapPct": {
+                  "type": "number"
+                },
+                "variationNotes": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "edgeMarginPct",
+                "interElementGapPct",
+                "titleContentGapPct"
+              ],
+              "additionalProperties": false
+            },
+            "symmetryPreference": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "alignmentAnchors",
+            "marginStrategy",
+            "symmetryPreference"
+          ],
+          "additionalProperties": false
+        },
+        "colorSummary": {
+          "type": "object",
+          "description": "Condensed color semantics — role assignments and emphasis progression.",
+          "properties": {
+            "roleAssignment": {
+              "type": "array",
+              "description": "Semantic role → theme slot mapping (from profile.aesthetic_principles.colorSemantics.roleAssignment).",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "$ref": "enums.json#/definitions/color_semantic_role"
+                  },
+                  "themeSlot": {
+                    "type": "string"
+                  },
+                  "useWhen": {
+                    "type": "string"
+                  },
+                  "tintShade": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "role",
+                  "themeSlot",
+                  "useWhen"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "colorEmphasisProgression": {
+              "type": "string",
+              "description": "How visual emphasis escalates through color."
+            },
+            "paletteBalanceGuideline": {
+              "type": "string",
+              "description": "Prescriptive palette balance rule (from profile.aesthetic_principles.colorSemantics.paletteBalance.balanceGuideline)."
+            }
+          },
+          "required": [
+            "roleAssignment",
+            "colorEmphasisProgression",
+            "paletteBalanceGuideline"
+          ],
+          "additionalProperties": false
+        },
+        "typographySummary": {
+          "type": "object",
+          "description": "Condensed typographic system — scale stops and emphasis mechanism.",
+          "properties": {
+            "scaleStops": {
+              "type": "array",
+              "description": "Complete type scale (from profile.aesthetic_principles.typographicSystem.scaleStops).",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "type": "string"
+                  },
+                  "sizePt": {
+                    "type": "number"
+                  },
+                  "weight": {
+                    "type": "string"
+                  },
+                  "font": {
+                    "type": "string"
+                  },
+                  "useWhen": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "role",
+                  "sizePt",
+                  "weight",
+                  "font",
+                  "useWhen"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "emphasisMechanism": {
+              "type": "string"
+            },
+            "textDensityGuideline": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "scaleStops",
+            "emphasisMechanism",
+            "textDensityGuideline"
+          ],
+          "additionalProperties": false
+        },
+        "shapeSummary": {
+          "type": "object",
+          "description": "Condensed shape grammar — vocabulary and scaling behavior.",
+          "properties": {
+            "primitiveVocabulary": {
+              "type": "array",
+              "description": "Allowed shape types with treatment and use (from profile.aesthetic_principles.shapeGrammar.primitiveVocabulary).",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "shape": {
+                    "type": "string"
+                  },
+                  "treatment": {
+                    "type": "string"
+                  },
+                  "primaryUse": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "shape",
+                  "treatment",
+                  "primaryUse"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "compositionRules": {
+              "type": "string"
+            },
+            "scalingBehavior": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "primitiveVocabulary",
+            "compositionRules",
+            "scalingBehavior"
+          ],
+          "additionalProperties": false
+        },
+        "patternRecipes": {
+          "type": "array",
+          "description": "Full pattern recipes carried forward from profile.aesthetic_principles.patternRecipes — not condensed, since the generator needs complete skeleton, scaling, color, and spacing specs.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "patternFamily": {
+                "$ref": "enums.json#/definitions/pattern_family"
+              },
+              "description": {
+                "type": "string"
+              },
+              "skeleton": {
+                "type": "object",
+                "properties": {
+                  "direction": {
+                    "type": "string",
+                    "enum": [
+                      "leftToRight",
+                      "topToBottom",
+                      "grid",
+                      "radial",
+                      "freeform"
+                    ]
+                  },
+                  "elementsPerUnit": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "wrapperTreatment": {
+                    "type": "string"
+                  },
+                  "fixedChrome": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "direction",
+                  "elementsPerUnit",
+                  "wrapperTreatment"
+                ],
+                "additionalProperties": false
+              },
+              "scalingRules": {
+                "type": "object",
+                "properties": {
+                  "method": {
+                    "$ref": "enums.json#/definitions/scaling_method"
+                  },
+                  "minItems": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "maxItems": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "overflowBehavior": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "method",
+                  "minItems",
+                  "maxItems"
+                ],
+                "additionalProperties": false
+              },
+              "colorAssignment": {
+                "type": "object",
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "enum": [
+                      "uniform",
+                      "tintProgression",
+                      "alternating",
+                      "semanticByRole",
+                      "seriesColors"
+                    ]
+                  },
+                  "detail": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "method",
+                  "detail"
+                ],
+                "additionalProperties": false
+              },
+              "spacingSpec": {
+                "type": "object",
+                "properties": {
+                  "interElementGapPct": {
+                    "type": "number"
+                  },
+                  "internalPaddingPct": {
+                    "type": "number"
+                  },
+                  "contentZoneUsagePct": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "interElementGapPct",
+                  "internalPaddingPct",
+                  "contentZoneUsagePct"
+                ],
+                "additionalProperties": false
+              },
+              "sourceSlides": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "patternFamily",
+              "description",
+              "skeleton",
+              "scalingRules",
+              "colorAssignment",
+              "spacingSpec",
+              "sourceSlides"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "compositionSummary",
+        "colorSummary",
+        "typographySummary",
+        "shapeSummary",
+        "patternRecipes"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

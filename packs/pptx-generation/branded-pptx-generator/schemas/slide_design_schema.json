@@ -1,0 +1,183 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "slide_design_schema.json",
+  "description": "Output schema for on-demand slide visual design analysis (Phase 1 extraction + Phase 2 VLM annotation). Consumed by spec-composed strategy when adapting a sample slide's pattern for new content.",
+  "type": "object",
+  "properties": {
+    "sourceSlide": {
+      "type": "string",
+      "description": "Slide XML filename analyzed (e.g. 'slide3.xml')"
+    },
+    "layoutFile": {
+      "type": ["string", "null"],
+      "description": "SlideLayout XML filename referenced by this slide (e.g. 'slideLayout5.xml')"
+    },
+    "patternDescription": {
+      "type": "string",
+      "description": "One-line summary of the overall visual pattern (e.g. 'Horizontal 4-step process with numbered circles and descriptions')"
+    },
+    "patternStructure": {
+      "$ref": "#/definitions/PatternStructure"
+    },
+    "spacingPattern": {
+      "type": "object",
+      "description": "Consistent gap values (EMU) between elements. Only include gaps that appear consistently across multiple element pairs (e.g. {\"columnGap\": 91440, \"rowGap\": 45720, \"sectionGap\": 182880})",
+      "additionalProperties": {
+        "type": "integer",
+        "description": "Gap value in EMU"
+      }
+    },
+    "colorMapping": {
+      "type": "object",
+      "description": "Map of semantic roles to theme color keys (accent1, dk1, etc.). Use theme color keys from $PROFILE, never hardcoded hex values (e.g. {\"headerBackground\": \"accent1\", \"bodyText\": \"dk1\", \"dividerLine\": \"accent2\"})",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "typographyMapping": {
+      "type": ["object", "null"],
+      "description": "Map of text roles to font properties observed in the slide. Optional — include when the slide establishes typography patterns beyond what the layout inherits.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "sizePt": { "type": "number" },
+          "bold": { "type": "boolean" },
+          "font": { "type": "string" }
+        }
+      }
+    },
+    "elements": {
+      "type": "array",
+      "description": "Every element from Phase 1 extraction, enriched with semantic annotations. All original structural fields (xfrm, fill, line, geometry, textBody, effects, zIndex, etc.) MUST be preserved as-is.",
+      "items": {
+        "$ref": "#/definitions/AnnotatedElement"
+      }
+    }
+  },
+  "required": ["sourceSlide", "layoutFile", "patternDescription", "patternStructure", "spacingPattern", "colorMapping", "elements"],
+  "additionalProperties": false,
+  "definitions": {
+    "PatternStructure": {
+      "type": "object",
+      "description": "Compositional structure of the design pattern — how elements relate to each other at the design-language level.",
+      "properties": {
+        "patternType": {
+          "type": "string",
+          "description": "Visual pattern category. MUST use a value from pptx-profiler/schemas/enums.json#pattern_type. Use 'other' if none fits.",
+          "$comment": "Enum values: timeline, fishbone, flowchart, matrix, comparison_cards, numbered_steps, org_chart, funnel, cycle, data_table, kpi_dashboard, icon_grid, text_columns, other"
+        },
+        "direction": {
+          "type": ["string", "null"],
+          "description": "Overall flow direction if applicable",
+          "enum": ["leftToRight", "topToBottom", "radial", "bidirectional", null]
+        },
+        "axis": {
+          "type": ["object", "null"],
+          "description": "Main axis or spine of the pattern, if one exists",
+          "properties": {
+            "element": {
+              "type": "string",
+              "description": "Name of the element serving as the axis (e.g. 'Rectangle 5')"
+            },
+            "orientation": {
+              "type": "string",
+              "enum": ["horizontal", "vertical", "diagonal"]
+            },
+            "role": {
+              "type": "string",
+              "description": "Semantic role of the axis (e.g. 'spine', 'timeline', 'connector')"
+            }
+          },
+          "required": ["element", "orientation", "role"]
+        },
+        "nodes": {
+          "type": "array",
+          "description": "Element groups representing discrete steps, items, or data points along the axis",
+          "items": {
+            "type": "object",
+            "properties": {
+              "group": {
+                "type": "string",
+                "description": "Group name matching elements[].group (e.g. 'step-1')"
+              },
+              "position": {
+                "type": "string",
+                "description": "Ordinal position: 'first', 'middle', or 'last'"
+              }
+            },
+            "required": ["group", "position"]
+          }
+        },
+        "connectors": {
+          "type": "array",
+          "description": "Elements that link nodes (arrows, lines, dotted paths)",
+          "items": {
+            "type": "object",
+            "properties": {
+              "element": {
+                "type": "string",
+                "description": "Element name"
+              },
+              "from": {
+                "type": "string",
+                "description": "Source node group name"
+              },
+              "to": {
+                "type": "string",
+                "description": "Target node group name"
+              }
+            },
+            "required": ["element", "from", "to"]
+          }
+        },
+        "hierarchy": {
+          "type": "array",
+          "description": "Parent-child or nesting relationships beyond XML group shapes (e.g. category headers to sub-items)",
+          "items": {
+            "type": "object",
+            "properties": {
+              "parent": { "type": "string" },
+              "children": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            },
+            "required": ["parent", "children"]
+          }
+        }
+      },
+      "required": ["patternType", "direction", "nodes"]
+    },
+    "AnnotatedElement": {
+      "type": "object",
+      "description": "A slide element with all Phase 1 structural fields preserved plus Phase 2 semantic annotations. Phase 1 fields (id, name, elementType, zIndex, xfrm, fill, line, geometry, textBody, effects, isPlaceholder, placeholder, etc.) are pass-through — do not modify or omit them.",
+      "properties": {
+        "role": {
+          "type": "string",
+          "description": "Semantic purpose of this element (e.g. 'slideTitle', 'columnHeader', 'dataCell', 'decorativeDivider', 'accentBar', 'backgroundShape', 'bulletList', 'captionText', 'stepIndicator'). Use descriptive names."
+        },
+        "structuralRole": {
+          "type": ["string", "null"],
+          "description": "Role within the patternStructure. Suggested values: 'spine', 'node', 'branch', 'connector', 'nodeLabel', 'axisLabel', 'stepNumber', 'categoryHeader', 'dataPoint', 'decorativeFrame'. Null if not part of the pattern structure.",
+          "$comment": "Not a strict enum — use the most descriptive value for the pattern."
+        },
+        "relatedTo": {
+          "type": "array",
+          "description": "Element ids or group names this element is semantically connected to. Empty array if standalone.",
+          "items": { "type": "string" }
+        },
+        "designIntent": {
+          "type": "string",
+          "description": "'fixed' = position/size must be preserved exactly when recreating the pattern. 'flexible' = can be adjusted for different content or item counts.",
+          "enum": ["fixed", "flexible"]
+        },
+        "group": {
+          "type": ["string", "null"],
+          "description": "Logical unit grouping. Elements forming a visual unit (e.g. a card = background rect + title + body) share the same group name (e.g. 'card-1', 'step-2'). Null if the element is standalone."
+        }
+      },
+      "required": ["role", "structuralRole", "relatedTo", "designIntent", "group"],
+      "$comment": "This definition only covers the Phase 2 annotation fields. All Phase 1 structural fields from extract_slide_elements.py output (id, name, elementType, zIndex, xfrm, fill, line, geometry, textBody, effects, isPlaceholder, placeholder, etc.) MUST be preserved alongside these annotations."
+    }
+  }
+}
