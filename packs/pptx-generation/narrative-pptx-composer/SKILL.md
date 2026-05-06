@@ -5,11 +5,11 @@ description: >
   .docx, .pdf, .pptx), a chat brief, or reference images (slide screenshots,
   sketches, wireframes, mood references). Content strategy first
   (audience, narrative, messaging), then design.
-  Use when: "turn this report into a presentation", "make a deck that
+  USE WHEN the user asks to: "turn this report into a presentation", "make a deck that
   persuades the board", "present these findings", "create a pitch",
   "turn this image/sketch/screenshot into a PPT", "beautify this PPT",
   "turn this deck into a new presentation", "re-narrate this PPT".
-  Not for: pixel-perfect replication of an existing slide image
+  DO NOT USE for pixel-perfect replication of an existing slide image
   (edit the source file instead), template profiling (pptx-profiler),
   reading existing decks (pptx), or brand-compliance-first generation
   (branded-pptx-generator).

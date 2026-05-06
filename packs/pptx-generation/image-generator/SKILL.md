@@ -6,9 +6,9 @@ description: >
   backends: Azure OpenAI gpt-image-1.5 (fast) and Azure FLUX.1-Kontext-pro
   (high fidelity). Generates images concurrently, writes results to an
   output JSON + images/ directory.
-  Trigger: "generate images", "create images", "fill image prompts",
-  or when any skill needs AI-generated images.
-  Not for: template profiling (pptx-profiler), slide layout generation
+  USE WHEN the user asks to "generate images", "create images", "fill image
+  prompts", or when any skill needs AI-generated images.
+  DO NOT USE for template profiling (pptx-profiler), slide layout generation
   (branded-pptx-generator), or slide content authoring (narrative-pptx-composer).
 compatibility: >
   Requires Python 3.10+ with httpx, python-dotenv. Optional: azure-identity

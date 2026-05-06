@@ -8,11 +8,11 @@ description: >
   the pptx-profiler skill, plans a deck with a shared style policy, then
   generates slides via four strategies: clone-sample, clone-layout,
   augmented-clone, or spec-composed.
-  Use when a user uploads a .potx/.pptx template alongside content or asks
+  USE WHEN a user uploads a .potx/.pptx template alongside content or asks
   to "make slides like this", "match our brand", "use this template",
   "corporate deck", or "follow this style". Also use when a user uploads an
   existing branded deck and wants a new deck in the same style.
-  Not for: profiling a template (use pptx-profiler), reading content from
+  DO NOT USE for: profiling a template (use pptx-profiler), reading content from
   existing decks (use pptx), or creating slides without a template (use pptx).
 compatibility: Requires Python 3.10+ with python-pptx and lxml. PowerPoint COM or LibreOffice for rendering.
 ---

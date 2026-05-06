@@ -4,9 +4,9 @@ description: >
   Analyze .pptx/.potx template files to produce template-profile.json.
   Structural extraction (colors, fonts, layouts, placeholders, shapes),
   layout/sample rendering, and VLM semantic analysis.
-  Trigger: "analyze this template", "what layouts", "extract brand profile",
-  or when a downstream skill needs a template profile.
-  Not for: generating slides, reading/editing existing decks.
+  USE WHEN the user asks to "analyze this template", "what layouts", "extract
+  brand profile", or when a downstream skill needs a template profile.
+  DO NOT USE for generating slides, or reading/editing existing decks.
 compatibility: Requires Python 3.10+ with python-pptx. PowerPoint COM or LibreOffice for layout/sample rendering.
 ---
 
