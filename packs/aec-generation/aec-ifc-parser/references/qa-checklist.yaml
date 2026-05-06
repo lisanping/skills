@@ -1,0 +1,73 @@
+# IFC 模型质量检查规则 (示例配置)
+# 项目可在此基础上覆盖
+
+version: "1.0"
+
+# Schema 版本要求
+schema:
+  allowed: ["IFC4", "IFC4X3", "IFC4X3_ADD2"]
+  warn_on: ["IFC2X3"]    # 旧版本只警告,不致命
+
+# 命名规则 (按实体类型)
+naming:
+  IfcWall:
+    pattern: "^W-[0-9]{2}-[0-9]{3}$"        # 例:W-01-001
+    description: "墙体编号:W-楼层-流水号"
+  IfcDoor:
+    pattern: "^D-[0-9]{2}-[0-9]{3}$"
+  IfcWindow:
+    pattern: "^WIN-[0-9]{2}-[0-9]{3}$"
+  IfcColumn:
+    pattern: "^C-[0-9]{2}-[0-9]{3}$"
+  IfcSpace:
+    pattern: "^[0-9]{4}$"                    # 房间号 4 位
+    description: "房间号 4 位 (首位=楼层)"
+
+# 必填属性 (按实体类型 → Pset → 属性)
+required_properties:
+  IfcWall:
+    Pset_WallCommon:
+      - FireRating
+      - IsExternal
+      - LoadBearing
+  IfcDoor:
+    Pset_DoorCommon:
+      - FireRating
+      - IsExternal
+      - FireExit
+  IfcWindow:
+    Pset_WindowCommon:
+      - ThermalTransmittance
+      - IsExternal
+  IfcSpace:
+    Pset_SpaceCommon:
+      - GrossPlannedArea
+      - PubliclyAccessible
+
+# 空间结构完整性
+spatial_structure:
+  require_project: true
+  require_site: true
+  require_building: true
+  require_storey: true
+  no_orphan_elements: true        # 所有可视构件必须挂在 IfcBuildingStorey 下
+
+# 几何检查 (启用需 ifcopenshell.geom,慢)
+geometry:
+  enabled: false
+  check_self_intersection: false
+  check_zero_volume: true
+
+# LOD 检查
+lod:
+  expected: "LOD300"               # LOD100 / 200 / 300 / 400 / 500
+  check_method: "by_pset"          # by_pset (从 Pset 读) / by_geometry (估算)
+  pset_name: "Pset_ProjectCommon"
+  property_name: "LevelOfDetail"
+
+# 报告级别
+severity:
+  missing_required_property: "error"
+  naming_violation: "warning"
+  schema_outdated: "warning"
+  orphan_element: "error"

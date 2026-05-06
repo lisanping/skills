@@ -1,0 +1,30 @@
+name: aec-generation
+channels:
+  - conda-forge
+  - ifcopenshell
+  - defaults
+dependencies:
+  - python=3.11
+  # --- BREP / CAD Kernel ---
+  - pythonocc-core          # Full OCCT Python API
+  - cadquery                # High-level parametric CAD scripting (includes OCP)
+  # --- BIM / IFC ---
+  - ifcopenshell            # IFC read/write/geometry processing
+  # --- Geometry & Math ---
+  - numpy
+  - scipy
+  - shapely                 # 2D geometry operations
+  # --- Visualization ---
+  - matplotlib
+  - pyvista                 # 3D visualization (VTK-based)
+  # --- Dev Tools ---
+  - pytest
+  - pytest-cov
+  - ruff                    # Linter + formatter
+  - pip
+  - pip:
+      # NOTE: build123d 从 pip 安装会拉入 cadquery-ocp 与 conda 的 ocp 冲突,
+      #       如需 build123d 请用 pip install --no-deps build123d 单独安装
+      - trimesh             # Mesh processing, STL/OBJ I/O
+      - compas              # AEC computational framework
+      - svgwrite            # SVG output for drawings

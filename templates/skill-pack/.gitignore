@@ -1,0 +1,6 @@
+# Pack-local ignores (extends repo-root .gitignore)
+output/
+build/
+dist/
+*.egg-info/
+.pytest_cache/

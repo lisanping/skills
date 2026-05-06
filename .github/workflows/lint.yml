@@ -1,0 +1,27 @@
+name: Lint SKILLs
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install lint dependencies
+        run: pip install pyyaml
+
+      - name: Check naming conventions
+        run: python scripts/check_naming.py
+
+      - name: Lint SKILL.md frontmatter
+        run: python scripts/lint_skill.py

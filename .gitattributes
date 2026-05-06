@@ -1,0 +1,28 @@
+# Auto-detect text files and normalize line endings
+* text=auto eol=lf
+
+# Force LF for code/config files
+*.py     text eol=lf
+*.md     text eol=lf
+*.yml    text eol=lf
+*.yaml   text eol=lf
+*.json   text eol=lf
+*.toml   text eol=lf
+# Treat large CAD/BIM artifacts as binary
+*.ifc    binary
+*.stp    binary
+*.step   binary
+*.iges   binary
+*.igs    binary
+*.stl    binary
+*.obj    binary
+*.dxf    binary
+*.dwg    binary
+*.rvt    binary
+*.rfa    binary
+*.docx   binary
+*.xlsx   binary
+*.pdf    binary
+*.pptx filter=lfs diff=lfs merge=lfs -text
+*.glb filter=lfs diff=lfs merge=lfs -text
+*.ifc filter=lfs diff=lfs merge=lfs -text

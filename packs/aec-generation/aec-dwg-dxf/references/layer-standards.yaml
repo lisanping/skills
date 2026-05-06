@@ -1,0 +1,52 @@
+# 图层标准 (示例配置)
+# 参考 GB/T 18112-2000《房屋建筑 CAD 制图统一规则》
+# 项目可在此基础上覆写
+
+version: "1.0"
+standard: "GB/T 18112-2000 (示例)"
+
+# 强制图层 (生成图必须包含,否则视为不合规)
+required_layers:
+  - name: "WALL"
+    description: "墙体"
+    color: 7      # 白
+    linetype: "CONTINUOUS"
+  - name: "DOOR"
+    description: "门"
+    color: 4
+    linetype: "CONTINUOUS"
+  - name: "WINDOW"
+    description: "窗"
+    color: 5
+    linetype: "CONTINUOUS"
+  - name: "DIM"
+    description: "尺寸标注"
+    color: 2
+    linetype: "CONTINUOUS"
+  - name: "TEXT"
+    description: "文字"
+    color: 7
+    linetype: "CONTINUOUS"
+  - name: "AXIS"
+    description: "轴网"
+    color: 1
+    linetype: "CENTER"
+  - name: "TITLEBLOCK"
+    description: "图签"
+    color: 7
+    linetype: "CONTINUOUS"
+
+# 命名规范:所有图层必须匹配以下正则之一
+naming_patterns:
+  - "^[A-Z]+(-[A-Z]+)*$"        # 全大写+短横线 (CSI 风格)
+  - "^[A-Z]_[\\u4e00-\\u9fa5A-Za-z0-9]+$"  # 专业前缀_中英文 (国内常见)
+
+# 禁用图层 (如出现视为违规)
+forbidden_layers:
+  - "0"          # 默认图层,严禁画图
+  - "DEFPOINTS"  # 自动生成,严禁手动添加
+  - "TEMP"
+  - "测试"
+
+# 颜色约束 (强制图层若颜色与此处不符则警告)
+color_strict: false   # true=强制,false=只警告

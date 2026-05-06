@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "aec-generation-skills"
+version = "0.1.0"
+description = "BREP generation skill for AEC Agent Harness"
+requires-python = ">=3.10"
+readme = "README.md"
+dependencies = [
+    "numpy",
+    "scipy",
+    "shapely",
+    "trimesh",
+    "svgwrite",
+    "ezdxf>=1.1",
+    "ifcopenshell>=0.8",
+    "pyyaml",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+]
+spec-writer = [
+    "openpyxl>=3.1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/aec_building"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"

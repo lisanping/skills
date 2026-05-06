@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# BREP / CAD output files (large binaries — use git-lfs if needed)
+*.rvt
+*.rfa
+*.dyn
+*.stp
+*.step
+*.iges
+*.igs
+*.ifc
+*.stl
+*.obj
+!tests/fixtures/**
+
+# Model output directory
+output/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Coverage
+htmlcov/
+.coverage
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Conda
+.conda/
+
+# Logs
+*.log
+logs/
+
+# Local agent / editor caches
+.claude/cache/
+.copilot/
+.cursor/
+
+# Per-pack output (each pack may add more in its own .gitignore)
+packs/*/output/
+packs/*/build/
+packs/*/dist/
+
+# Test artifacts (results dirs are tracked; raw scratch is not)
+packs/*/tests/.scratch/
